@@ -1,29 +1,9 @@
 /target/
-#ignored files for IntelliJ#
-.idea
-**/*.iml
-*/target/**
-#$ignored files for IntelliJ#
 #ignored files for eclipse#
 *.settings
-**/*.settings
 *.project
-**/*.project
 *.classpath
-**/*.classpath
 .metadata
 bin/
 tmp/
 *.tmp
-*.bak
-*.swp
-*~.nib
-local.properties
-.settings/
-.loadpath
-.recommenders
-#$ignored files for eclipse#
-/logs
-**/bankCard.log
-**/member.log
-**/.springBeans
