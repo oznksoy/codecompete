@@ -1,4 +1,4 @@
-package algorithms.random.fibonaci;
+package com.algorithms.dynamic.fibonaci;
 
 import java.math.BigDecimal;
 

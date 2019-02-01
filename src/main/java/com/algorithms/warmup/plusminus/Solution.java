@@ -1,4 +1,4 @@
-package algorithms.warmup.plusminus;
+package com.algorithms.warmup.plusminus;
 
 import java.util.Scanner;
 

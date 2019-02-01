@@ -5,4 +5,4 @@
  * @author Ozan Aksoy
  *
  */
-package algorithms.random.fibonaci;
+package com.algorithms.dynamic.fibonaci;

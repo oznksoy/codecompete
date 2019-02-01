@@ -9,7 +9,8 @@ import java.io.FilenameFilter;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import algorithms.warmup.plusminus.Solution;
+import com.algorithms.warmup.plusminus.Solution;
+
 import test.support.SystemInputOperator;
 import test.support.TestEnvironmentConstants;
 

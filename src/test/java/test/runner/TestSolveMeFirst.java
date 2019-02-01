@@ -15,7 +15,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import algorithms.warmup.solvemefirst.Solution;
+import com.algorithms.warmup.solvemefirst.Solution;
+
 import test.support.SystemInputOperator;
 import test.support.TestEnvironmentConstants;
 

@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import algorithms.random.fibonaci.FibonacciSolution;
+import com.algorithms.dynamic.fibonaci.FibonacciSolution;
 
 public class TestFibonacci {
 
