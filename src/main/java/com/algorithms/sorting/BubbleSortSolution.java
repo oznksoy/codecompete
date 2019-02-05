@@ -1,70 +1,98 @@
 package com.algorithms.sorting;
 
-public class BubbleSortSolution implements SortSolution {
+import com.algorithms.sorting.exception.SortSolutionBubbleSelectionException;
 
-	@Override
-	public int[] sort(int[] inputArray) {
+class BubbleSortSolution {
 
-		return sortVersion2(inputArray);
+	private SortSolution activeSolution;
+	private SortSolutionUtil util;
 
+	public BubbleSortSolution(BubbleSortVersion version) throws SortSolutionBubbleSelectionException {
+		util = SortSolutionUtil.getInstance();
+		activeSolution = setBubbleSortSolutions(version);
 	}
 
-	private int[] sortVersion1(int[] inputArray) {
-		int count = 0;
-		for (int i = 0; i < inputArray.length - 1; i++) {
-			for (int j = 1; j < inputArray.length - i; j++) {
-				if (inputArray[j] < inputArray[j - 1]) {
-					swap(inputArray, j, j - 1);
+	public SortSolution getActiveSolution() {
+		return this.activeSolution;
+	}
 
-				}
-				count++;
-			}
+	public SortSolution setBubbleSortSolutions(BubbleSortVersion version) throws SortSolutionBubbleSelectionException {
+		switch (version) {
+		case V1:
+			return new BubbleSortV1();
+		case V2:
+			return new BubbleSortV2();
+		case V3:
+			return new BubbleSortV3();
+		default:
+			throw new SortSolutionBubbleSelectionException();
 		}
-		System.out.println("Final Step Count : " + count);
-		return inputArray;
 	}
 
-	private int[] sortVersion2(int[] inputArray) {
-		int count = 0;
-		for (int i = 0; i < inputArray.length - 1; i++) {
-			boolean isSwapped = false;
-			for (int j = 1; j < inputArray.length - i; j++) {
-				if (inputArray[j] < inputArray[j - 1]) {
-					swap(inputArray, j, j - 1);
-					isSwapped = true;
+	private class BubbleSortV1 implements SortSolution {
+
+		@Override
+		public int[] sort(int[] inputArray) {
+			int count = 0;
+			for (int i = 0; i < inputArray.length - 1; i++) {
+				for (int j = 1; j < inputArray.length - i; j++) {
+					if (inputArray[j] < inputArray[j - 1]) {
+						util.swap(inputArray, j, j - 1);
+					}
+					count++;
 				}
-				count++;
 			}
-			if (!isSwapped) {
-				break;
-			}
+			System.out.println("Final Step Count : " + count);
+			return inputArray;
 		}
-		System.out.println("Final Step Count : " + count);
-		return inputArray;
+
 	}
 
-	private int[] sortVersion3(int[] inputArray) {
-		int count = 0;
-		int unsortedBelow = inputArray.length;
-		while (unsortedBelow != 0) {
-			int lastSwap = 0;
-			for (int j = 1; j < unsortedBelow; j++) {
-				if (inputArray[j - 1] > inputArray[j]) {
-					swap(inputArray, j, j - 1);
-					lastSwap = j;
+	private class BubbleSortV2 implements SortSolution {
+
+		@Override
+		public int[] sort(int[] inputArray) {
+			int count = 0;
+			for (int i = 0; i < inputArray.length - 1; i++) {
+				boolean isSwapped = false;
+				for (int j = 1; j < inputArray.length - i; j++) {
+					if (inputArray[j] < inputArray[j - 1]) {
+						util.swap(inputArray, j, j - 1);
+						isSwapped = true;
+					}
+					count++;
 				}
-				count++;
+				if (!isSwapped) {
+					break;
+				}
 			}
-			unsortedBelow = lastSwap;
+			System.out.println("Final Step Count : " + count);
+			return inputArray;
 		}
-		System.out.println("Final Step Count : " + count);
-		return inputArray;
+
 	}
 
-	private void swap(int[] array, int i, int j) {
-		int transferable = array[i];
-		array[i] = array[j];
-		array[j] = transferable;
+	private class BubbleSortV3 implements SortSolution {
+
+		@Override
+		public int[] sort(int[] inputArray) {
+			int count = 0;
+			int unsortedBelow = inputArray.length;
+			while (unsortedBelow != 0) {
+				int lastSwap = 0;
+				for (int j = 1; j < unsortedBelow; j++) {
+					if (inputArray[j - 1] > inputArray[j]) {
+						util.swap(inputArray, j, j - 1);
+						lastSwap = j;
+					}
+					count++;
+				}
+				unsortedBelow = lastSwap;
+			}
+			System.out.println("Final Step Count : " + count);
+			return inputArray;
+		}
+
 	}
 
 }

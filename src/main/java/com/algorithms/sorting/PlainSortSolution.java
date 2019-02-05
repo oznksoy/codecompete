@@ -1,6 +1,6 @@
 package com.algorithms.sorting;
 
-public class PlainSortSolution implements SortSolution {
+class PlainSortSolution implements SortSolution {
 
 	boolean isPrinting = false;
 
