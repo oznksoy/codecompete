@@ -20,4 +20,12 @@ class SortSolutionUtil {
 		array[j] = transferable;
 	}
 
+	public String convertArrayToString(int[] array) {
+		String outputStr = "";
+		for (int index : array) {
+			outputStr = outputStr.concat(index + " ");
+		}
+		return outputStr.trim();
+	}
+
 }

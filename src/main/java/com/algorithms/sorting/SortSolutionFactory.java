@@ -28,7 +28,7 @@ public class SortSolutionFactory {
 		case BUBBLE_V3:
 			return new BubbleSortSolution(BubbleSortVersion.V3).getActiveSolution();
 		case INSERTION:
-			return null;
+			return new InsertionSortSolution();
 		default:
 			throw new SortSolutionSelectionException();
 		}
