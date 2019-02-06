@@ -17,7 +17,8 @@ public class SortSolutionFactory {
 		return instance;
 	}
 
-	public SortSolution getSolution(SortSolutionType type) throws SortSolutionSelectionException, SortSolutionBubbleSelectionException {
+	public SortSolution getSolution(SortSolutionType type)
+			throws SortSolutionSelectionException, SortSolutionBubbleSelectionException {
 		switch (type) {
 		case PLAIN:
 			return new PlainSortSolution();
@@ -29,6 +30,8 @@ public class SortSolutionFactory {
 			return new BubbleSortSolution(BubbleSortVersion.V3).getActiveSolution();
 		case INSERTION:
 			return new InsertionSortSolution();
+		case SELECTION:
+			return new SelectionSortSolution();
 		default:
 			throw new SortSolutionSelectionException();
 		}

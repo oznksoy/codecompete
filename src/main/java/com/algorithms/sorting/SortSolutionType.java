@@ -6,6 +6,7 @@ public enum SortSolutionType {
 	BUBBLE_V1, //
 	BUBBLE_V2, //
 	BUBBLE_V3, //
-	INSERTION;
+	INSERTION, //
+	SELECTION;
 
 }

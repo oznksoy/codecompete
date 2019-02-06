@@ -1,6 +1,6 @@
 package test.solution.sort;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
 
@@ -16,38 +16,38 @@ import com.algorithms.sorting.exception.SortSolutionSelectionException;
 import test.support.generator.IRandomInputGenerator;
 import test.support.generator.RandomInputGenerator;
 
-public class TestInsertionSort {
+public class TestSelectionSort {
 
 	@Test
 	public void test() {
-		runRandomizedTestCase(SortSolutionType.INSERTION);
+		runRandomizedTestCase(SortSolutionType.SELECTION);
 	}
 
 	@Test
 	public void testHalfInOrderatRandom() {
 
-		testHalfInOrderatRandom(SortSolutionType.INSERTION);
+		testHalfInOrderatRandom(SortSolutionType.SELECTION);
 
 	}
 
 	@Test
 	public void testOneToFiveCase() {
 
-		testOneToFiveCase(SortSolutionType.INSERTION);
+		testOneToFiveCase(SortSolutionType.SELECTION);
 
 	}
 
 	@Test
 	public void testBestCase() {
 
-		testBestCase(SortSolutionType.INSERTION);
+		testBestCase(SortSolutionType.SELECTION);
 
 	}
 
 	@Test
 	public void testWorstCase() {
 
-		testWorstCase(SortSolutionType.INSERTION);
+		testWorstCase(SortSolutionType.SELECTION);
 
 	}
 
