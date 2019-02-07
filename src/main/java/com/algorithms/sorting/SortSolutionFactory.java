@@ -1,6 +1,7 @@
 package com.algorithms.sorting;
 
-import com.algorithms.sorting.exception.SortSolutionBubbleSelectionException;
+import com.algorithms.sorting.exception.BubbleSortSolutionSelectionException;
+import com.algorithms.sorting.exception.MergeSortSolutionSelectionException;
 import com.algorithms.sorting.exception.SortSolutionSelectionException;
 
 public class SortSolutionFactory {
@@ -17,8 +18,8 @@ public class SortSolutionFactory {
 		return instance;
 	}
 
-	public SortSolution getSolution(SortSolutionType type)
-			throws SortSolutionSelectionException, SortSolutionBubbleSelectionException {
+	public SortSolution getSolution(SortSolutionType type) throws SortSolutionSelectionException,
+			BubbleSortSolutionSelectionException, MergeSortSolutionSelectionException {
 		switch (type) {
 		case PLAIN:
 			return new PlainSortSolution();
@@ -32,6 +33,14 @@ public class SortSolutionFactory {
 			return new InsertionSortSolution();
 		case SELECTION:
 			return new SelectionSortSolution();
+		case MERGE_RECURSIVE_NAIVE:
+			return new MergeSortSolution(MergeSortVersion.RECURSIVE_NAIVE).getActiveSolution();
+		case MERGE_RECURSIVE_POLISHED:
+			return new MergeSortSolution(MergeSortVersion.RECURSIVE_POLISHED).getActiveSolution();
+		case MERGE_RECURSIVE_ARRAY_COPY:
+			return new MergeSortSolution(MergeSortVersion.RECURSIVE_ARRAY_COPY).getActiveSolution();
+		case MERGE_NON_RECURSIVE:
+			return new MergeSortSolution(MergeSortVersion.NON_RECURSIVE).getActiveSolution();
 		default:
 			throw new SortSolutionSelectionException();
 		}

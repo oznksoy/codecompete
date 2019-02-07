@@ -9,7 +9,7 @@ import org.junit.Test;
 import com.algorithms.sorting.SortSolution;
 import com.algorithms.sorting.SortSolutionFactory;
 import com.algorithms.sorting.SortSolutionType;
-import com.algorithms.sorting.exception.SortSolutionBubbleSelectionException;
+import com.algorithms.sorting.exception.BubbleSortSolutionSelectionException;
 import com.algorithms.sorting.exception.SortSolutionSelectionException;
 
 import test.support.generator.IRandomInputGenerator;
@@ -48,7 +48,7 @@ public class TestBubbleSort {
 			controlProtocol(testResponse, SortSolutionFactory.getInstance().getSolution(solutionType));
 		} catch (SortSolutionSelectionException e) {
 			e.printStackTrace();
-		} catch (SortSolutionBubbleSelectionException e) {
+		} catch (BubbleSortSolutionSelectionException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -101,7 +101,7 @@ public class TestBubbleSort {
 			controlProtocol(testResponse, SortSolutionFactory.getInstance().getSolution(solutionType));
 		} catch (SortSolutionSelectionException e) {
 			e.printStackTrace();
-		} catch (SortSolutionBubbleSelectionException e) {
+		} catch (BubbleSortSolutionSelectionException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -142,7 +142,7 @@ public class TestBubbleSort {
 			controlProtocol(testResponse, sortSolution);
 		} catch (SortSolutionSelectionException e) {
 			e.printStackTrace();
-		} catch (SortSolutionBubbleSelectionException e) {
+		} catch (BubbleSortSolutionSelectionException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -182,7 +182,7 @@ public class TestBubbleSort {
 			controlProtocol(testResponse, sortSolution);
 		} catch (SortSolutionSelectionException e) {
 			e.printStackTrace();
-		} catch (SortSolutionBubbleSelectionException e) {
+		} catch (BubbleSortSolutionSelectionException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -222,7 +222,7 @@ public class TestBubbleSort {
 			controlProtocol(testResponse, sortSolution);
 		} catch (SortSolutionSelectionException e) {
 			e.printStackTrace();
-		} catch (SortSolutionBubbleSelectionException e) {
+		} catch (BubbleSortSolutionSelectionException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -264,7 +264,7 @@ public class TestBubbleSort {
 			controlProtocol(testResponse, sortSolution);
 		} catch (SortSolutionSelectionException e) {
 			e.printStackTrace();
-		} catch (SortSolutionBubbleSelectionException e) {
+		} catch (BubbleSortSolutionSelectionException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();

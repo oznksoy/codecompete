@@ -2,7 +2,7 @@ package com.algorithms.sorting;
 
 public class InsertionSortSolution implements SortSolution {
 
-	boolean isPrinting = true;
+	boolean isPrinting = false;
 	SortSolutionUtil util;
 
 	public InsertionSortSolution() {
@@ -11,6 +11,10 @@ public class InsertionSortSolution implements SortSolution {
 
 	@Override
 	public int[] sort(int[] inputArray) {
+		return sortWithoutPrint(inputArray);
+	}// End of Method
+
+	public int[] sortWithPrint(int[] inputArray) {
 		int count = 0;
 		int n = inputArray.length;
 		if (isPrinting)
@@ -43,7 +47,7 @@ public class InsertionSortSolution implements SortSolution {
 
 	}// End of Method
 
-	public int[] sorWithoutPrint(int[] inputArray) {
+	public int[] sortWithoutPrint(int[] inputArray) {
 		int n = inputArray.length;
 		for (int i = 1; i < n; ++i) {
 			int valueToInsert = inputArray[i];
