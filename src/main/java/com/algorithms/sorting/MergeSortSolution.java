@@ -18,8 +18,14 @@ public class MergeSortSolution {
 
 	public SortSolution setMergeSortSolution(MergeSortVersion version) throws MergeSortSolutionSelectionException {
 		switch (version) {
-		case RECURSIVE_NAIVE:
-			return new RecursiveNaiveMergeSortSolution();
+		case RECURSIVE_NAIVE_SORTER:
+			return new RecursiveNaiveSorterMergeSortSolution();
+		case RECURSIVE_NAIVE_N_SPACE:
+			return new RecursiveNaiveNSpaceMergeSortSolution();
+		case RECURSIVE_NAIVE_NLOGN_SPACE:
+			return new RecursiveNaiveNLogNSpaceMergeSortSolution();
+		case RECURSIVE_NAIVE_ONE_SPACE:
+			return new RecursiveNaiveOneSpaceMergeSortSolution();
 		case RECURSIVE_POLISHED:
 			return new RecursivePolishedMergeSortSolution();
 		case RECURSIVE_ARRAY_COPY:
@@ -31,7 +37,7 @@ public class MergeSortSolution {
 		}
 	}
 
-	private class RecursiveNaiveMergeSortSolution implements SortSolution {
+	private class RecursiveNaiveSorterMergeSortSolution implements SortSolution {
 
 		@Override
 		public int[] sort(int[] inputArray) {
@@ -63,7 +69,7 @@ public class MergeSortSolution {
 
 			int[] leftOutput = mergesort(leftSide);
 			int[] rightOutput = mergesort(rightSide);
-			int[] mergedOutput = mergeWithOnlyWhile(leftOutput, rightOutput);
+			int[] mergedOutput = merge(leftOutput, rightOutput);
 
 			return mergedOutput;
 		}
@@ -96,7 +102,46 @@ public class MergeSortSolution {
 
 		}
 
-		public int[] mergeWithOnlyWhile(int[] leftSide, int[] rightSide) {
+	}// End of Inner Class
+
+	private class RecursiveNaiveNLogNSpaceMergeSortSolution implements SortSolution {
+
+		@Override
+		public int[] sort(int[] inputArray) {
+			int[] sortedArray = mergesort(inputArray);
+			return sortedArray;
+		}
+
+		public int[] mergesort(int[] inputArray) {
+
+			int length = inputArray.length;
+
+			if (length <= 1) {
+				return inputArray;
+			}
+
+			int pivot = length % 2 > 0 ? (length + 1) / 2 : length / 2;
+
+			int[] leftSide = new int[length - pivot];
+
+			int[] rightSide = new int[pivot];
+
+			for (int i = 0; i < leftSide.length; i++) {
+				leftSide[i] = inputArray[i];
+			}
+
+			for (int i = leftSide.length; i < length; i++) {
+				rightSide[i - leftSide.length] = inputArray[i];
+			}
+
+			int[] leftOutput = mergesort(leftSide);
+			int[] rightOutput = mergesort(rightSide);
+			int[] mergedOutput = merge(leftOutput, rightOutput);
+
+			return mergedOutput;
+		}
+
+		public int[] merge(int[] leftSide, int[] rightSide) {
 
 			int[] mergeArray = new int[leftSide.length + rightSide.length];
 
@@ -132,12 +177,132 @@ public class MergeSortSolution {
 
 	}// End of Inner Class
 
+	private class RecursiveNaiveNSpaceMergeSortSolution implements SortSolution {
+
+		@Override
+		public int[] sort(int[] inputArray) {
+			mergesort(inputArray, new int[inputArray.length], 0, inputArray.length - 1);
+//			System.out.println("Array Copy Method Output : " + util.convertArrayToString(inputArray));
+			return inputArray;
+		}
+
+		public void mergesort(int[] inputArray, int[] memo, int start, int end) {
+
+			if (end - start <= 0) {
+				return;
+			}
+
+			int length = end - start + 1;
+			int pivot = length % 2 > 0 ? (length + 1) / 2 : length / 2;
+			int mid = start + pivot;
+
+			mergesort(inputArray, memo, start, (mid - 1));
+			mergesort(inputArray, memo, mid, end);
+			merge(inputArray, memo, start, mid, end);
+
+		}
+
+		public void merge(int inputArray[], int memo[], int start, int mid, int end) {
+
+			int leftIndex = start;
+			int rightIndex = mid;
+			int index = start;
+
+			while (leftIndex < mid && rightIndex <= end) {
+				if (inputArray[leftIndex] < inputArray[rightIndex]) {
+					memo[index] = inputArray[leftIndex];
+					leftIndex++;
+				} else {
+					memo[index] = inputArray[rightIndex];
+					rightIndex++;
+				}
+				index++;
+			}
+
+			while (leftIndex < mid) {
+				memo[index] = inputArray[leftIndex];
+				leftIndex++;
+				index++;
+			}
+
+			while (rightIndex <= end) {
+				memo[index] = inputArray[rightIndex];
+				rightIndex++;
+				index++;
+			}
+
+			for (int i = start; i < index; i++) {
+				inputArray[i] = memo[i];
+			}
+
+		}// End of Method
+
+	}// End of Inner Class
+
+	private class RecursiveNaiveOneSpaceMergeSortSolution implements SortSolution {
+
+		@Override
+		public int[] sort(int[] inputArray) {
+			int[] memo = new int[inputArray.length];
+			mergesort(inputArray, memo, 0, inputArray.length - 1);
+//			System.out.println("Array Copy Method Output : " + util.convertArrayToString(inputArray));
+			return memo;
+		}
+
+		public void mergesort(int[] inputArray, int[] memo, int start, int end) {
+
+			if (end - start <= 0) {
+				return;
+			}
+
+			int length = end - start + 1;
+			int pivot = length % 2 > 0 ? (length + 1) / 2 : length / 2;
+			int mid = start + pivot;
+
+			mergesort(inputArray, memo, start, (mid - 1));
+			mergesort(inputArray, memo, mid, end);
+			merge(inputArray, memo, start, mid, end);
+
+		}
+
+		public void merge(int inputArray[], int memo[], int start, int mid, int end) {
+
+			int leftIndex = start;
+			int rightIndex = mid;
+			int index = start;
+
+			while (leftIndex < mid && rightIndex <= end) {
+				if (inputArray[leftIndex] < inputArray[rightIndex]) {
+					memo[index] = inputArray[leftIndex];
+					leftIndex++;
+				} else {
+					memo[index] = inputArray[rightIndex];
+					rightIndex++;
+				}
+				index++;
+			}
+
+			while (leftIndex < mid) {
+				memo[index] = inputArray[leftIndex];
+				leftIndex++;
+				index++;
+			}
+
+			while (rightIndex <= end) {
+				memo[index] = inputArray[rightIndex];
+				rightIndex++;
+				index++;
+			}
+
+		}// End of Method
+
+	}// End of Inner Class
+
 	private class RecursiveArrayCopyMergeSortSolution implements SortSolution {
 
 		@Override
 		public int[] sort(int[] inputArray) {
 			mergesort(inputArray, new int[inputArray.length], 0, inputArray.length - 1);
-			System.out.println("Array Copy Method Output : " + util.convertArrayToString(inputArray));
 			return inputArray;
 		}
 
@@ -152,9 +317,9 @@ public class MergeSortSolution {
 		}// End of Method
 
 		public void mergeHalves(int[] array, int[] temp, int leftStart, int rightEnd) {
+
 			int leftEnd = (rightEnd + leftStart) / 2;
 			int rightStart = leftEnd + 1;
-			int size = rightEnd - leftStart + 1;
 
 			int left = leftStart;
 			int right = rightStart;
@@ -171,21 +336,9 @@ public class MergeSortSolution {
 				index++;
 			}
 
-//			if (right < rightEnd) {
-//				temp[index] = array[right];
-//			} else if (left < leftEnd) {
-//				temp[index] = array[left];
-//			}
-
-//			int remainingLeft = leftEnd - left + 1;
-//			int remainingRight = rightEnd - right + 1;
-
-//			if (remainingLeft != 0 && left + 1 < array.length)
 			System.arraycopy(array, left, temp, index, leftEnd - left + 1);
-//			if (remainingRight != 0 && right + 1 < array.length)
 			System.arraycopy(array, right, temp, index, rightEnd - right + 1);
-
-			System.arraycopy(temp, leftStart, temp, leftStart, size);
+			System.arraycopy(temp, leftStart, array, leftStart, rightEnd - leftStart + 1);
 
 		}// End of Method
 
