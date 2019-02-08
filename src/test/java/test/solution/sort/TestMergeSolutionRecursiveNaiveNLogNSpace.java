@@ -16,41 +16,38 @@ import com.algorithms.sorting.exception.SortSolutionSelectionException;
 import test.support.generator.IRandomInputGenerator;
 import test.support.generator.RandomInputGenerator;
 
-public class TestMergeSolutionRecursivePolished {
+public class TestMergeSolutionRecursiveNaiveNLogNSpace {
 
 	@Test
 	public void test() {
-		runRandomizedTestCase(SortSolutionType.MERGE_RECURSIVE_POLISHED);
+		runRandomizedTestCase(SortSolutionType.MERGE_RECURSIVE_NLOGN_SPACE);
 	}
 
 	@Test
-	@Ignore
 	public void testHalfInOrderatRandom() {
 
-		testHalfInOrderatRandom(SortSolutionType.MERGE_RECURSIVE_POLISHED);
+		testHalfInOrderatRandom(SortSolutionType.MERGE_RECURSIVE_NLOGN_SPACE);
 
 	}
 
 	@Test
-	@Ignore
 	public void testOneToFiveCase() {
 
-		testOneToFiveCase(SortSolutionType.MERGE_RECURSIVE_POLISHED);
+		testOneToFiveCase(SortSolutionType.MERGE_RECURSIVE_NLOGN_SPACE);
 
 	}
 
 	@Test
-	@Ignore
 	public void testBestCase() {
 
-		testBestCase(SortSolutionType.MERGE_RECURSIVE_POLISHED);
+		testBestCase(SortSolutionType.MERGE_RECURSIVE_NLOGN_SPACE);
 
 	}
 
 	@Test
 	public void testWorstCase() {
 
-		testWorstCase(SortSolutionType.MERGE_RECURSIVE_POLISHED);
+		testWorstCase(SortSolutionType.MERGE_RECURSIVE_NLOGN_SPACE);
 
 	}
 
@@ -145,13 +142,10 @@ public class TestMergeSolutionRecursivePolished {
 			controlProtocol(testResponse, SortSolutionFactory.getInstance().getSolution(solutionType));
 		} catch (SortSolutionSelectionException e) {
 			e.printStackTrace();
-			fail("Ended with Exception");
 		} catch (BubbleSortSolutionSelectionException e) {
 			e.printStackTrace();
-			fail("Ended with Exception");
 		} catch (Exception e) {
 			e.printStackTrace();
-			fail("Ended with Exception");
 		}
 	}
 
