@@ -53,7 +53,6 @@ public class TestMassRandomNumberSortComparison {
 	}
 
 	@Test
-	@Ignore
 	public void testMergeSortRecursiveNaiveSorter() {
 		controlProtocol(testResponse, SortSolutionType.MERGE_RECURSIVE_NAIVE_SORTER);
 	}
@@ -74,7 +73,6 @@ public class TestMassRandomNumberSortComparison {
 	}
 
 	@Test
-	@Ignore
 	public void testMergeSortRecursiveNaiveOneSpace() {
 		controlProtocol(testResponse, SortSolutionType.MERGE_RECURSIVE_ONE_SPACE);
 	}

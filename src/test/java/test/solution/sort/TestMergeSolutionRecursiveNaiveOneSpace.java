@@ -19,13 +19,11 @@ import test.support.generator.RandomInputGenerator;
 public class TestMergeSolutionRecursiveNaiveOneSpace {
 
 	@Test
-	@Ignore
 	public void test() {
 		runRandomizedTestCase(SortSolutionType.MERGE_RECURSIVE_ONE_SPACE);
 	}
 
 	@Test
-	@Ignore
 	public void testHalfInOrderatRandom() {
 
 		testHalfInOrderatRandom(SortSolutionType.MERGE_RECURSIVE_ONE_SPACE);
@@ -33,7 +31,6 @@ public class TestMergeSolutionRecursiveNaiveOneSpace {
 	}
 
 	@Test
-	@Ignore
 	public void testOneToFiveCase() {
 
 		testOneToFiveCase(SortSolutionType.MERGE_RECURSIVE_ONE_SPACE);
@@ -41,7 +38,6 @@ public class TestMergeSolutionRecursiveNaiveOneSpace {
 	}
 
 	@Test
-	@Ignore
 	public void testBestCase() {
 
 		testBestCase(SortSolutionType.MERGE_RECURSIVE_ONE_SPACE);
@@ -139,7 +135,7 @@ public class TestMergeSolutionRecursiveNaiveOneSpace {
 	private void runRandomizedTestCase(SortSolutionType solutionType) {
 		try {
 			SortingTestRequest testRequest = new SortingTestRequest();
-			testRequest.setLenght(1000000);
+			testRequest.setLenght(100000);
 			testRequest.setLowerbound(0);
 			testRequest.setUpperbound(200);
 			SortingTestResponse testResponse = prepareTest(testRequest);

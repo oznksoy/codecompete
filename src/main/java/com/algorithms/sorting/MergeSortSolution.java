@@ -243,13 +243,12 @@ public class MergeSortSolution {
 
 		@Override
 		public int[] sort(int[] inputArray) {
-			int[] memo = new int[inputArray.length];
-			mergesort(inputArray, memo, 0, inputArray.length - 1);
+			mergesort(inputArray, 0, inputArray.length - 1);
 //			System.out.println("Array Copy Method Output : " + util.convertArrayToString(inputArray));
-			return memo;
+			return inputArray;
 		}
 
-		public void mergesort(int[] inputArray, int[] memo, int start, int end) {
+		public void mergesort(int[] inputArray, int start, int end) {
 
 			if (end - start <= 0) {
 				return;
@@ -259,44 +258,50 @@ public class MergeSortSolution {
 			int pivot = length % 2 > 0 ? (length + 1) / 2 : length / 2;
 			int mid = start + pivot;
 
-			mergesort(inputArray, memo, start, (mid - 1));
-			mergesort(inputArray, memo, mid, end);
-			merge(inputArray, memo, start, mid, end);
+			mergesort(inputArray, start, (mid - 1));
+			mergesort(inputArray, mid, end);
+			merge(inputArray, start, mid, end);
 
 		}
 
-		public void merge(int inputArray[], int memo[], int start, int mid, int end) {
+		public void merge(int inputArray[], int start, int mid, int end) {
 
 			int leftIndex = start;
 			int rightIndex = mid;
-			int index = start;
+			int midIndex = mid;
 
-			while (leftIndex < mid && rightIndex <= end) {
-				if (inputArray[leftIndex] < inputArray[rightIndex]) {
-					memo[index] = inputArray[leftIndex];
-					leftIndex++;
-				} else {
-					memo[index] = inputArray[rightIndex];
+			while (leftIndex < midIndex && rightIndex <= end) {
+				if (inputArray[leftIndex] > inputArray[rightIndex]) {
+					int valueToPush = inputArray[rightIndex];
+					int index = rightIndex;
+					while (index != leftIndex) {
+						inputArray[index] = inputArray[index - 1];
+						index--;
+					}
+					inputArray[leftIndex] = valueToPush;
+					midIndex++;
 					rightIndex++;
 				}
-				index++;
-			}
-
-			while (leftIndex < mid) {
-				memo[index] = inputArray[leftIndex];
 				leftIndex++;
-				index++;
-			}
-
-			while (rightIndex <= end) {
-				memo[index] = inputArray[rightIndex];
-				rightIndex++;
-				index++;
 			}
 
 		}// End of Method
 
 	}// End of Inner Class
+
+//	public void swap(int[] array, int i, int j) {
+//		int transfer = array[i];
+//		array[i] = array[j];
+//		array[j] = transfer;
+//	}
+
+//	public void shiftForward(int[] array, int start, int end) {
+//		int valueToInsert = ;
+//		int i = 0;
+//		while(i < end - start) {
+//			i
+//		}
+//	}
 
 	private class RecursiveArrayCopyMergeSortSolution implements SortSolution {
 
