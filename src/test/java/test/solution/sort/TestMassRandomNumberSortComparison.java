@@ -53,8 +53,30 @@ public class TestMassRandomNumberSortComparison {
 	}
 
 	@Test
-	public void testMergeSortRecursiveNaive() {
-		controlProtocol(testResponse, SortSolutionType.MERGE_RECURSIVE_NAIVE);
+	@Ignore
+	public void testMergeSortRecursiveNaiveSorter() {
+		controlProtocol(testResponse, SortSolutionType.MERGE_RECURSIVE_NAIVE_SORTER);
+	}
+
+	@Test
+	public void testMergeSortRecursiveArrayCopy() {
+		controlProtocol(testResponse, SortSolutionType.MERGE_RECURSIVE_ARRAY_COPY);
+	}
+
+	@Test
+	public void testMergeSortRecursiveNaiveNLogNSpace() {
+		controlProtocol(testResponse, SortSolutionType.MERGE_RECURSIVE_NLOGN_SPACE);
+	}
+
+	@Test
+	public void testMergeSortRecursiveNaiveNSpace() {
+		controlProtocol(testResponse, SortSolutionType.MERGE_RECURSIVE_N_SPACE);
+	}
+
+	@Test
+	@Ignore
+	public void testMergeSortRecursiveNaiveOneSpace() {
+		controlProtocol(testResponse, SortSolutionType.MERGE_RECURSIVE_ONE_SPACE);
 	}
 
 	@Test
@@ -64,7 +86,7 @@ public class TestMassRandomNumberSortComparison {
 
 	private SortingTestRequest prepareTestRequest() {
 		SortingTestRequest testRequest = new SortingTestRequest();
-		testRequest.setLenght(5000000);
+		testRequest.setLenght(1000000);
 		testRequest.setLowerbound(0);
 		testRequest.setUpperbound(200);
 		return testRequest;
