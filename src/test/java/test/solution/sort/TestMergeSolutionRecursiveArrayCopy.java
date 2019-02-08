@@ -1,10 +1,10 @@
 package test.solution.sort;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.util.Arrays;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.algorithms.sorting.SortSolution;
@@ -19,7 +19,6 @@ import test.support.generator.RandomInputGenerator;
 public class TestMergeSolutionRecursiveArrayCopy {
 
 	@Test
-	@Ignore
 	public void test() {
 		runRandomizedTestCase(SortSolutionType.MERGE_RECURSIVE_ARRAY_COPY);
 	}
@@ -32,7 +31,6 @@ public class TestMergeSolutionRecursiveArrayCopy {
 	}
 
 	@Test
-	@Ignore
 	public void testOneToFiveCase() {
 
 		testOneToFiveCase(SortSolutionType.MERGE_RECURSIVE_ARRAY_COPY);
@@ -40,7 +38,6 @@ public class TestMergeSolutionRecursiveArrayCopy {
 	}
 
 	@Test
-	@Ignore
 	public void testBestCase() {
 
 		testBestCase(SortSolutionType.MERGE_RECURSIVE_ARRAY_COPY);
@@ -145,10 +142,13 @@ public class TestMergeSolutionRecursiveArrayCopy {
 			controlProtocol(testResponse, SortSolutionFactory.getInstance().getSolution(solutionType));
 		} catch (SortSolutionSelectionException e) {
 			e.printStackTrace();
+			fail("Ended with Exception");
 		} catch (BubbleSortSolutionSelectionException e) {
 			e.printStackTrace();
+			fail("Ended with Exception");
 		} catch (Exception e) {
 			e.printStackTrace();
+			fail("Ended with Exception");
 		}
 	}
 
@@ -166,11 +166,17 @@ public class TestMergeSolutionRecursiveArrayCopy {
 	}
 
 	private void controlProtocol(SortingTestResponse testResponse, SortSolution solution) {
-		int[] realOutput = solution.sort(testResponse.getRandomInput());
-		int[] expectedOutput = testResponse.getExpectedOutput();
-		for (int i = 0; i < realOutput.length; i++) {
-			assertEquals(expectedOutput[i], realOutput[i]);
+		try {
+
+			int[] realOutput = solution.sort(testResponse.getRandomInput());
+			int[] expectedOutput = testResponse.getExpectedOutput();
+			for (int i = 0; i < realOutput.length; i++) {
+				assertEquals(expectedOutput[i], realOutput[i]);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail("Ended with Exception");
 		}
 	}
 
-}
+}// End of Test Case
