@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import com.algorithms.sorting.SortSolutionType;
 
-public class TestMergeSolutionRecursiveArrayCopy extends AbstSortSolutionTest {
+public class TestMergeSolutionRecursiveNLogNSpace extends AbstSortSolutionTest {
 
 	@Before
 	public void setup() throws Exception {
@@ -14,7 +14,7 @@ public class TestMergeSolutionRecursiveArrayCopy extends AbstSortSolutionTest {
 
 	@Override
 	public void setSolutionTypeToTest() {
-		solutionType = SortSolutionType.MERGE_RECURSIVE_ARRAY_COPY;
+		solutionType = SortSolutionType.MERGE_RECURSIVE_NLOGN_SPACE;
 	}
 
 	@Override
