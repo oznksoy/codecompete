@@ -79,4 +79,4 @@ public class TestSortSolutionPerformance {
 		testSupport.runTestCase(testResponse, SortSolutionType.MERGE_RECURSIVE_NLOGN_SPACE_DIVISION_ON_MERGE);
 	}
 
-}// End of Class
+}// End of Test Case

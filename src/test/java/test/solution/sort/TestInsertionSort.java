@@ -59,4 +59,4 @@ public class TestInsertionSort extends AbstSortSolutionTest {
 		super.testOneToFiveCase();
 	}
 
-}// End of Class
+}// End of Test Case

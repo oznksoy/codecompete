@@ -59,4 +59,4 @@ public class TestBruteSort extends AbstSortSolutionTest {
 		super.testOneToFiveCase();
 	}
 
-}// End of Class
+}// End of Test Case

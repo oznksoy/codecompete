@@ -59,4 +59,4 @@ public class TestMergeSolutionRecursiveSortedByInsertion extends AbstSortSolutio
 		super.testOneToFiveCase();
 	}
 
-}// End of Class
+}// End of Test Case
