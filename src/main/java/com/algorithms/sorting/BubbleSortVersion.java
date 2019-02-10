@@ -2,6 +2,6 @@ package com.algorithms.sorting;
 
 enum BubbleSortVersion {
 
-	V1, V2, V3
+	UNCHECKED_SWAPS, IS_SWAP_CHECKED, LAST_SWAP_INDEX_CHECK
 
 }

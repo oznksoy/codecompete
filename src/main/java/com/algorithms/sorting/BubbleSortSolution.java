@@ -18,41 +18,37 @@ class BubbleSortSolution {
 
 	public SortSolution setBubbleSortSolutions(BubbleSortVersion version) throws BubbleSortSolutionSelectionException {
 		switch (version) {
-		case V1:
-			return new BubbleSortV1();
-		case V2:
-			return new BubbleSortV2();
-		case V3:
-			return new BubbleSortV3();
+		case UNCHECKED_SWAPS:
+			return new BubbleSortUncheckedSwaps();
+		case IS_SWAP_CHECKED:
+			return new BubbleSortIsSwappedCheck();
+		case LAST_SWAP_INDEX_CHECK:
+			return new BubbleSortWithLastSwapIndexCheck();
 		default:
 			throw new BubbleSortSolutionSelectionException();
 		}
 	}
 
-	private class BubbleSortV1 implements SortSolution {
+	private class BubbleSortUncheckedSwaps implements SortSolution {
 
 		@Override
 		public int[] sort(int[] inputArray) {
-//			int count = 0;
 			for (int i = 0; i < inputArray.length - 1; i++) {
 				for (int j = 1; j < inputArray.length - i; j++) {
 					if (inputArray[j] < inputArray[j - 1]) {
 						util.swap(inputArray, j, j - 1);
 					}
-//					count++;
 				}
 			}
-//			System.out.println("Final Step Count : " + count);
 			return inputArray;
 		}
 
 	}
 
-	private class BubbleSortV2 implements SortSolution {
+	private class BubbleSortIsSwappedCheck implements SortSolution {
 
 		@Override
 		public int[] sort(int[] inputArray) {
-//			int count = 0;
 			for (int i = 0; i < inputArray.length - 1; i++) {
 				boolean isSwapped = false;
 				for (int j = 1; j < inputArray.length - i; j++) {
@@ -60,23 +56,20 @@ class BubbleSortSolution {
 						util.swap(inputArray, j, j - 1);
 						isSwapped = true;
 					}
-//					count++;
 				}
 				if (!isSwapped) {
 					break;
 				}
 			}
-//			System.out.println("Final Step Count : " + count);
 			return inputArray;
 		}
 
 	}
 
-	private class BubbleSortV3 implements SortSolution {
+	private class BubbleSortWithLastSwapIndexCheck implements SortSolution {
 
 		@Override
 		public int[] sort(int[] inputArray) {
-//			int count = 0;
 			int unsortedBelow = inputArray.length;
 			while (unsortedBelow != 0) {
 				int lastSwap = 0;
@@ -85,11 +78,9 @@ class BubbleSortSolution {
 						util.swap(inputArray, j, j - 1);
 						lastSwap = j;
 					}
-//					count++;
 				}
 				unsortedBelow = lastSwap;
 			}
-//			System.out.println("Final Step Count : " + count);
 			return inputArray;
 		}
 

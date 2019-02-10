@@ -5,10 +5,8 @@ import com.algorithms.sorting.exception.MergeSortSolutionSelectionException;
 public class MergeSortSolution {
 
 	private SortSolution activeSolution;
-	private SortSolutionUtil util;
 
 	public MergeSortSolution(MergeSortVersion version) throws MergeSortSolutionSelectionException {
-		util = SortSolutionUtil.getInstance();
 		activeSolution = setMergeSortSolution(version);
 	}
 
@@ -18,16 +16,16 @@ public class MergeSortSolution {
 
 	public SortSolution setMergeSortSolution(MergeSortVersion version) throws MergeSortSolutionSelectionException {
 		switch (version) {
-		case RECURSIVE_NAIVE_SORTER:
-			return new RecursiveNaiveSorterMergeSortSolution();
-		case RECURSIVE_NAIVE_N_SPACE:
-			return new RecursiveNaiveNSpaceMergeSortSolution();
-		case RECURSIVE_NAIVE_NLOGN_SPACE:
-			return new RecursiveNaiveNLogNSpaceMergeSortSolution();
-		case RECURSIVE_NAIVE_ONE_SPACE:
+		case RECURSIVE_SORTED_BY_INSERTION:
+			return new RecursiveSortedByInsertionMergeSortSolution();
+		case RECURSIVE_N_SPACE:
+			return new RecursiveNSpaceMergeSortSolution();
+		case RECURSIVE_NLOGN_SPACE:
+			return new RecursiveNLogNSpaceMergeSortSolution();
+		case RECURSIVE_ONE_SPACE:
 			return new RecursiveNaiveOneSpaceMergeSortSolution();
-		case RECURSIVE_POLISHED:
-			return new RecursivePolishedMergeSortSolution();
+		case RECURSIVE_NLOGN_SPACE_DIVISION_ON_MERGE:
+			return new RecursiveFromGeekByGeekMergeSortSolution();
 		case RECURSIVE_ARRAY_COPY:
 			return new RecursiveArrayCopyMergeSortSolution();
 		case NON_RECURSIVE:
@@ -37,7 +35,19 @@ public class MergeSortSolution {
 		}
 	}
 
-	private class RecursiveNaiveSorterMergeSortSolution implements SortSolution {
+	/**
+	 * <p>
+	 * Easy but wrong implementation for the mergesort. Mergesort is slowed down by
+	 * both internal sorting by insertion sort, and both creating of extra space by
+	 * generation of temporary left and right sections of array before merge. this
+	 * have N*((LogN)^2) and space complexity of NLogN. Note that since insertion
+	 * sort is done during the merging operation, it is not time complexity of n^2.
+	 * <p>
+	 * 
+	 * @author Ozan Aksoy
+	 *
+	 */
+	private class RecursiveSortedByInsertionMergeSortSolution implements SortSolution {
 
 		@Override
 		public int[] sort(int[] inputArray) {
@@ -104,7 +114,18 @@ public class MergeSortSolution {
 
 	}// End of Inner Class
 
-	private class RecursiveNaiveNLogNSpaceMergeSortSolution implements SortSolution {
+	/**
+	 * <p>
+	 * This mergesort solution is easier to code by slower to work because of extra
+	 * space complexity caused by two temporary arrays for left and right sections
+	 * of the sub arrays. This causes Time complexity of N*LogN and Space Complexity
+	 * of N*logN
+	 * </p>
+	 * 
+	 * @author Ozan Aksoy
+	 *
+	 */
+	private class RecursiveNLogNSpaceMergeSortSolution implements SortSolution {
 
 		@Override
 		public int[] sort(int[] inputArray) {
@@ -177,12 +198,25 @@ public class MergeSortSolution {
 
 	}// End of Inner Class
 
-	private class RecursiveNaiveNSpaceMergeSortSolution implements SortSolution {
+	/**
+	 * <p>
+	 * Optimal Mergesort solution. Only uses N space and with time complexity of
+	 * N*LogN. Notice that final injection from temporary array to main array is
+	 * done in merge action. I tried to move it into mergesort method thnking that
+	 * this would reduce the number of copying iterations; however to my suprise
+	 * this change was causing a minor slow down. This slowdown was ~%15. For
+	 * example, the sorting performance was around 0.073s compared to 0.063s for
+	 * 5000000 integers between the values of 0 to 200.
+	 * </p>
+	 * 
+	 * @author Ozan Aksoy
+	 *
+	 */
+	private class RecursiveNSpaceMergeSortSolution implements SortSolution {
 
 		@Override
 		public int[] sort(int[] inputArray) {
 			mergesort(inputArray, new int[inputArray.length], 0, inputArray.length - 1);
-//			System.out.println("Array Copy Method Output : " + util.convertArrayToString(inputArray));
 			return inputArray;
 		}
 
@@ -239,12 +273,24 @@ public class MergeSortSolution {
 
 	}// End of Inner Class
 
+	/**
+	 * <p>
+	 * This solution focuses on minimizing the space requirement for the mergesort.
+	 * It uses a sorting iteration logic that is similar to Insertion Sort. The
+	 * values are not stored, by pushed forward on the input array itself. However,
+	 * this would cause a substantially increased time complexity. Time complexity
+	 * will increase to N*((LogN)^2), where extra logN coming from the shuffling of
+	 * array elements on top of NLogN mergesort complexity.
+	 * </p>
+	 * 
+	 * @author Ozan Aksoy
+	 *
+	 */
 	private class RecursiveNaiveOneSpaceMergeSortSolution implements SortSolution {
 
 		@Override
 		public int[] sort(int[] inputArray) {
 			mergesort(inputArray, 0, inputArray.length - 1);
-//			System.out.println("Array Copy Method Output : " + util.convertArrayToString(inputArray));
 			return inputArray;
 		}
 
@@ -289,20 +335,29 @@ public class MergeSortSolution {
 
 	}// End of Inner Class
 
-//	public void swap(int[] array, int i, int j) {
-//		int transfer = array[i];
-//		array[i] = array[j];
-//		array[j] = transfer;
-//	}
-
-//	public void shiftForward(int[] array, int start, int end) {
-//		int valueToInsert = ;
-//		int i = 0;
-//		while(i < end - start) {
-//			i
-//		}
-//	}
-
+	/**
+	 * 
+	 * <p>
+	 * I came across this algorithm white trying to compare my own solution to
+	 * others. It was interesting to see a direct use of the system library. I
+	 * wondered if there was any difference in performance to my N space merge sort
+	 * solution. At least on my test configurations, it seems like there is a
+	 * difference. ArrayCopy Method a little faster compared to
+	 * {@link RecursiveNSpaceMergeSortSolution my N space mergesort solution}
+	 * </p>
+	 * <p>
+	 * For 5000000 random entries from 0 to 200 value range
+	 * <li>{@linkplain RecursiveNSpaceMergeSortSolution N Space Iterative Copy
+	 * MergeSortSolution } gets 0.063s</li>
+	 * <li>{@linkplain RecursiveArrayCopyMergeSortSolution N Space Array Copy
+	 * MergeSortSolution } gets 0.059s</li>
+	 * <p>
+	 * 
+	 * @see <a href= "https://youtu.be/KF2j-9iSf4Q">Algorithms: Merge Sort by
+	 *      Hackerrank</a>
+	 * @author Gayle Laakmann McDowel
+	 *
+	 */
 	private class RecursiveArrayCopyMergeSortSolution implements SortSolution {
 
 		@Override
@@ -349,7 +404,25 @@ public class MergeSortSolution {
 
 	}// End of Inner Class
 
-	private class RecursivePolishedMergeSortSolution implements SortSolution {
+	/**
+	 * <p>
+	 * I have found this solution while trying to find other mergesort solutions to
+	 * compare to my solutions. This solution is also similar to
+	 * {@linkplain RecursiveNLogNSpaceMergeSortSolution my NlogN space NlogN time
+	 * complexity solution}, since it constantly creates temporary arrays for left
+	 * and right sides of the sub arrays. However this solution is ought to be
+	 * slower, since it calculates indexes that can be attained from sub arrays, and
+	 * also it creates sub arrays within the merge function, rather than the
+	 * mergesort method.
+	 * </p>
+	 * 
+	 * @see <a href=
+	 *      "https://www.geeksforgeeks.org/java-program-for-merge-sort/">Java
+	 *      Program for Merge Sort</a>
+	 * @author Rajat Mishra
+	 *
+	 */
+	private class RecursiveFromGeekByGeekMergeSortSolution implements SortSolution {
 
 		@Override
 		public int[] sort(int[] inputArray) {
