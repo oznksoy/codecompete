@@ -15,7 +15,7 @@ public class TestSortSolutionPerformance {
 	public void setup() {
 
 		this.testSupport = new SortingTestSupport();
-		this.testRequest = testSupport.createTestRequest(50000, 50000, 0);
+		this.testRequest = testSupport.createTestRequest(100000, 100000, 0);
 		this.testResponse = this.testSupport.prepareTest(testRequest);
 	}
 
@@ -50,7 +50,7 @@ public class TestSortSolutionPerformance {
 	}
 
 	@Test
-	public void testMergeSortRecursiveNaiveSorter() {
+	public void testMergeSortRecursiveSortedByInsertion() {
 		testSupport.runTestCase(testResponse, SortSolutionType.MERGE_RECURSIVE_SORTED_BY_INSERTION);
 	}
 
@@ -77,6 +77,16 @@ public class TestSortSolutionPerformance {
 	@Test
 	public void testMergeSortRecursivePolished() {
 		testSupport.runTestCase(testResponse, SortSolutionType.MERGE_RECURSIVE_NLOGN_SPACE_DIVISION_ON_MERGE);
+	}
+	
+	@Test
+	public void testMergeSortNonrecursive() {
+		testSupport.runTestCase(testResponse, SortSolutionType.MERGE_NON_RECURSIVE);
+	}
+	
+	@Test
+	public void testMergeSortNonrecursivePrinceton() {
+		testSupport.runTestCase(testResponse, SortSolutionType.MERGE_NON_RECURSIVE_PRINCETON);
 	}
 
 }// End of Test Case
