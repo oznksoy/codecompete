@@ -30,6 +30,8 @@ public class MergeSortSolution {
 			return new RecursiveArrayCopyMergeSortSolution();
 		case NON_RECURSIVE:
 			return new NonRecursiveMergeSortSolution();
+		case NON_RECURSIVE_PRINCETON:
+			return new NonRecursiveMergeSortSolutionPrinceton();
 		default:
 			throw new MergeSortSolutionSelectionException();
 		}
@@ -496,14 +498,152 @@ public class MergeSortSolution {
 
 	}
 
+	/**
+	 * My Own nonrecursive mergesort solution
+	 * 
+	 * @author Ozan Aksoy
+	 *
+	 */
 	private class NonRecursiveMergeSortSolution implements SortSolution {
 
 		@Override
 		public int[] sort(int[] inputArray) {
-			// TODO Auto-generated method stub
-			return null;
+			mergesort(inputArray);
+			return inputArray;
 		}
 
-	}
+		public void mergesort(int[] inputArray) {
 
-}
+			int[] memo = new int[inputArray.length];
+
+			if (inputArray.length <= 1) {
+				return;
+			}
+
+			int step = 1;
+			int mergeLenght = pow(step);
+			int subarrayLength = mergeLenght / 2;
+			while (subarrayLength < inputArray.length) {
+				int start = 0;
+				while (start < inputArray.length - subarrayLength) {
+					int end = calcEnd(start, mergeLenght, inputArray.length);
+					int mid = start + subarrayLength;
+					merge(inputArray, memo, start, mid, end);
+					start = end + 1;
+				}
+				step = step + 1;
+				mergeLenght = pow(step);
+				subarrayLength = mergeLenght / 2;
+			}
+
+		}// End of Method
+
+		public int pow(int value) {
+			int pw = 1;
+			for (int i = 0; i < value; i++) {
+				pw = pw * 2;
+			}
+			return pw;
+		}
+
+		public int calcEnd(int start, int mergeLenght, int arrayLength) {
+			int end = start + mergeLenght - 1;
+			int result = end < arrayLength ? end : (arrayLength - 1);
+			return result;
+
+		}// End of Method
+
+		public void merge(int inputArray[], int memo[], int start, int mid, int end) {
+
+			int leftIndex = start;
+			int rightIndex = mid;
+			int index = start;
+
+			while (leftIndex < mid && rightIndex <= end) {
+				if (inputArray[leftIndex] < inputArray[rightIndex]) {
+					memo[index] = inputArray[leftIndex];
+					leftIndex++;
+				} else {
+					memo[index] = inputArray[rightIndex];
+					rightIndex++;
+				}
+				index++;
+			}
+
+			while (leftIndex < mid) {
+				memo[index] = inputArray[leftIndex];
+				leftIndex++;
+				index++;
+			}
+
+			while (rightIndex <= end) {
+				memo[index] = inputArray[rightIndex];
+				rightIndex++;
+				index++;
+			}
+
+			for (int i = start; i < index; i++) {
+				inputArray[i] = memo[i];
+			}
+
+		}// End of Method
+
+	} // End of Inner Class
+
+	/**
+	 * <p>
+	 * A Mergesort solution I found from princeton university lectures in order to
+	 * compare with my own solution.
+	 * </p>
+	 * 
+	 * @see <a href=:"https://algs4.cs.princeton.edu/22mergesort/"> Princeton Non
+	 *      Recursive Mergesort Solution</a>
+	 * 
+	 * @author Ozan Aksoy
+	 *
+	 */
+	private class NonRecursiveMergeSortSolutionPrinceton implements SortSolution {
+
+		@Override
+		public int[] sort(int[] inputArray) {
+			mergesort(inputArray);
+			return inputArray;
+		}
+
+		public void mergesort(int[] a) {
+			int n = a.length;
+			int[] aux = new int[n];
+			for (int len = 1; len < n; len *= 2) {
+				for (int lo = 0; lo < n - len; lo += len + len) {
+					int mid = lo + len - 1;
+					int hi = Math.min(lo + len + len - 1, n - 1);
+					merge(a, aux, lo, mid, hi);
+				}
+			}
+		}
+
+		private void merge(int[] a, int[] aux, int lo, int mid, int hi) {
+
+			// copy to aux[]
+			for (int k = lo; k <= hi; k++) {
+				aux[k] = a[k];
+			}
+
+			// merge back to a[]
+			int i = lo, j = mid + 1;
+			for (int k = lo; k <= hi; k++) {
+				if (i > mid)
+					a[k] = aux[j++]; // this copying is unneccessary
+				else if (j > hi)
+					a[k] = aux[i++];
+				else if (aux[j] < aux[i])
+					a[k] = aux[j++];
+				else
+					a[k] = aux[i++];
+			}
+
+		}
+
+	}// End of Inner Classs
+
+} // End of Class
