@@ -47,6 +47,8 @@ public class SortSolutionFactory {
 			return new MergeSortSolution(MergeSortVersion.RECURSIVE_ARRAY_COPY).getActiveSolution();
 		case MERGE_NON_RECURSIVE:
 			return new MergeSortSolution(MergeSortVersion.NON_RECURSIVE).getActiveSolution();
+		case  MERGE_NON_RECURSIVE_PRINCETON:
+			return new MergeSortSolution(MergeSortVersion.NON_RECURSIVE_PRINCETON).getActiveSolution();
 		default:
 			throw new SortSolutionSelectionException();
 		}
