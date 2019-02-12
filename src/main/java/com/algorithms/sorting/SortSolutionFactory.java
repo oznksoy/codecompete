@@ -2,6 +2,7 @@ package com.algorithms.sorting;
 
 import com.algorithms.sorting.exception.BubbleSortSolutionSelectionException;
 import com.algorithms.sorting.exception.MergeSortSolutionSelectionException;
+import com.algorithms.sorting.exception.QuickSortSortSolutionSelectionException;
 import com.algorithms.sorting.exception.SortSolutionSelectionException;
 
 public class SortSolutionFactory {
@@ -19,7 +20,8 @@ public class SortSolutionFactory {
 	}
 
 	public SortSolution getSolution(SortSolutionType type) throws SortSolutionSelectionException,
-			BubbleSortSolutionSelectionException, MergeSortSolutionSelectionException {
+			BubbleSortSolutionSelectionException, MergeSortSolutionSelectionException,
+			QuickSortSortSolutionSelectionException {
 		switch (type) {
 		case BRUTE:
 			return new BruteSortSolution();
@@ -51,6 +53,15 @@ public class SortSolutionFactory {
 			return new MergeSortSolution(MergeSortVersion.NON_RECURSIVE_FOR_LOOP).getActiveSolution();
 		case  MERGE_NON_RECURSIVE_PRINCETON:
 			return new MergeSortSolution(MergeSortVersion.NON_RECURSIVE_PRINCETON).getActiveSolution();
+		case QUICK_INITIAL_PIVOT:
+			return new QuicksortSolution(QuickSortVersion.INITIAL_PIVOT).getActiveSolution();
+		case QUICK_MIDDLE_PIVOT:
+			return new QuicksortSolution(QuickSortVersion.MIDDLE_PIVOT).getActiveSolution();
+		case QUICK_RANDOM_PIVOT:
+			return new QuicksortSolution(QuickSortVersion.RANDOM_PIVOT).getActiveSolution();
+		case QUICK_DUAL_PIVOT:
+			return new QuicksortSolution(QuickSortVersion.DUAL_PIVOT).getActiveSolution();
+
 		default:
 			throw new SortSolutionSelectionException();
 		}

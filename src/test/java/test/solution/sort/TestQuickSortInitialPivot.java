@@ -14,7 +14,7 @@ public class TestQuickSortInitialPivot extends AbstSortSolutionTest {
 
 	@Override
 	public void setSolutionTypeToTest() {
-		solutionType = SortSolutionType.QUICKSORT_INITIAL_PIVOT;
+		solutionType = SortSolutionType.QUICK_INITIAL_PIVOT;
 	}
 
 	@Override
