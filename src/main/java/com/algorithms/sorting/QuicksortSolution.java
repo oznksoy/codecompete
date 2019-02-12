@@ -20,7 +20,7 @@ class QuicksortSolution {
 		switch (version) {
 		case INITIAL_PIVOT:
 			return new QuickSortInitialPivot();
-		case MEDIAN_PIVOT:
+		case MIDDLE_PIVOT:
 			return new QuickSortMiddleIndexPivot();
 		case RANDOM_PIVOT:
 			return new QuickSortRandomIndexPivot();
