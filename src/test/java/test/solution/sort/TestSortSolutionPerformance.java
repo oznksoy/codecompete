@@ -70,18 +70,23 @@ public class TestSortSolutionPerformance {
 	}
 
 	@Test
-	public void testMergeSortRecursiveNaiveOneSpace() {
+	public void testMergeSortRecursiveOneSpace() {
 		testSupport.runTestCase(testResponse, SortSolutionType.MERGE_RECURSIVE_ONE_SPACE);
 	}
 
 	@Test
-	public void testMergeSortRecursivePolished() {
+	public void testMergeSortRecursiveNLogNSpaceDivisionOnMerge() {
 		testSupport.runTestCase(testResponse, SortSolutionType.MERGE_RECURSIVE_NLOGN_SPACE_DIVISION_ON_MERGE);
 	}
 	
 	@Test
-	public void testMergeSortNonrecursive() {
-		testSupport.runTestCase(testResponse, SortSolutionType.MERGE_NON_RECURSIVE);
+	public void testMergeSortNonrecursiveWhileLoop() {
+		testSupport.runTestCase(testResponse, SortSolutionType.MERGE_NON_RECURSIVE_WHILE_LOOP);
+	}
+	
+	@Test
+	public void testMergeSortNonrecursiveForLoop() {
+		testSupport.runTestCase(testResponse, SortSolutionType.MERGE_NON_RECURSIVE_WHILE_LOOP);
 	}
 	
 	@Test

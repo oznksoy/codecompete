@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import com.algorithms.sorting.SortSolutionType;
 
-public class TestMergeSolutionNonRecursivePrinceton extends AbstSortSolutionTest {
+public class TestMergeSolutionNonRecursiveWhileLoop extends AbstSortSolutionTest {
 
 	@Before
 	public void setup() throws Exception {
@@ -14,7 +14,7 @@ public class TestMergeSolutionNonRecursivePrinceton extends AbstSortSolutionTest
 
 	@Override
 	public void setSolutionTypeToTest() {
-		solutionType = SortSolutionType.MERGE_NON_RECURSIVE_PRINCETON;
+		solutionType = SortSolutionType.MERGE_NON_RECURSIVE_WHILE_LOOP;
 	}
 
 	@Override
@@ -43,14 +43,12 @@ public class TestMergeSolutionNonRecursivePrinceton extends AbstSortSolutionTest
 
 	@Override
 	@Test
-
 	public void testHalfInOrderOnMedian() {
 		super.testHalfInOrderOnMedian();
 	}
 
 	@Override
 	@Test
-
 	public void testHalfInOrderOnMedianInReverse() {
 		super.testHalfInOrderOnMedianInReverse();
 	}

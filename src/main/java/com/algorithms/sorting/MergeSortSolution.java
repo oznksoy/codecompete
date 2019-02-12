@@ -28,8 +28,10 @@ public class MergeSortSolution {
 			return new RecursiveFromGeekByGeekMergeSortSolution();
 		case RECURSIVE_ARRAY_COPY:
 			return new RecursiveArrayCopyMergeSortSolution();
-		case NON_RECURSIVE:
-			return new NonRecursiveMergeSortSolution();
+		case NON_RECURSIVE_WHILE_LOOP:
+			return new NonRecursiveMergeSortSolutionWhileLoop();
+		case NON_RECURSIVE_FOR_LOOP:
+			return new NonRecursiveMergeSortSolutionForLoop();
 		case NON_RECURSIVE_PRINCETON:
 			return new NonRecursiveMergeSortSolutionPrinceton();
 		default:
@@ -499,12 +501,12 @@ public class MergeSortSolution {
 	}
 
 	/**
-	 * My Own nonrecursive mergesort solution
+	 * My Own nonrecursive mergesort solution via while loop
 	 * 
 	 * @author Ozan Aksoy
 	 *
 	 */
-	private class NonRecursiveMergeSortSolution implements SortSolution {
+	private class NonRecursiveMergeSortSolutionWhileLoop implements SortSolution {
 
 		@Override
 		public int[] sort(int[] inputArray) {
@@ -589,6 +591,77 @@ public class MergeSortSolution {
 		}// End of Method
 
 	} // End of Inner Class
+
+	/**
+	 * My Own nonrecursive mergesort solution via for loop. I have implemented the
+	 * algorithm from the {@linkplain NonRecursiveMergeSortSolutionPrinceton
+	 * princeton example} and deviced a separate solution.
+	 * 
+	 * @author Ozan Aksoy
+	 *
+	 */
+	private class NonRecursiveMergeSortSolutionForLoop implements SortSolution {
+
+		@Override
+		public int[] sort(int[] inputArray) {
+			mergesort(inputArray);
+			return inputArray;
+		}
+
+		public void mergesort(int[] inputArray) {
+
+			if (inputArray.length <= 1) {
+				return;
+			}
+
+			int[] temp = new int[inputArray.length];
+
+			for (int sublength = 1; sublength < inputArray.length; sublength = 2 * sublength) {
+				for (int start = 0; start < inputArray.length - sublength; start = start + 2 * sublength) {
+					int mid = start + sublength;
+					int end = (mid + sublength - 1) < inputArray.length ? mid + sublength - 1 : inputArray.length - 1;
+					merge(inputArray, temp, start, mid, end);
+				}
+			}
+
+		}
+
+		public void merge(int inputArray[], int memo[], int start, int mid, int end) {
+
+			int leftIndex = start;
+			int rightIndex = mid;
+			int index = start;
+
+			while (leftIndex < mid && rightIndex <= end) {
+				if (inputArray[leftIndex] < inputArray[rightIndex]) {
+					memo[index] = inputArray[leftIndex];
+					leftIndex++;
+				} else {
+					memo[index] = inputArray[rightIndex];
+					rightIndex++;
+				}
+				index++;
+			}
+
+			while (leftIndex < mid) {
+				memo[index] = inputArray[leftIndex];
+				leftIndex++;
+				index++;
+			}
+
+			while (rightIndex <= end) {
+				memo[index] = inputArray[rightIndex];
+				rightIndex++;
+				index++;
+			}
+
+			for (int i = start; i < index; i++) {
+				inputArray[i] = memo[i];
+			}
+
+		}// End of Method
+
+	}// End of Inner Classs
 
 	/**
 	 * <p>

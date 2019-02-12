@@ -45,8 +45,10 @@ public class SortSolutionFactory {
 			return new MergeSortSolution(MergeSortVersion.RECURSIVE_NLOGN_SPACE_DIVISION_ON_MERGE).getActiveSolution();
 		case MERGE_RECURSIVE_ARRAY_COPY:
 			return new MergeSortSolution(MergeSortVersion.RECURSIVE_ARRAY_COPY).getActiveSolution();
-		case MERGE_NON_RECURSIVE:
-			return new MergeSortSolution(MergeSortVersion.NON_RECURSIVE).getActiveSolution();
+		case MERGE_NON_RECURSIVE_WHILE_LOOP:
+			return new MergeSortSolution(MergeSortVersion.NON_RECURSIVE_WHILE_LOOP).getActiveSolution();
+		case MERGE_NON_RECURSIVE_FOR_LOOP:
+			return new MergeSortSolution(MergeSortVersion.NON_RECURSIVE_FOR_LOOP).getActiveSolution();
 		case  MERGE_NON_RECURSIVE_PRINCETON:
 			return new MergeSortSolution(MergeSortVersion.NON_RECURSIVE_PRINCETON).getActiveSolution();
 		default:
