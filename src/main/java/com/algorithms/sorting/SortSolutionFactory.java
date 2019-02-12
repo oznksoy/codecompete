@@ -22,7 +22,7 @@ public class SortSolutionFactory {
 			BubbleSortSolutionSelectionException, MergeSortSolutionSelectionException {
 		switch (type) {
 		case BRUTE:
-			return new PlainSortSolution();
+			return new BruteSortSolution();
 		case BUBBLE_UNCHECKED_SWAPS:
 			return new BubbleSortSolution(BubbleSortVersion.UNCHECKED_SWAPS).getActiveSolution();
 		case BUBBLE_IS_SWAP_CHECKED:
