@@ -1,2 +1,2 @@
 # codecompete
-Random Code Competition codes from simple to advanced solved by Ozan Aksoy(rockcoden)
+Solutions for Algorithms from simple to advanced. Solved by Ozan Aksoy(rockcoden)
