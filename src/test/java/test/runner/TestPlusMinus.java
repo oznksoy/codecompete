@@ -9,7 +9,7 @@ import java.io.FilenameFilter;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import com.algorithms.warmup.plusminus.Solution;
+import com.algorithms.hackerrank.warmup.PlusMinusSolution;
 
 import test.support.SystemInputOperator;
 import test.support.TestEnvironmentConstants;
@@ -47,7 +47,7 @@ public class TestPlusMinus {
 		for (File match : matches) {
 			try {
 				inputReader.putToSystemInput(match);
-				Solution.main(null);
+				PlusMinusSolution.main(null);
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			} catch (Exception e) {

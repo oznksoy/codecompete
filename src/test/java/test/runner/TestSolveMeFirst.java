@@ -13,7 +13,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.algorithms.warmup.solvemefirst.Solution;
+import com.algorithms.hackerrank.warmup.SolveMeFirstSolution;
 
 import test.support.SystemInputOperator;
 import test.support.TestEnvironmentConstants;
@@ -39,7 +39,7 @@ public class TestSolveMeFirst {
 //						InputStream inputStream = 
 //						inputOperator.putToSystemInput(match);
 						System.setIn(new FileInputStream(match));
-						Solution.main(null);
+						SolveMeFirstSolution.main(null);
 						System.exit(0);
 //						inputStream.close();s
 					} catch (FileNotFoundException e) {
