@@ -35,8 +35,48 @@ class QuicksortSolution {
 
 		@Override
 		public int[] sort(int[] inputArray) {
-			return null;
-		}
+
+			quicksort(inputArray, 0, inputArray.length - 1);
+			return inputArray;
+
+		}// End of Method
+
+		public void quicksort(int[] inputArray, int start, int end) {
+
+			int length = end - start;
+
+			if (length < 1) {
+				return;
+			}
+
+			int pivot = start;
+			int leftIndex = start + 1;
+			int rightIndex = end;
+
+			while (rightIndex >= leftIndex) {
+
+				while (rightIndex > leftIndex && inputArray[leftIndex] <= inputArray[pivot]) {
+					leftIndex++;
+				}
+
+				while (rightIndex > leftIndex && inputArray[rightIndex] > inputArray[pivot]) {
+					rightIndex--;
+				}
+
+				if(rightIndex >= leftIndex) {
+					util.swap(inputArray, leftIndex, rightIndex);
+					leftIndex++;
+					rightIndex--;
+				}
+
+			}
+
+			util.swap(inputArray, pivot, leftIndex);
+
+			quicksort(inputArray, start, leftIndex - 1);
+			quicksort(inputArray, rightIndex, end);
+
+		}// End of Method
 
 	}
 

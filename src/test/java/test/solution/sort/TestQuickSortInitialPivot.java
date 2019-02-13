@@ -1,6 +1,7 @@
 package test.solution.sort;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.algorithms.sorting.SortSolutionType;
@@ -18,13 +19,13 @@ public class TestQuickSortInitialPivot extends AbstSortSolutionTest {
 	}
 
 	@Override
-	@Test
+	@Test@Ignore
 	public void testRandomizedTestCase() {
 		testSupport.runRandomizedTestCase(100000, 200, 0, solutionType);
 	}
 
 	@Override
-	@Test
+	@Test@Ignore
 	public void testBestCase() {
 		super.testBestCase();
 	}
@@ -36,25 +37,25 @@ public class TestQuickSortInitialPivot extends AbstSortSolutionTest {
 	}
 
 	@Override
-	@Test
+	@Test@Ignore
 	public void testHalfInOrderatRandom() {
 		super.testHalfInOrderatRandom();
 	}
 
 	@Override
-	@Test
+	@Test@Ignore
 	public void testHalfInOrderOnMedian() {
 		super.testHalfInOrderOnMedian();
 	}
 
 	@Override
-	@Test
+	@Test@Ignore
 	public void testHalfInOrderOnMedianInReverse() {
 		super.testHalfInOrderOnMedianInReverse();
 	}
 
 	@Override
-	@Test
+	@Test@Ignore
 	public void testOneToFiveCase() {
 		super.testOneToFiveCase();
 	}
