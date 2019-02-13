@@ -1,17 +1,17 @@
-package com.algorithms.warmup.solvemefirst;
+package com.algorithms.hackerrank.warmup;
 
 import java.util.Scanner;
 
-public class Solution {
+public class SolveMeFirstSolution {
 
 	private Scanner scanner;
 
-	private Solution(Scanner scanner) {
+	private SolveMeFirstSolution(Scanner scanner) {
 		this.scanner = scanner;
 	}
 
 	public static void main(String[] args) {
-		new Solution(new Scanner(System.in)).solve();
+		new SolveMeFirstSolution(new Scanner(System.in)).solve();
 	}
 
 	private void solve() {

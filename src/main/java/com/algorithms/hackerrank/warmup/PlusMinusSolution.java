@@ -1,8 +1,8 @@
-package com.algorithms.warmup.plusminus;
+package com.algorithms.hackerrank.warmup;
 
 import java.util.Scanner;
 
-public class Solution {
+public class PlusMinusSolution {
 
 	private static final Scanner scanner = new Scanner(System.in);
 
