@@ -17,18 +17,14 @@ public class DrawingBookSolution {
 		int mod = (n + 1) % 2;
 		int pagePairCount = ((n + 1) + ((n + 1) % 2)) / 2;
 		double turns;
-		if (mod == 1) {
-			if (p >= pagePairCount) { // closer to the end
+		if (p >= pagePairCount) {
+			if (mod == 1) {
 				turns = ((pagePairCount * 2 - p - 1) - (n % 2)) / 2;
-			} else { // closer to the start
-				turns = (p) / 2;
-			}
-		} else {
-			if (p >= pagePairCount) { // closer to the end
+			} else {
 				turns = ((pagePairCount * 2 - p) - (n % 2)) / 2;
-			} else { // closer to the start
-				turns = p / 2;
 			}
+		} else { // closer to the start
+			turns = p / 2;
 		}
 
 		return (int) Math.floor(turns);
@@ -55,6 +51,7 @@ public class DrawingBookSolution {
 
 	/**
 	 * An even better and simpler solution.
+	 * 
 	 * @param n
 	 * @param p
 	 * @return
@@ -73,7 +70,7 @@ public class DrawingBookSolution {
 		testPageCount(5, 5, 0);
 		testPageCount(13, 7, 3);
 	}
-	
+
 	public static void testPageCount(int n, int p, int expected) {
 		int pagecount = solveByMin(n, p);
 		System.out.println(pagecount);
