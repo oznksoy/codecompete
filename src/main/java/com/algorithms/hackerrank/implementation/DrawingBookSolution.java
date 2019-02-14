@@ -14,15 +14,10 @@ public class DrawingBookSolution {
 	 */
 	static int pageCount(int n, int p) {
 
-		int mod = (n + 1) % 2;
 		int pagePairCount = ((n + 1) + ((n + 1) % 2)) / 2;
 		double turns;
 		if (p >= pagePairCount) {
-			if (mod == 1) {
-				turns = ((pagePairCount * 2 - p - 1) - (n % 2)) / 2;
-			} else {
-				turns = ((pagePairCount * 2 - p) - (n % 2)) / 2;
-			}
+			turns = (pagePairCount * 2 - p - 1) / 2;
 		} else { // closer to the start
 			turns = p / 2;
 		}
