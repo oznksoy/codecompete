@@ -1,6 +1,6 @@
 package com.algorithms.hackerrank.implementation;
 
-public class DivisibleSumPairs {
+public class DivisibleSumPairsSolution {
 
 	// Complete the divisibleSumPairs function below.
 	static int divisibleSumPairs(int n, int k, int[] ar) {
