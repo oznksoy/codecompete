@@ -1,6 +1,6 @@
 package com.algorithms.hackerrank.implementation;
 
-public class BreakingTheRecords {
+public class BreakingTheRecordsSolution {
 
 	// Complete the breakingRecords function below.
 	static int[] breakingRecords(int[] scores) {

@@ -1,6 +1,6 @@
 package com.algorithms.hackerrank.implementation;
 
-public class BetweenTwoSets {
+public class BetweenTwoSetsSolution {
 
 	/*
 	 * Complete the getTotalX function below.
