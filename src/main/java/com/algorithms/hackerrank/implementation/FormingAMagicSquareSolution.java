@@ -102,7 +102,7 @@ public class FormingAMagicSquareSolution {
 	static void testFormingMagicSquare(int[][] s, int expected) {
 		int result = formingMagicSquare(s);
 		System.out.println(result);
-//		assert result == expected;
+		assert result == expected;
 	}// End of Test
 
 }// End of Class
