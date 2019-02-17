@@ -19,9 +19,9 @@ public class SortSolutionFactory {
 		return instance;
 	}
 
-	public SortSolution getSolution(SortSolutionType type) throws SortSolutionSelectionException,
-			BubbleSortSolutionSelectionException, MergeSortSolutionSelectionException,
-			QuickSortSortSolutionSelectionException {
+	public SortSolution getSolution(SortSolutionType type)
+			throws SortSolutionSelectionException, BubbleSortSolutionSelectionException,
+			MergeSortSolutionSelectionException, QuickSortSortSolutionSelectionException {
 		switch (type) {
 		case BRUTE:
 			return new BruteSortSolution();
@@ -51,7 +51,7 @@ public class SortSolutionFactory {
 			return new MergeSortSolution(MergeSortVersion.NON_RECURSIVE_WHILE_LOOP).getActiveSolution();
 		case MERGE_NON_RECURSIVE_FOR_LOOP:
 			return new MergeSortSolution(MergeSortVersion.NON_RECURSIVE_FOR_LOOP).getActiveSolution();
-		case  MERGE_NON_RECURSIVE_PRINCETON:
+		case MERGE_NON_RECURSIVE_PRINCETON:
 			return new MergeSortSolution(MergeSortVersion.NON_RECURSIVE_PRINCETON).getActiveSolution();
 		case QUICK_INITIAL_PIVOT:
 			return new QuicksortSolution(QuickSortVersion.INITIAL_PIVOT).getActiveSolution();
@@ -61,7 +61,8 @@ public class SortSolutionFactory {
 			return new QuicksortSolution(QuickSortVersion.RANDOM_PIVOT).getActiveSolution();
 		case QUICK_DUAL_PIVOT:
 			return new QuicksortSolution(QuickSortVersion.DUAL_PIVOT).getActiveSolution();
-
+		case QUICK_GAYLE_MCDOWELL:
+			return new QuicksortSolution(QuickSortVersion.GAYLE_MCDOWELL).getActiveSolution();
 		default:
 			throw new SortSolutionSelectionException();
 		}

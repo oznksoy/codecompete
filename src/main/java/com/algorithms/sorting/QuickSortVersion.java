@@ -4,5 +4,6 @@ public enum QuickSortVersion {
 	INITIAL_PIVOT, //
 	MIDDLE_PIVOT, //
 	RANDOM_PIVOT, //
-	DUAL_PIVOT;
+	DUAL_PIVOT, //
+	GAYLE_MCDOWELL;
 }

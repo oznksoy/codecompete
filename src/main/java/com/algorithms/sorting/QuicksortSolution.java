@@ -26,6 +26,8 @@ class QuicksortSolution {
 			return new QuickSortRandomIndexPivot();
 		case DUAL_PIVOT:
 			return new QuickSortDualPivot();
+		case GAYLE_MCDOWELL:
+			return new QuickSortGayleLaakmannMcDowell();
 		default:
 			throw new QuickSortSortSolutionSelectionException();
 		}
@@ -63,7 +65,7 @@ class QuicksortSolution {
 					rightIndex--;
 				}
 
-				if(rightIndex >= leftIndex) {
+				if (rightIndex >= leftIndex) {
 					util.swap(inputArray, leftIndex, rightIndex);
 					leftIndex++;
 					rightIndex--;
@@ -78,7 +80,7 @@ class QuicksortSolution {
 
 		}// End of Method
 
-	}
+	}// End of Inner Class
 
 	private class QuickSortMiddleIndexPivot implements SortSolution {
 
@@ -87,7 +89,7 @@ class QuicksortSolution {
 			return null;
 		}
 
-	}
+	}// End of Inner Class
 
 	private class QuickSortRandomIndexPivot implements SortSolution {
 
@@ -96,7 +98,7 @@ class QuicksortSolution {
 			return null;
 		}
 
-	}
+	}// End of Inner Class
 
 	private class QuickSortDualPivot implements SortSolution {
 
@@ -105,6 +107,43 @@ class QuicksortSolution {
 			return null;
 		}
 
-	}
+	}// End of Inner Class
+
+	private class QuickSortGayleLaakmannMcDowell implements SortSolution {
+
+		@Override
+		public int[] sort(int[] inputArray) {
+			quicksort(inputArray, 0, inputArray.length - 1);
+			return inputArray;
+		}
+
+		public void quicksort(int[] array, int left, int right) {
+			if (left >= right) {
+				return;
+			}
+			int pivot = array[(left + right) / 2];
+			int index = partition(array, left, right, pivot);
+			quicksort(array, left, index - 1);
+			quicksort(array, index, right);
+		}// End of Method
+
+		public int partition(int[] array, int left, int right, int pivot) {
+			while (left <= right) {
+				while (array[left] < pivot) {
+					left++;
+				}
+				while (array[right] > pivot) {
+					right--;
+				}
+				if (left <= right) {
+					util.swap(array, left, right);
+					left++;
+					right--;
+				}
+			}
+			return left;
+		}// End of Method
+
+	}// End of Inner Class
 
 }
