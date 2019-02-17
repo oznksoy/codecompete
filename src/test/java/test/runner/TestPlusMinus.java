@@ -1,10 +1,10 @@
 package test.runner;
 
-import static org.junit.Assert.fail;
-
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FilenameFilter;
+import java.io.InputStream;
 
 import org.junit.Ignore;
 import org.junit.Test;
@@ -17,44 +17,52 @@ import test.support.TestEnvironmentConstants;
 public class TestPlusMinus {
 
 	@Test
-	@Ignore
-	public void test() {
-
-		String pathname = TestEnvironmentConstants.resourcePath + "warmup/plusminus/input/input01.txt";
-
-		File file = new File(pathname);
-
-		SystemInputOperator inputReader = new SystemInputOperator();
-		try {
-			inputReader.putToSystemInput(file);
-		} catch (FileNotFoundException e) {
-			fail("Exception was thrown");
-			e.printStackTrace();
-		}
-
-	}
-
-	@Test
-	public void test3() {
+	public void testInput01() {
 		String dir = TestEnvironmentConstants.resourcePath + "warmup/plusminus/input/";
 		File file = new File(dir);
 		File[] matches = file.listFiles(new FilenameFilter() {
 			public boolean accept(File dir, String name) {
-				return name.startsWith("input") && name.endsWith(".txt");
+				return name.startsWith("input") && name.endsWith("01.txt");
 			}
 		});
-		SystemInputOperator inputReader = new SystemInputOperator();
-		for (File match : matches) {
+		SystemInputOperator inputOperator = new SystemInputOperator();
+		for (final File match : matches) {
 			try {
-				inputReader.putToSystemInput(match);
+				InputStream inputStream = inputOperator.putToSystemInput(match);
+				System.setIn(new FileInputStream(match));
 				PlusMinusSolution.main(null);
+				inputStream.close();
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
+	}
 
+	@Test
+	@Ignore
+	public void testInput11() {
+		String dir = TestEnvironmentConstants.resourcePath + "warmup/plusminus/input/";
+		File file = new File(dir);
+		File[] matches = file.listFiles(new FilenameFilter() {
+			public boolean accept(File dir, String name) {
+				return name.startsWith("input") && name.endsWith("11.txt");
+			}
+		});
+		SystemInputOperator inputOperator = new SystemInputOperator();
+		for (final File match : matches) {
+			try {
+				InputStream inputStream = inputOperator.putToSystemInput(match);
+				System.setIn(new FileInputStream(match));
+				PlusMinusSolution.main(null);
+				inputStream.close();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 }
