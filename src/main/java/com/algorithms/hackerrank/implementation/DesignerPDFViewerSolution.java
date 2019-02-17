@@ -20,7 +20,7 @@ public class DesignerPDFViewerSolution {
 		
 		return heighest*length;
 		
-	}
+	}// End of Method
 
 	public static void main(String[] args) {
 		testDesignPdfViewer(//
