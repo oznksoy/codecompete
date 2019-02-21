@@ -57,11 +57,15 @@ class QuicksortSolution {
 
 			while (rightIndex >= leftIndex) {
 
-				while (rightIndex > leftIndex && inputArray[leftIndex] <= inputArray[pivot]) {
+				// while (rightIndex > leftIndex && inputArray[leftIndex] <= inputArray[pivot])
+				// {
+				while (inputArray[leftIndex] < inputArray[pivot]) {
 					leftIndex++;
 				}
 
-				while (rightIndex > leftIndex && inputArray[rightIndex] > inputArray[pivot]) {
+				// while (rightIndex > leftIndex && inputArray[rightIndex] > inputArray[pivot])
+				// {
+				while (inputArray[rightIndex] > inputArray[pivot]) {
 					rightIndex--;
 				}
 
@@ -73,7 +77,7 @@ class QuicksortSolution {
 
 			}
 
-			util.swap(inputArray, pivot, leftIndex);
+//			util.swap(inputArray, pivot, leftIndex);
 
 			quicksort(inputArray, start, leftIndex - 1);
 			quicksort(inputArray, rightIndex, end);
