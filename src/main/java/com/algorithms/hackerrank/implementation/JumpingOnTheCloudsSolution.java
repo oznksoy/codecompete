@@ -3,40 +3,43 @@ package com.algorithms.hackerrank.implementation;
 public class JumpingOnTheCloudsSolution {
 
 	// Complete the jumpingOnClouds function below.
-	static int jumpingOnClouds(int[] c, int k) {
+	static int jumpingOnClouds(int[] c) {
 
-		int e = 100;
-		// uses 1 energy to make a jump
-		// Length of 1 jump : k
-		// Configuration of the clouds to jump on : c
-
-		int n = c.length;
-
-		for (int i = 1;; i++) {
-			int ind = ((i * k) % n);
-			e -= 1;
-			if (1 == c[ind]) {
-				e -= 2;
+		int length = c.length;
+		int index = 0;
+		int steps = 0;
+		while (length - 2 > index) {
+			int jump = 0;
+			if (c[index + 2] == 0) {
+				jump += 2;
+			} else if (c[index + 1] == 0) {
+				jump += 1;
 			}
-			if(i * k >= n) {
-				break;
-			}
+			index += jump;
+			steps++;
 		}
-		
-		return e;
+
+		if (length - 1 != index) {
+			steps++;
+		}
+
+		return steps;
 
 	}// End of Method
 
 	public static void main(String[] args) {
-
-		testJumpingOnClouds(new int[] { 0, 0, 1, 0, 0, 1, 1, 0 }, 2, 92);
-
+		testJumpingOnClouds(new int[] { 0, 0, 0, 0, 1, 0 }, 3);
+		testJumpingOnClouds(new int[] { 0, 1, 0, 0, 1, 0, 0, 0, 1 }, 5);
+		testJumpingOnClouds(new int[] { 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 }, 6);
+		testJumpingOnClouds(new int[] { 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 }, 6);
+		testJumpingOnClouds(new int[] { 0, 0, 1, 0 }, 2);
+		testJumpingOnClouds(new int[] { 0, 0, 1, 0, 0, 0, 0, 1, 0, 0 }, 6);
 	}// End of Main
 
-	static void testJumpingOnClouds(int[] c, int k, int expected) {
-		int result = jumpingOnClouds(c, k);
+	static void testJumpingOnClouds(int[] c, int expected) {
+		int result = jumpingOnClouds(c);
 		System.out.println(result);
-		assert result == expected;
-	}
+		assert expected == result;
+	}// End of Test
 
 }// End of Class
