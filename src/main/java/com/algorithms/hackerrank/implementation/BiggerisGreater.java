@@ -9,21 +9,46 @@ public class BiggerisGreater {
 	static String biggerIsGreater(String w) {
 
 		char[] cArr = w.toCharArray();
-		// Starting from the end, Which value to the left is lower?
-		for (int i = cArr.length - 1; i >= 0; i--) {
-			for (int j = i - 1; j >= 0; j--) {
-				if (cArr[i] > cArr[j]) {
-					char temp = cArr[i];
-					cArr[i] = cArr[j];
-					cArr[j] = temp;
-					sort(j, cArr);
-					return String.copyValueOf(cArr);
-				}
-			}
+		int[] toSwap = checkCharToSwap(cArr);
+		int source = toSwap[0];
+		int target = toSwap[1];
+
+		if (source == target) {
+			return "no answer";
+		} else {
+			char temp = cArr[source];
+			cArr[source] = cArr[target];
+			cArr[target] = temp;
+			sort(target, cArr);
+			return String.copyValueOf(cArr);
+
 		}
 
-		return "no answer";
+	}// End of Method
 
+	static int[] checkCharToSwap(char[] cArr) {
+		// Starting from the end, Which value to the left is lower?
+		int start = cArr.length - 1;
+		int end = 0;
+		int[] toSwap = new int[2];
+		int i = start;
+		int j = start;
+		for (i = start; i >= end;) {
+			for (j = i - 1; j >= end;) {
+				if (cArr[i] > cArr[j]) {
+					toSwap[0] = i;
+					toSwap[1] = j;
+					start = i - 1;
+					end = j + 1;
+					i = start;
+					j = start - 1;
+				} else {
+					j--;
+				}
+			}
+			i--;
+		}
+		return toSwap;
 	}// End of Method
 
 	static void sort(int start, char[] array) {
@@ -42,23 +67,23 @@ public class BiggerisGreater {
 
 	public static void main(String[] args) {
 
-//		testBiggerIsGreater("ab", "ba");
-//		testBiggerIsGreater("bb", "no answer");
-//		testBiggerIsGreater("hefg", "hegf");
-//		testBiggerIsGreater("dhck", "dhkc");
-//		testBiggerIsGreater("dkhc", "hcdk");
-//		testBiggerIsGreater("lmno", "lmon");
-//		testBiggerIsGreater("dcba", "no answer");
-//		testBiggerIsGreater("dcbb", "no answer");
-//		testBiggerIsGreater("abdc", "acbd");
-//		testBiggerIsGreater("abcd", "abdc");
-//		testBiggerIsGreater("fedcbabcd", "fedcbabdc");
-//		testBiggerIsGreater("fedchabcd", "fedchabdc");
-//		testBiggerIsGreater("zedawdvyyfumwpupuinbdbfndyehircmylbaowuptgmw",
-//				"zedawdvyyfumwpupuinbdbfndyehircmylbaowuptgwm");
-//		testBiggerIsGreater("zyyxwwtrrnmlggfeb", "no answer");
-//		testBiggerIsGreater("zzzzzzzyyyxxxvvuutttttsssrrrrrrqqqppppoooonnnmmlllkkkkjiiihggfffeeddccccaaaaa",
-//				"no answer");
+		testBiggerIsGreater("ab", "ba");
+		testBiggerIsGreater("bb", "no answer");
+		testBiggerIsGreater("hefg", "hegf");
+		testBiggerIsGreater("dhck", "dhkc");
+		testBiggerIsGreater("dkhc", "hcdk");
+		testBiggerIsGreater("lmno", "lmon");
+		testBiggerIsGreater("dcba", "no answer");
+		testBiggerIsGreater("dcbb", "no answer");
+		testBiggerIsGreater("abdc", "acbd");
+		testBiggerIsGreater("abcd", "abdc");
+		testBiggerIsGreater("fedcbabcd", "fedcbabdc");
+		testBiggerIsGreater("fedchabcd", "fedchabdc");
+		testBiggerIsGreater("zedawdvyyfumwpupuinbdbfndyehircmylbaowuptgmw",
+				"zedawdvyyfumwpupuinbdbfndyehircmylbaowuptgwm");
+		testBiggerIsGreater("zyyxwwtrrnmlggfeb", "no answer");
+		testBiggerIsGreater("zzzzzzzyyyxxxvvuutttttsssrrrrrrqqqppppoooonnnmmlllkkkkjiiihggfffeeddccccaaaaa",
+				"no answer");
 		testBiggerIsGreater("dmsym", "dmyms");
 
 //		testInput01();
@@ -72,7 +97,7 @@ public class BiggerisGreater {
 	}// End of Test
 
 	static void testInput01() {
-		
+
 		String dir = "src/main/resources/algorithms/biggerisgreater/";
 		File inputFile = new File(dir + "input01.txt");
 		File outputFile = new File(dir + "output01.txt");
@@ -86,7 +111,7 @@ public class BiggerisGreater {
 			inputScanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
 
 			Scanner outputScanner = new Scanner(outputFile);
-			
+
 			outputScanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
 
 			for (int lineNum = 0; lineNum < totalNumOfLines; lineNum++) {
@@ -103,38 +128,6 @@ public class BiggerisGreater {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-//		try {
-//			for (int i = 0; i < 10; i++) {
-//				int chInt = inputFileReader.read();
-//				System.out.println(chInt + " : " + (char) chInt);
-//			}
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-
-//		File file = new File(dir);
-//		File[] inputmatches = file.listFiles(new FilenameFilter() {
-//			public boolean accept(File dir, String name) {
-//				return name.startsWith("input") && name.endsWith("01.txt");
-//			}
-//		});
-//		File[] outputmatches = file.listFiles(new FilenameFilter() {
-//			public boolean accept(File dir, String name) {
-//				return name.startsWith("output") && name.endsWith("01.txt");
-//			}
-//		});
-//		
-//		file.fi
-//		for (final File match : inputmatches) {
-//			try {
-//				InputStream inputStream = new FileInputStream(match);
-//				
-//			} catch (FileNotFoundException e) {
-//				e.printStackTrace();
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//		}
-	}
-
+	}// End of Test from file source
+	
 }// End of Class
