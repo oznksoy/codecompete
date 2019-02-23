@@ -34,6 +34,7 @@ public class TestQuickSortGayleMcDowell extends AbstSortSolutionTest {
 
 	@Override
 	@Test
+	@Ignore
 	public void testWorstCase() {
 		super.testWorstCase();
 	}
@@ -61,7 +62,6 @@ public class TestQuickSortGayleMcDowell extends AbstSortSolutionTest {
 
 	@Override
 	@Test
-	@Ignore
 	public void testOneToFiveCase() {
 		super.testOneToFiveCase();
 	}
