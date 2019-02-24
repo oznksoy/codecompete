@@ -8,7 +8,7 @@ import java.io.InputStream;
 
 import org.junit.Test;
 
-import com.algorithms.hackerrank.implementation.CircularArrayRotationSolution;
+import com.algorithms.hackerrank.implementation.easy.CircularArrayRotationSolution;
 
 import test.support.SystemInputOperator;
 import test.support.TestEnvironmentConstants;
