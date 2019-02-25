@@ -37,10 +37,8 @@ class QuicksortSolution {
 
 		@Override
 		public int[] sort(int[] inputArray) {
-
 			quicksort(inputArray, 0, inputArray.length - 1);
 			return inputArray;
-
 		}// End of Method
 
 		public void quicksort(int[] inputArray, int start, int end) {
@@ -54,6 +52,15 @@ class QuicksortSolution {
 			int pivot = inputArray[start];
 			int leftIndex = start;
 			int rightIndex = end;
+
+			int index = partition(inputArray, leftIndex, rightIndex, pivot);
+
+			quicksort(inputArray, start, index - 1);
+			quicksort(inputArray, index, end);
+
+		}// End of Method
+
+		public int partition(int[] inputArray, int leftIndex, int rightIndex, int pivot) {
 
 			while (rightIndex >= leftIndex) {
 
@@ -73,8 +80,7 @@ class QuicksortSolution {
 
 			}
 
-			quicksort(inputArray, start, leftIndex - 1);
-			quicksort(inputArray, leftIndex + 1, end);
+			return leftIndex;
 
 		}// End of Method
 
@@ -84,8 +90,53 @@ class QuicksortSolution {
 
 		@Override
 		public int[] sort(int[] inputArray) {
-			return null;
+			quicksort(inputArray, 0, inputArray.length - 1);
+			return inputArray;
 		}
+
+		public void quicksort(int[] inputArray, int start, int end) {
+
+			int length = end - start;
+
+			if (length < 1) {
+				return;
+			}
+
+			int middleIndex = start + (length - (length % 2)) / 2;
+			int pivot = inputArray[middleIndex];
+			int leftIndex = start;
+			int rightIndex = end;
+
+			int index = partition(inputArray, leftIndex, rightIndex, pivot);
+
+			quicksort(inputArray, start, index - 1);
+			quicksort(inputArray, index, end);
+
+		}// End of Method
+
+		public int partition(int[] inputArray, int leftIndex, int rightIndex, int pivot) {
+
+			while (rightIndex >= leftIndex) {
+
+				while (inputArray[leftIndex] < pivot) {
+					leftIndex++;
+				}
+
+				while (inputArray[rightIndex] > pivot) {
+					rightIndex--;
+				}
+
+				if (rightIndex >= leftIndex) {
+					util.swap(inputArray, leftIndex, rightIndex);
+					leftIndex++;
+					rightIndex--;
+				}
+
+			}
+
+			return leftIndex;
+
+		}// End of Method
 
 	}// End of Inner Class
 
