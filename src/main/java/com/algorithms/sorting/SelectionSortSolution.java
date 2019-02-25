@@ -18,7 +18,6 @@ public class SelectionSortSolution implements SortSolution {
 				}
 			}
 			util.swap(inputArray, selected, i);
-
 		}
 		return inputArray;
 	}
