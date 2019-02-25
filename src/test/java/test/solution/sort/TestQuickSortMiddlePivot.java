@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import com.algorithms.sorting.SortSolutionType;
 
-public class TestQuickSortInitialPivot extends AbstSortSolutionTest {
+public class TestQuickSortMiddlePivot extends AbstSortSolutionTest {
 
 	@Before
 	public void setup() throws Exception {
@@ -14,7 +14,7 @@ public class TestQuickSortInitialPivot extends AbstSortSolutionTest {
 
 	@Override
 	public void setSolutionTypeToTest() {
-		solutionType = SortSolutionType.QUICK_INITIAL_PIVOT;
+		solutionType = SortSolutionType.QUICK_MIDDLE_PIVOT;
 	}
 
 	@Override
