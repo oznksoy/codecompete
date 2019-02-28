@@ -98,7 +98,7 @@ public class BiggerisGreater {
 
 	static void testInput01() {
 
-		String dir = "src/main/resources/algorithms/biggerisgreater/";
+		String dir = "src/main/resources/algorithms/implementaion/biggerisgreater/";
 		File inputFile = new File(dir + "input01.txt");
 		File outputFile = new File(dir + "output01.txt");
 
