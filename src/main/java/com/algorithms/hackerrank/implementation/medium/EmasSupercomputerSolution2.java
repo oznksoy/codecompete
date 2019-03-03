@@ -129,12 +129,24 @@ public class EmasSupercomputerSolution2 {
 
 		int colDist = abs(ac - bc);
 		int rowDist = abs(ar - br);
-		int totalDistance = abs(ac - bc) + abs(ar - br);
+		int totalDistance = colDist + rowDist;
 
 		int min = aInc < bInc ? aInc : bInc;
 
 		if (colDist <= min || rowDist <= min) {
-			int absMinDistance = aInc + bInc + 1;
+			int absMinDistance;
+			if (ac == bc || ar == br) {
+				absMinDistance = aInc + bInc + 1;
+			} else {
+				int max = aInc > bInc ? aInc : bInc;
+				int mv = 0;
+				if (colDist <= min) {
+					mv = colDist;
+				} else if (rowDist <= min) {
+					mv = rowDist;
+				}
+				absMinDistance = max + mv + 1;
+			}
 			if (totalDistance < absMinDistance) {
 				return false;
 			}
@@ -181,8 +193,8 @@ public class EmasSupercomputerSolution2 {
 		}
 
 		int count = 0;
-		for (int c = 0; c < columns; c++) {
-			for (int r = 0; r < rows; r++) {
+		for (int c = 1; c < columns - 1; c++) {
+			for (int r = 1; r < rows - 1; r++) {
 				if (isPlusPatternArea(grid, 1, c, r)) {
 					count++;
 				}
@@ -230,6 +242,141 @@ public class EmasSupercomputerSolution2 {
 	}// End of Method
 
 	public static void main(String[] args) {
+
+		testTwoPluses(new String[] { //
+				"BBGBBBGBB", //
+				"BBGBBBGBB", //
+				"GGGGGGGGG", //
+				"BBGBBBGBB", //
+				"BBGBGBGBB" //
+		}, 45);
+
+		testTwoPluses(new String[] { //
+				"BBBBBBBBB", //
+				"BBGBBBGBB", //
+				"BGGGGGGGB", //
+				"BBGBBBGBB", //
+				"BBBBGBBBB" //
+		}, 25);
+
+		testTwoPluses(new String[] { //
+				"BBBBBBBBB", //
+				"BBGBBBBBB", //
+				"BGGGGBBBB", //
+				"BBGGGGBBB", //
+				"BBBBGBBBB" //
+		}, 25);
+
+		testTwoPluses(new String[] { //
+				"BBBBBBBBB", //
+				"BBBGBBBBB", //
+				"BBBGBBGBB", //
+				"BGGGGGGBB", //
+				"BBBGGGGGG", //
+				"BBBGBBGBB", //
+				"BBBBBBGBB", //
+				"BBBBBBBBB" //
+		}, 81);
+
+		testTwoPluses(new String[] { //
+				"BBBBBBBBB", //
+				"BBBGBBBBB", //
+				"BBBGBBBBB", //
+				"BGGGGGBBB", //
+				"BBBGGBBBB", //
+				"BBBGGBBBB", //
+				"BBGGGGGBB", //
+			    "BBBBGBBBB", //
+				"BBBBGBBBB", //
+				"BBBBBBBBB", //
+				"BBBBBBBBB", //
+				"BBBBBBBBB" //
+		}, 81);
+		
+		testTwoPluses(new String[] { //
+				"GGGGGGGGGGGG", //
+				"GBGGBBBBBBBG", //
+				"GBGGBBBBBBBG", //
+				"GGGGGGGGGGGG", //
+				"GGGGGGGGGGGG", //
+				"GGGGGGGGGGGG", //
+				"GGGGGGGGGGGG", //
+			    "GBGGBBBBBBBG", //
+				"GBGGBBBBBBBG", //
+				"GBGGBBBBBBBG", //
+				"GGGGGGGGGGGG", //
+				"GBGGBBBBBBBG" //
+		}, 81);
+
+		testTwoPluses(new String[] { //
+				"GGGGGGGGGGGG", //
+				"GBGGBBBBBBBG", //
+				"GBGGBBBBBBBG", //
+				"GGGGGGGGGGGG", //
+				"GGGGGGGGGGGG", //
+				"GGGGGGGGGGGG", //
+				"GGGGGGGGGGGG", //
+			    "GBGGBBBBBBBG", //
+				"GBGGBBBBBBBG", //
+				"GBGGBBBBBBBG", //
+				"GGGGGGGGGGGG", //
+				"GBGGBBBBBBBG" //
+		}, 81);
+
+		testTwoPluses(new String[] { //
+				"BBBBBBBBBBBBBBB", //
+				"BBBBBBBBBBBBBBB", //
+				"BBBBGBBBBBBBBBB", //
+				"BBBBGBBBBBBBBBB", //
+				"BBBBGBBBGBBBBBB", //
+				"BGGGGGGGGBBBBBB", //
+				"BBBBGBBBGBBBBBB", //
+			    "BBBBGBBBGBBBBBB", //
+				"BBBBGBBBGBBBBBB", //
+				"BBBGGGGGGGGGGGB", //
+				"BBBBBBBBGBBBBBB", //
+				"BBBBBBBBGBBBBBB", //
+			    "BBBBBBBBGBBBBBB", //
+				"BBBBBBBBGBBBBBB", //
+				"BBBBBBBBGBBBBBB", //
+		}, 273);
+		
+		testTwoPluses(new String[] { //
+				"BBBBBBBBBBBBBBB", //
+				"BBBBBBBBBBBBBBB", //
+				"BBBBGBBBBBBBBBB", //
+				"BBBBGBBBBBBBBBB", //
+				"BBBBGBBBGBBBBBB", //
+				"BGGGGGGGGBBBBBB", //
+				"BBBBGBBBGBBBBBB", //
+			    "BBBBGBBBGBBBBBB", //
+				"BBBBGBBBGBBBBBB", //
+				"BBBGGGGGGGGGGGB", //
+				"BBBBBBBBGBBBBBB", //
+				"BBBBBBBBGBBBBBB", //
+			    "BBBBBBGGGGGBBBB", //
+				"BBBBBBBBGBBBBBB", //
+				"BBBBBBBBGBBBBBB", //
+		}, 273);
+		
+		testTwoPluses(new String[] { //
+				"BBBBBBBBBBBBBBB", //
+				"BBBBBBBBBBBBBBB", //
+				"BBBBGBBBBBBBBBB", //
+				"BBBBGBBBBBBBBBB", //
+				"BBBBGBBBGBBBBBB", //
+				"BGGGGGGGGBBBBBB", //
+				"BBGGGGGGGBBBBBB", //
+			    "BBGGGGGGGBBBBBB", //
+				"BBGGGGGGGBBBBBB", //
+				"BBGGGGGGGGGGGGB", //
+				"BBBBBBBBGBBBBBB", //
+				"BBBBBBBBGBBBBBB", //
+			    "BBBBBBGGGGGBBBB", //
+				"BBBBBBBBGBBBBBB", //
+				"BBBBBBBBGBBBBBB", //
+		}, 273);
+		
 		testTwoPluses(new String[] { //
 				"BBBB", //
 				"BBBB", }, //
@@ -245,7 +392,7 @@ public class EmasSupercomputerSolution2 {
 				"GGG", //
 				"BBB", }, //
 				1);
-//
+
 		testTwoPluses(new String[] { //
 				"BGB", //
 				"GGG", //
@@ -366,7 +513,7 @@ public class EmasSupercomputerSolution2 {
 				"GGGBGBBGGGBB", //
 				"BGBBGBBBGBBB", //
 		}, 81);
-		
+
 	}// End of Main
 
 	static void testTwoPluses(String[] grid, int expected) {
