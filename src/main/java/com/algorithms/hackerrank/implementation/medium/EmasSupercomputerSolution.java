@@ -37,45 +37,175 @@ public class EmasSupercomputerSolution {
 	 */
 	static int twoPluses(String[] grid) {
 
-		int maxColumn = grid.length - 1;
-		int maxRow = grid[0].length() - 1;
+		int count = countCentralGs(grid);
+		if (count == 0) {
+			if (isGInside(grid)) {
+				return 1;
+			} else {
+				return 0;
+			}
+		} else if (count == 1) {
+			int[][] gs = new int[count][2];
+			findCentralGs(gs, grid);
+			for (int inc = 2;; inc++) {
+				if (!isPlusPatternArea(grid, inc, gs[0][0], gs[0][1])) {
+					return calculateArea(inc - 1);
+				}
+			}
+		} // else if(count > 1);
 
-		int highestValue = 1;
+		int[][] gs = new int[count][2];
+		findCentralGs(gs, grid);
+		int area = checkGrowth(grid, gs);
 
-		for (int c = 1; c < maxColumn; c++) {
-			for (int r = 1; r < maxRow; r++) {
+		return area;
+
+	}// End of Method
+
+	static boolean isGInside(String[] grid) {
+
+		for (int c = 0; c < grid.length; c++) {
+			for (int r = 0; r < grid[0].length(); r++) {
 				char t = grid[c].charAt(r);
 				if (t == 'G') {
-					for (int inc = 1;; inc++) {
-						int area = findPlusPatternAreas(c, r, grid, inc, maxColumn, maxRow);
-						if (area > highestValue) {
-							highestValue = area;
-						} else {
-							break;
-						}
-					}
+					return true;
 				}
-
 			}
 		}
 
-		return highestValue;
+		return false;
 
 	}// End of Method
 
-	static int findPlusPatternAreas(int c, int r, String[] grid, int inc, int maxColumn, int maxRow) {
+	static int checkGrowth(String[] grid, int[][] gs) {
 
-		if (isPlusPatternArea(c, r, grid, inc, 0, maxColumn, 0, maxRow)) {
-			int area = ((inc * 4) + 1);
-			int secondPlusArea = calculateSecondaryPlusPatternArea(c, r, grid, inc);
-			return secondPlusArea * area;
+		int widestArea = 0;
+		for (int i = 0; i < gs.length - 1; i++) {
+			int ac = gs[i][0];
+			int ar = gs[i][1];
+			int selectedArea = calculateArea(0);
+			for (int aInc = 1; isPlusPatternArea(grid, aInc, ac, ar); aInc++) {
+				int area = growArea(grid, gs, i, aInc, ac, ar);
+				if (area > selectedArea) {
+					selectedArea = area;
+				}
+			}
+			if (selectedArea > widestArea) {
+				widestArea = selectedArea;
+			}
+		}
+
+		return widestArea;
+
+	}// End of Method
+
+	static int growArea(String[] grid, int[][] gs, int a, int aInc, int ac, int ar) {
+
+		int aArea = calculateArea(aInc);
+		int selected = aArea;
+		for (int i = a + 1; i < gs.length; i++) {
+			int bc = gs[i][0];
+			int br = gs[i][1];
+			for (int bInc = 1; isPlusPatternArea(grid, bInc, bc, br); bInc++) {
+				int bArea = 1;
+				if (canAreaGrow(grid, aInc, ac, ar, bInc, bc, br)) {
+					bArea = calculateArea(bInc);
+				}
+				int total = aArea * bArea;
+				if (total > selected) {
+					selected = total;
+				}
+			}
+		}
+
+		return selected;
+	}// End of Method
+
+	static int calculateArea(int inc) {
+		return (inc * 4) + 1;
+	}
+
+	static boolean canAreaGrow(String[] grid, int aInc, int ac, int ar, int bInc, int bc, int br) {
+
+		int colDist = abs(ac - bc);
+		int rowDist = abs(ar - br);
+		int totalDistance = colDist + rowDist;
+
+		int min = aInc < bInc ? aInc : bInc;
+
+		if (colDist <= min || rowDist <= min) {
+			int absMinDistance;
+			if (ac == bc || ar == br) {
+				absMinDistance = aInc + bInc + 1;
+			} else {
+				int max = aInc > bInc ? aInc : bInc;
+				int mv = 0;
+				if (colDist <= min) {
+					mv = colDist;
+				} else if (rowDist <= min) {
+					mv = rowDist;
+				}
+				absMinDistance = max + mv + 1;
+			}
+			if (totalDistance < absMinDistance) {
+				return false;
+			}
 		} else {
-			return (inc - 1) * 4 + 1;
+			int absMinDistance = 2 * (min + 1);
+			if (totalDistance < absMinDistance) {
+				return false;
+			}
+		}
+
+		return true;
+
+	}// End of Method
+
+	static int abs(int value) {
+		return value < 0 ? -1 * value : value;
+	}
+
+	static void findCentralGs(int[][] gs, String[] grid) {
+
+		int columns = grid.length;
+		int rows = grid[0].length();
+
+		int cs = 0;
+		for (int c = 0; c < columns; c++) {
+			for (int r = 0; r < rows; r++) {
+				if (isPlusPatternArea(grid, 1, c, r)) {
+					gs[cs][0] = c;
+					gs[cs][1] = r;
+					cs++;
+				}
+			}
 		}
 
 	}// End of Method
 
-	static boolean isPlusPatternArea(int c, int r, String[] grid, int inc, int lc, int hc, int lr, int hr) {
+	static int countCentralGs(String[] grid) {
+
+		int columns = grid.length;
+		int rows = grid[0].length();
+
+		if (columns < 3 || rows < 3) {
+			return 0;
+		}
+
+		int count = 0;
+		for (int c = 1; c < columns - 1; c++) {
+			for (int r = 1; r < rows - 1; r++) {
+				if (isPlusPatternArea(grid, 1, c, r)) {
+					count++;
+				}
+			}
+		}
+
+		return count;
+
+	}// End of Method
+
+	static boolean isPlusPatternArea(String[] grid, int inc, int c, int r) {
 
 		char t = grid[c].charAt(r);
 
@@ -85,25 +215,25 @@ public class EmasSupercomputerSolution {
 
 		// check up
 		int up = c - inc;
-		if (!(up >= lc && 'G' == grid[up].charAt(r))) {
+		if (!(up >= 0 && 'G' == grid[up].charAt(r))) {
 			return false;
 		}
 
 		// check down
 		int down = c + inc;
-		if (!(down <= hc && 'G' == grid[down].charAt(r))) {
+		if (!(down <= grid.length - 1 && 'G' == grid[down].charAt(r))) {
 			return false;
 		}
 
 		// check left
 		int left = r - inc;
-		if (!(left >= lr && 'G' == grid[c].charAt(left))) {
+		if (!(left >= 0 && 'G' == grid[c].charAt(left))) {
 			return false;
 		}
 
 		// check right
 		int right = r + inc;
-		if (!(right <= hr && 'G' == grid[c].charAt(right))) {
+		if (!(right <= grid[0].length() - 1 && 'G' == grid[c].charAt(right))) {
 			return false;
 		}
 
@@ -111,194 +241,186 @@ public class EmasSupercomputerSolution {
 
 	}// End of Method
 
-	static int calculateSecondaryPlusPatternArea(int c, int r, String[] grid, int inc) {
-
-		// there are four possible sides to calculate
-
-		int maxColumn = grid.length - 1;
-		int maxRow = grid[0].length() - 1;
-
-		int additionalArea = 1;
-
-		for (int nc = 1; nc < maxColumn; nc++) {
-			for (int nr = 1; nr < maxRow; nr++) {
-					int value = calculateDependentPlusPatternArea(c, r, inc, nc, nr, grid);
-					if (additionalArea < value) {
-						additionalArea = value;
-					}				
-			}
-		}
-
-//		if (3 < c && 3 < r) { // up and left
-//			for (int nc = 1; nc < c - 1; nc++) {
-//				for (int nr = 1; nr < r - 1; nr++) {
-//					int value = calculateDependentPlusPatternArea(c, r, inc, nc, nr, grid);
-//					if (additionalArea < value) {
-//						additionalArea = value;
-//					}
-//				}
-//			}
-//		} else if (3 < (maxColumn - c) && 3 < r) { // down and left
-//			for (int nc = c + 1; nc < maxColumn; nc++) {
-//				for (int nr = 1; nr < r - 1; nr++) {
-//					int value = calculateDependentPlusPatternArea(c, r, inc, nc, nr, grid);
-//					if (additionalArea < value) {
-//						additionalArea = value;
-//					}
-//				}
-//			}
-//		} else if (3 < c && 3 < (maxRow - r)) {// up and right
-//			for (int nc = 1; nc < c - 1; nc++) {
-//				for (int nr = r + 1; nr < maxRow; nr++) {
-//					int value = calculateDependentPlusPatternArea(c, r, inc, nc, nr, grid);
-//					if (additionalArea < value) {
-//						additionalArea = value;
-//					}
-//				}
-//			}
-//		} else if (3 < (maxColumn - c) && 3 < (maxRow - r)) {// down and right
-//			for (int nc = c + 1; nc < maxColumn; nc++) {
-//				for (int nr = r + 1; nr < maxRow; nr++) {
-//					int value = calculateDependentPlusPatternArea(c, r, inc, nc, nr, grid);
-//					if (additionalArea < value) {
-//						additionalArea = value;
-//					}
-//				}
-//			}
-//		}
-
-		return additionalArea;
-
-	}// End of Method
-
-	static int calculateDependentPlusPatternArea(int ac, int ar, int aInc, int bc, int br, String[] grid) {
-
-		// Get target character
-		char t = grid[bc].charAt(br);
-		if (t != 'G') {
-			return 0;
-		}
-
-		int maxColumn = grid.length - 1;
-		int maxRow = grid[0].length() - 1;
-
-		int lowRow = 0;
-		int highRow = 0;
-		int lowColumn = 0;
-		int highColumn = 0;
-
-		if (ac > bc && ar > br) { // Up and left side of reference
-			if (br < (ar - aInc)) {
-				highColumn = maxColumn;
-			} else {// there is a column clash
-				highColumn = ac - 1;
-			}
-			if (bc < (ac - aInc)) {
-				highRow = maxRow;
-			} else {
-				highRow = ar - 1;
-			}
-			lowColumn = 0;
-			lowRow = 0;
-		} else if (ac < bc && ar > br) {// Down and left side of reference
-			if (br < (ar - aInc)) {
-				lowColumn = 0;
-			} else {// there is a column clash
-				lowColumn = ac + 1;
-			}
-			if (bc > (ac + aInc)) {
-				highRow = maxRow;
-			} else {
-				highRow = ar - 1;
-			}
-			highColumn = maxColumn;
-			lowRow = 0;
-		} else if (ac > bc && ar < br) { // Up and right side of reference
-			if (br > (ar + aInc)) {
-				highColumn = maxColumn;
-			} else { // there is a column clash
-				highColumn = ac - 1;
-			}
-			if (bc < (ac - aInc)) {
-				lowRow = 0;
-			} else {
-				lowRow = ar + 1;
-			}
-			lowColumn = 0;
-			highRow = maxRow;
-		} else if (ac < bc && ar < br) { // Down and right side of reference
-			if (br > (ar + aInc)) {
-				lowColumn = 0;
-			} else {
-				lowColumn = ac + 1;
-			}
-			if (bc > (ac + aInc)) {
-				lowRow = 0;
-			} else {
-				lowRow = ar + 1;
-			}
-			highColumn = maxColumn;
-			highRow = maxRow;
-		}
-
-		int area = 1;
-
-		for (int inc = 1;; inc++) {
-
-			if (isPlusPatternArea(bc, br, grid, inc, lowColumn, highColumn, lowRow, highRow)) {
-				area += 4;// If all directions are valid, add area
-			} else {
-				break;
-			}
-
-		}
-
-		return area;
-
-	}
-
-//	// check up
-//	int up = c - inc;
-//	if (!(up >= lowColumn && 'G' == grid[up].charAt(r))) {
-//		break;
-//	}
-//
-//	// check down
-//	int down = c + inc;
-//	if (!(down <= highColumn && 'G' == grid[down].charAt(r))) {
-//		break;
-//	}
-//
-//	// check left
-//	int left = r - inc;
-//	if (!(left >= lowRow && 'G' == grid[c].charAt(left))) {
-//		break;
-//	}
-//
-//	// check right
-//	int right = r + inc;
-//	if (!(right <= highRow && 'G' == grid[c].charAt(right))) {
-//		break;
-//	}
-
 	public static void main(String[] args) {
 
-//		testTwoPluses(new String[] { //
-//				"GGGGGG", //
-//				"GBBBGB", //
-//				"GGGGGG", //
-//				"GGBBGB", //
-//				"GGGGGG" //
-//		}, 5);
+		testTwoPluses(new String[] { //
+				"BBGBBBGBB", //
+				"BBGBBBGBB", //
+				"GGGGGGGGG", //
+				"BBGBBBGBB", //
+				"BBGBGBGBB" //
+		}, 45);
 
-//		testTwoPluses(new String[] { //
-//				"BGBBGB", //
-//				"GGGGGG", //
-//				"BGBBGB", //
-//				"GGGGGG", //
-//				"BGBBGB", //
-//				"BGBBGB" //
-//		}, 25);
+		testTwoPluses(new String[] { //
+				"BBBBBBBBB", //
+				"BBGBBBGBB", //
+				"BGGGGGGGB", //
+				"BBGBBBGBB", //
+				"BBBBGBBBB" //
+		}, 25);
+
+		testTwoPluses(new String[] { //
+				"BBBBBBBBB", //
+				"BBGBBBBBB", //
+				"BGGGGBBBB", //
+				"BBGGGGBBB", //
+				"BBBBGBBBB" //
+		}, 25);
+
+		testTwoPluses(new String[] { //
+				"BBBBBBBBB", //
+				"BBBGBBBBB", //
+				"BBBGBBGBB", //
+				"BGGGGGGBB", //
+				"BBBGGGGGG", //
+				"BBBGBBGBB", //
+				"BBBBBBGBB", //
+				"BBBBBBBBB" //
+		}, 81);
+
+		testTwoPluses(new String[] { //
+				"BBBBBBBBB", //
+				"BBBGBBBBB", //
+				"BBBGBBBBB", //
+				"BGGGGGBBB", //
+				"BBBGGBBBB", //
+				"BBBGGBBBB", //
+				"BBGGGGGBB", //
+			    "BBBBGBBBB", //
+				"BBBBGBBBB", //
+				"BBBBBBBBB", //
+				"BBBBBBBBB", //
+				"BBBBBBBBB" //
+		}, 81);
+		
+		testTwoPluses(new String[] { //
+				"GGGGGGGGGGGG", //
+				"GBGGBBBBBBBG", //
+				"GBGGBBBBBBBG", //
+				"GGGGGGGGGGGG", //
+				"GGGGGGGGGGGG", //
+				"GGGGGGGGGGGG", //
+				"GGGGGGGGGGGG", //
+			    "GBGGBBBBBBBG", //
+				"GBGGBBBBBBBG", //
+				"GBGGBBBBBBBG", //
+				"GGGGGGGGGGGG", //
+				"GBGGBBBBBBBG" //
+		}, 81);
+
+		testTwoPluses(new String[] { //
+				"GGGGGGGGGGGG", //
+				"GBGGBBBBBBBG", //
+				"GBGGBBBBBBBG", //
+				"GGGGGGGGGGGG", //
+				"GGGGGGGGGGGG", //
+				"GGGGGGGGGGGG", //
+				"GGGGGGGGGGGG", //
+			    "GBGGBBBBBBBG", //
+				"GBGGBBBBBBBG", //
+				"GBGGBBBBBBBG", //
+				"GGGGGGGGGGGG", //
+				"GBGGBBBBBBBG" //
+		}, 81);
+
+		testTwoPluses(new String[] { //
+				"BBBBBBBBBBBBBBB", //
+				"BBBBBBBBBBBBBBB", //
+				"BBBBGBBBBBBBBBB", //
+				"BBBBGBBBBBBBBBB", //
+				"BBBBGBBBGBBBBBB", //
+				"BGGGGGGGGBBBBBB", //
+				"BBBBGBBBGBBBBBB", //
+			    "BBBBGBBBGBBBBBB", //
+				"BBBBGBBBGBBBBBB", //
+				"BBBGGGGGGGGGGGB", //
+				"BBBBBBBBGBBBBBB", //
+				"BBBBBBBBGBBBBBB", //
+			    "BBBBBBBBGBBBBBB", //
+				"BBBBBBBBGBBBBBB", //
+				"BBBBBBBBGBBBBBB", //
+		}, 273);
+		
+		testTwoPluses(new String[] { //
+				"BBBBBBBBBBBBBBB", //
+				"BBBBBBBBBBBBBBB", //
+				"BBBBGBBBBBBBBBB", //
+				"BBBBGBBBBBBBBBB", //
+				"BBBBGBBBGBBBBBB", //
+				"BGGGGGGGGBBBBBB", //
+				"BBBBGBBBGBBBBBB", //
+			    "BBBBGBBBGBBBBBB", //
+				"BBBBGBBBGBBBBBB", //
+				"BBBGGGGGGGGGGGB", //
+				"BBBBBBBBGBBBBBB", //
+				"BBBBBBBBGBBBBBB", //
+			    "BBBBBBGGGGGBBBB", //
+				"BBBBBBBBGBBBBBB", //
+				"BBBBBBBBGBBBBBB", //
+		}, 273);
+		
+		testTwoPluses(new String[] { //
+				"BBBBBBBBBBBBBBB", //
+				"BBBBBBBBBBBBBBB", //
+				"BBBBGBBBBBBBBBB", //
+				"BBBBGBBBBBBBBBB", //
+				"BBBBGBBBGBBBBBB", //
+				"BGGGGGGGGBBBBBB", //
+				"BBGGGGGGGBBBBBB", //
+			    "BBGGGGGGGBBBBBB", //
+				"BBGGGGGGGBBBBBB", //
+				"BBGGGGGGGGGGGGB", //
+				"BBBBBBBBGBBBBBB", //
+				"BBBBBBBBGBBBBBB", //
+			    "BBBBBBGGGGGBBBB", //
+				"BBBBBBBBGBBBBBB", //
+				"BBBBBBBBGBBBBBB", //
+		}, 273);
+		
+		testTwoPluses(new String[] { //
+				"BBBB", //
+				"BBBB", }, //
+				0);
+
+		testTwoPluses(new String[] { //
+				"GGGGGG", //
+				"GBBBGB", }, //
+				1);
+
+		testTwoPluses(new String[] { //
+				"BBB", //
+				"GGG", //
+				"BBB", }, //
+				1);
+
+		testTwoPluses(new String[] { //
+				"BGB", //
+				"GGG", //
+				"BGB", }, //
+				5);
+
+		testTwoPluses(new String[] { //
+				"BGGBBB", //
+				"GGGGGB", //
+				"BGGBBB", }, //
+				5);
+
+		testTwoPluses(new String[] { //
+				"GGGGGG", //
+				"GBBBGB", //
+				"GGGGGG", //
+				"GGBBGB", //
+				"GGGGGG" //
+		}, 5);
+
+		testTwoPluses(new String[] { //
+				"BGBBGB", //
+				"GGGGGG", //
+				"BGBBGB", //
+				"GGGGGG", //
+				"BGBBGB", //
+				"BGBBGB" //
+		}, 25);
 
 		testTwoPluses(new String[] { //
 				"BGBBBBGGG", //
@@ -313,14 +435,84 @@ public class EmasSupercomputerSolution {
 				"GGGGGG", //
 		}, 25);
 
-//		testTwoPluses(new String[] { //
-//				"GGGGGG", //
-//				"GGGGGG", //
-//				"GGGGGG", //
-//				"GGGGGG", //
-//				"GGGGGG", //
-//				"GGGGGG" //
-//		}, 0);
+		testTwoPluses(new String[] { //
+				"GGGGGG", //
+				"GGGGGG", //
+				"GGGGGG", //
+				"GGGGGG", //
+				"GGGGGG", //
+				"GGGGGG" //
+		}, 45);
+
+		testTwoPluses(new String[] { //
+				"GGGGGGG", //
+				"GGGGGGG", //
+				"GGGGGGG", //
+				"GGGGGGG", //
+				"GGGGGGG", //
+				"GGGGGGG", //
+				"GGGGGGG" //
+		}, 65);
+
+		testTwoPluses(new String[] { //
+				"BBBGBBB", //
+				"BBBGBBB", //
+				"BBBGBBB", //
+				"GGGGGGG", //
+				"BBBGBGB", //
+				"BBBGGGG", //
+				"BBBGBGB" //
+		}, 65);
+
+		testTwoPluses(new String[] { //
+				"BBBBGBBBBB", //
+				"BBBBGBBBBB", //
+				"BBBBGBBBBB", //
+				"BGGGGGGGBB", //
+				"BBBBGBBBBB", //
+				"BBBBGBBBBB", //
+				"BBBBGBBBBB", //
+		}, 13);
+
+		testTwoPluses(new String[] { //
+				"BBBBGBBGBB", //
+				"BBBBGBGGGG", //
+				"BBBBGBBGBB", //
+				"BGGGGGGGBB", //
+				"BBBBGBBBBB", //
+				"BBBBGBBBBB", //
+				"BBBBGBBBBB", //
+		}, 65);
+
+		testTwoPluses(new String[] { //
+				"BGBBGBBGBB", //
+				"GGGBGBGGGG", //
+				"BGBBGBBGBB", //
+				"BGGGGGGGGG", //
+				"BGBBGBBBGB", //
+				"GGGBGBBGGG", //
+				"BGBBGBBBGB", //
+		}, 65);
+
+		testTwoPluses(new String[] { //
+				"BGBBGBBGBB", //
+				"GGGBGBGGGG", //
+				"BGBBGBBGBB", //
+				"BGGGGGGGGG", //
+				"BGBBGBBBGB", //
+				"GGGBGBBGGG", //
+				"BGBBGBBBGB", //
+		}, 65);
+		
+		testTwoPluses(new String[] { //
+				"BGBBGBBGBBBB", //
+				"GGGBGBGGGGBB", //
+				"BGBBGBBGBGBB", //
+				"BGGGGGGGGGGG", //
+				"BGBBGBBBGGBB", //
+				"GGGBGBBGGGBB", //
+				"BGBBGBBBGBBB", //
+		}, 81);
 
 	}// End of Main
 
