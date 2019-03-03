@@ -40,15 +40,19 @@ public class EmasSupercomputerSolution {
 		int maxColumn = grid.length - 1;
 		int maxRow = grid[0].length() - 1;
 
-		int highestValue = 0;
+		int highestValue = 1;
 
 		for (int c = 1; c < maxColumn; c++) {
 			for (int r = 1; r < maxRow; r++) {
 				char t = grid[c].charAt(r);
 				if (t == 'G') {
-					int area = findPlusPatternAreas(c, r, grid, maxColumn, maxRow);
-					if (area > highestValue) {
-						highestValue = area;
+					for (int inc = 1;; inc++) {
+						int area = findPlusPatternAreas(c, r, grid, inc, maxColumn, maxRow);
+						if (area > highestValue) {
+							highestValue = area;
+						} else {
+							break;
+						}
 					}
 				}
 
@@ -59,16 +63,14 @@ public class EmasSupercomputerSolution {
 
 	}// End of Method
 
-	static int findPlusPatternAreas(int c, int r, String[] grid, int maxColumn, int maxRow) {
+	static int findPlusPatternAreas(int c, int r, String[] grid, int inc, int maxColumn, int maxRow) {
 
-		for (int inc = 1;; inc++) {
-			if (isPlusPatternArea(c, r, grid, inc, 0, maxColumn, 0, maxRow)) {
-				int area = ((inc * 4) + 1);
-				int secondPlusArea = calculateSecondaryPlusPatternArea(c, r, grid, inc);
-				return secondPlusArea * area;
-			} else {
-				return (inc - 1) * 4 + 1;
-			}
+		if (isPlusPatternArea(c, r, grid, inc, 0, maxColumn, 0, maxRow)) {
+			int area = ((inc * 4) + 1);
+			int secondPlusArea = calculateSecondaryPlusPatternArea(c, r, grid, inc);
+			return secondPlusArea * area;
+		} else {
+			return (inc - 1) * 4 + 1;
 		}
 
 	}// End of Method
@@ -118,52 +120,61 @@ public class EmasSupercomputerSolution {
 
 		int additionalArea = 1;
 
-		if (3 < c && 3 < r) { // up and left
-			for (int nc = 1; nc < c - 1; nc++) {
-				for (int nr = 1; nr < r - 1; nr++) {
+		for (int nc = 1; nc < maxColumn; nc++) {
+			for (int nr = 1; nr < maxRow; nr++) {
 					int value = calculateDependentPlusPatternArea(c, r, inc, nc, nr, grid);
 					if (additionalArea < value) {
 						additionalArea = value;
-					}
-				}
-			}
-		} else if (3 < (maxColumn - c) && 3 < r) { // down and left
-			for (int nc = 1; nc > c + 1; nc++) {
-				for (int nr = 1; nr < r - 1; nr++) {
-					int value = calculateDependentPlusPatternArea(c, r, inc, nc, nr, grid);
-					if (additionalArea < value) {
-						additionalArea = value;
-					}
-				}
-			}
-		} else if (3 < c && 3 < (maxRow - r)) {// up and right
-			for (int nc = 1; nc < c - 1; nc++) {
-				for (int nr = 1; nr > r + 1; nr++) {
-					int value = calculateDependentPlusPatternArea(c, r, inc, nc, nr, grid);
-					if (additionalArea < value) {
-						additionalArea = value;
-					}
-				}
-			}
-		} else if (3 < (maxColumn - c) && 3 < (maxRow - r)) {// down and right
-			for (int nc = 1; nc > c + 1; nc++) {
-				for (int nr = 1; nr > r + 1; nr++) {
-					int value = calculateDependentPlusPatternArea(c, r, inc, nc, nr, grid);
-					if (additionalArea < value) {
-						additionalArea = value;
-					}
-				}
+					}				
 			}
 		}
+
+//		if (3 < c && 3 < r) { // up and left
+//			for (int nc = 1; nc < c - 1; nc++) {
+//				for (int nr = 1; nr < r - 1; nr++) {
+//					int value = calculateDependentPlusPatternArea(c, r, inc, nc, nr, grid);
+//					if (additionalArea < value) {
+//						additionalArea = value;
+//					}
+//				}
+//			}
+//		} else if (3 < (maxColumn - c) && 3 < r) { // down and left
+//			for (int nc = c + 1; nc < maxColumn; nc++) {
+//				for (int nr = 1; nr < r - 1; nr++) {
+//					int value = calculateDependentPlusPatternArea(c, r, inc, nc, nr, grid);
+//					if (additionalArea < value) {
+//						additionalArea = value;
+//					}
+//				}
+//			}
+//		} else if (3 < c && 3 < (maxRow - r)) {// up and right
+//			for (int nc = 1; nc < c - 1; nc++) {
+//				for (int nr = r + 1; nr < maxRow; nr++) {
+//					int value = calculateDependentPlusPatternArea(c, r, inc, nc, nr, grid);
+//					if (additionalArea < value) {
+//						additionalArea = value;
+//					}
+//				}
+//			}
+//		} else if (3 < (maxColumn - c) && 3 < (maxRow - r)) {// down and right
+//			for (int nc = c + 1; nc < maxColumn; nc++) {
+//				for (int nr = r + 1; nr < maxRow; nr++) {
+//					int value = calculateDependentPlusPatternArea(c, r, inc, nc, nr, grid);
+//					if (additionalArea < value) {
+//						additionalArea = value;
+//					}
+//				}
+//			}
+//		}
 
 		return additionalArea;
 
 	}// End of Method
 
-	static int calculateDependentPlusPatternArea(int bc, int br, int bl, int c, int r, String[] grid) {
+	static int calculateDependentPlusPatternArea(int ac, int ar, int aInc, int bc, int br, String[] grid) {
 
 		// Get target character
-		char t = grid[c].charAt(r);
+		char t = grid[bc].charAt(br);
 		if (t != 'G') {
 			return 0;
 		}
@@ -176,55 +187,55 @@ public class EmasSupercomputerSolution {
 		int lowColumn = 0;
 		int highColumn = 0;
 
-		if (bc > c && br > r) { // Up and left side of reference
-			if (r < (br - bl)) {
+		if (ac > bc && ar > br) { // Up and left side of reference
+			if (br < (ar - aInc)) {
 				highColumn = maxColumn;
 			} else {// there is a column clash
-				highColumn = bc - 1;
+				highColumn = ac - 1;
 			}
-			if (c < (bc - bl)) {
+			if (bc < (ac - aInc)) {
 				highRow = maxRow;
 			} else {
-				highRow = br - 1;
+				highRow = ar - 1;
 			}
 			lowColumn = 0;
 			lowRow = 0;
-		} else if (bc < c && br > r) {// Down and left side of reference
-			if (r < (br - bl)) {
+		} else if (ac < bc && ar > br) {// Down and left side of reference
+			if (br < (ar - aInc)) {
 				lowColumn = 0;
 			} else {// there is a column clash
-				lowColumn = bc + 1;
+				lowColumn = ac + 1;
 			}
-			if (c > (bc + bl)) {
+			if (bc > (ac + aInc)) {
 				highRow = maxRow;
 			} else {
-				highRow = br - 1;
+				highRow = ar - 1;
 			}
 			highColumn = maxColumn;
 			lowRow = 0;
-		} else if (bc > c && br < r) { // Up and right side of reference
-			if (r > (br + bl)) {
+		} else if (ac > bc && ar < br) { // Up and right side of reference
+			if (br > (ar + aInc)) {
 				highColumn = maxColumn;
 			} else { // there is a column clash
-				highColumn = bc - 1;
+				highColumn = ac - 1;
 			}
-			if (c < (bc - bl)) {
+			if (bc < (ac - aInc)) {
 				lowRow = 0;
 			} else {
-				lowRow = br + 1;
+				lowRow = ar + 1;
 			}
 			lowColumn = 0;
 			highRow = maxRow;
-		} else if (bc < c && br < r) { // Down and right side of reference
-			if (r > (br + bl)) {
+		} else if (ac < bc && ar < br) { // Down and right side of reference
+			if (br > (ar + aInc)) {
 				lowColumn = 0;
 			} else {
-				lowColumn = bc + 1;
+				lowColumn = ac + 1;
 			}
-			if (c > (bc + bl)) {
+			if (bc > (ac + aInc)) {
 				lowRow = 0;
 			} else {
-				lowRow = br + 1;
+				lowRow = ar + 1;
 			}
 			highColumn = maxColumn;
 			highRow = maxRow;
@@ -234,7 +245,7 @@ public class EmasSupercomputerSolution {
 
 		for (int inc = 1;; inc++) {
 
-			if (isPlusPatternArea(c, r, grid, inc, lowColumn, highColumn, lowRow, highRow)) {
+			if (isPlusPatternArea(bc, br, grid, inc, lowColumn, highColumn, lowRow, highRow)) {
 				area += 4;// If all directions are valid, add area
 			} else {
 				break;
@@ -272,21 +283,27 @@ public class EmasSupercomputerSolution {
 
 	public static void main(String[] args) {
 
-		testTwoPluses(new String[] { //
-				"GGGGGG", //
-				"GBBBGB", //
-				"GGGGGG", //
-				"GGBBGB", //
-				"GGGGGG" //
-		}, 5);
+//		testTwoPluses(new String[] { //
+//				"GGGGGG", //
+//				"GBBBGB", //
+//				"GGGGGG", //
+//				"GGBBGB", //
+//				"GGGGGG" //
+//		}, 5);
+
+//		testTwoPluses(new String[] { //
+//				"BGBBGB", //
+//				"GGGGGG", //
+//				"BGBBGB", //
+//				"GGGGGG", //
+//				"BGBBGB", //
+//				"BGBBGB" //
+//		}, 25);
 
 		testTwoPluses(new String[] { //
-				"BGBBGB", //
-				"GGGGGG", //
-				"BGBBGB", //
-				"GGGGGG", //
-				"BGBBGB", //
-				"BGBBGB" //
+				"BGBBBBGGG", //
+				"GGGGBBGGG", //
+				"BGGGGBGGG", //
 		}, 25);
 
 		testTwoPluses(new String[] { //
@@ -296,14 +313,14 @@ public class EmasSupercomputerSolution {
 				"GGGGGG", //
 		}, 25);
 
-		testTwoPluses(new String[] { //
-				"GGGGGG", //
-				"GGGGGG", //
-				"GGGGGG", //
-				"GGGGGG", //
-				"GGGGGG", //
-				"GGGGGG" //
-		}, 0);
+//		testTwoPluses(new String[] { //
+//				"GGGGGG", //
+//				"GGGGGG", //
+//				"GGGGGG", //
+//				"GGGGGG", //
+//				"GGGGGG", //
+//				"GGGGGG" //
+//		}, 0);
 
 	}// End of Main
 
