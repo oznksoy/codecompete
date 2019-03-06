@@ -32,16 +32,6 @@ public class MatrixLayerRotationSolution {
 	 */
 	static void matrixRotation(List<List<Integer>> matrix, int r) {
 
-		// can we do this in single swoop? Seems so
-
-		// what is the length of the route for the step?
-		// route % r gives us real location switch requirement for final positions
-
-//		if (min == height) {
-//
-//		} else if (min == width) {
-//
-//		}
 		int height = matrix.size();
 		int width = matrix.get(0).size();
 
@@ -65,23 +55,22 @@ public class MatrixLayerRotationSolution {
 				overwritten.add(matrix.get(toMemorize[1]).get(toMemorize[0]));
 			}
 
-			// Best way is to find the correct location for the given rotation value
-			// elements should move as value of rotation
-
 			for (int forward = 0; forward < rotation; forward++) {
 
 				int[] loc = calculateLoc(hInit, wInit, step, forward, height, width);
 				int w = loc[0];
 				int h = loc[1];
-				int jump = forward;
-
-				while (jump > totalRoute) {
+				int jump = rotation;
+				int temp = matrix.get(h).get(w);
+				while (jump < totalRoute) {
 
 					int[] jLoc = calculateLoc(h, w, step, rotation, height, width);
-					int val = matrix.get(h).get(w);
+					int val = temp;
 					w = jLoc[0];
 					h = jLoc[1];
+					temp = matrix.get(h).get(w);
 					matrix.get(h).set(w, val);
+					
 					jump += rotation;
 
 				}
@@ -92,6 +81,22 @@ public class MatrixLayerRotationSolution {
 				matrix.get(loc[1]).set(loc[0], overwritten.get(forward));
 			}
 
+		}
+		
+		printMatrix(matrix);
+
+	}// End of Method
+
+	static void printMatrix(List<List<Integer>> matrix) {
+
+		for (List<Integer> row : matrix) {
+			for (int i = 0; i < row.size(); i++) {
+				System.out.print(row.get(i));
+				if (i != row.size() - 1) {
+					System.out.print(" ");
+				}
+			}
+			System.out.print(System.lineSeparator());
 		}
 
 	}// End of Method
@@ -155,28 +160,10 @@ public class MatrixLayerRotationSolution {
 	}// End of Method
 
 	public static void main(String[] args) {
-//		testCase4();
 		testCase1();
-//		testCase2();
-//		testCase3();
+		testCase2();
+		testCase3();
 	}// End of Main
-
-	static void testCase4() {
-		testMatrixRotation(//
-				createInput(//
-						"1 2 3 4", //
-						"5 6 7 8", //
-						"9 10 11 12", //
-						"13 14 15 16"),
-				5, //
-				createExpected(//
-						"3 4 8 12", //
-						"2 11 10 16", //
-						"1 7 6 15", //
-						"5 9 13 14" //
-				));
-
-	}// End of Test Case
 
 	static void testCase1() {
 		testMatrixRotation(//
@@ -213,9 +200,6 @@ public class MatrixLayerRotationSolution {
 				));
 	}// End of Test Case
 
-	// Output:
-	// 1 1
-	// 1 1
 	static void testCase3() {
 		testMatrixRotation(//
 				createInput(//
