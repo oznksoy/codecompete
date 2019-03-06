@@ -7,14 +7,20 @@ import java.util.List;
 
 public class MatrixLayerRotationSolution {
 
-	// Complete the matrixRotation function below.
+	/**
+	 * <p>
+	 * Complete the matrixRotation function below.
+	 * </p>
+	 * <p>
+	 * Trick is to find the even side an shrink the layers from outside to inside
+	 * one step at a time.
+	 * </p>
+	 * 
+	 * @param matrix : matrix to rotate
+	 * @param r      : steps to rotate
+	 */
 	static void matrixRotation(List<List<Integer>> matrix, int r) {
-
-		System.out.println("3 4 8 12");
-		System.out.println("2 11 10 16");
-		System.out.println("1 7 6 15");
-		System.out.println("5 9 13 14");
-
+		
 	}// End of Method
 
 	public static void main(String[] args) {
