@@ -11,11 +11,18 @@ public class MatrixLayerRotationSolution {
 	}// End of Method
 
 	public static void main(String[] args) {
+		testCase1();
+		testCase2();
+		testCase3();
+	}// End of Main
 
-		// 3 4 8 12
-		// 2 11 10 16
-		// 1 7 6 15
-		// 5 9 13 14
+	// Output:
+	// 3 4 8 12
+	// 2 11 10 16
+	// 1 7 6 15
+	// 5 9 13 14
+	@SuppressWarnings("serial")
+	static void testCase1() {
 		testMatrixRotation(new ArrayList<List<Integer>>() {
 			{
 				add(new ArrayList<Integer>() {
@@ -52,12 +59,16 @@ public class MatrixLayerRotationSolution {
 				});
 			}
 		}, 2);
+	}
 
-		// 28 27 26 25
-		// 22 9 15 19
-		// 16 8 21 13
-		// 10 14 20 7
-		// 4 3 2 1
+	// Output:
+	// 28 27 26 25
+	// 22 9 15 19
+	// 16 8 21 13
+	// 10 14 20 7
+	// 4 3 2 1
+	@SuppressWarnings("serial")
+	static void testCase2() {
 		testMatrixRotation(new ArrayList<List<Integer>>() {
 			{
 				add(new ArrayList<Integer>() {
@@ -102,11 +113,33 @@ public class MatrixLayerRotationSolution {
 				});
 			}
 		}, 7);
+	}
 
-	}// End of Main
+	// Output:
+	// 1 1
+	// 1 1
+	@SuppressWarnings("serial")
+	static void testCase3() {
+		testMatrixRotation(new ArrayList<List<Integer>>() {
+			{
+				add(new ArrayList<Integer>() {
+					{
+						add(1);
+						add(1);
+					}
+				});
+				add(new ArrayList<Integer>() {
+					{
+						add(1);
+						add(1);
+					}
+				});
+			}
+		}, 3);
+	}
 
 	static void testMatrixRotation(List<List<Integer>> matrix, int r) {
-
+		matrixRotation(matrix, r);
 	}// End of Test
 
 }// End of Class
