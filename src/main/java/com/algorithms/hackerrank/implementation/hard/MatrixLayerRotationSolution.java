@@ -5,6 +5,17 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * <p>
+ * You are given a 2D matrix of n*m dimension and a positive integer r. You have
+ * to rotate the matrix r times and print the resultant matrix. Rotation should
+ * be in anti-clockwise direction. It is guaranteed that the minimum of m and n
+ * will be even.
+ * </p>
+ * 
+ * @author Ozan Aksoy
+ *
+ */
 public class MatrixLayerRotationSolution {
 
 	/**
@@ -16,18 +27,156 @@ public class MatrixLayerRotationSolution {
 	 * one step at a time.
 	 * </p>
 	 * 
-	 * @param matrix : matrix to rotate
-	 * @param r      : steps to rotate
+	 * @param matrix : matrix to rotate; 2<=m,n<=300, and 1 <= a(i,j) <= 10^8
+	 * @param r      : steps to rotate; 1 <= r <= 10^9
 	 */
 	static void matrixRotation(List<List<Integer>> matrix, int r) {
-		
+
+		// can we do this in single swoop? Seems so
+
+		// what is the length of the route for the step?
+		// route % r gives us real location switch requirement for final positions
+
+//		if (min == height) {
+//
+//		} else if (min == width) {
+//
+//		}
+		int height = matrix.size();
+		int width = matrix.get(0).size();
+
+		int min = min(height, width);
+
+		int count = min / 2;
+
+		for (int step = 0; step < count; step++) {
+
+			int totalRoute = 2 * (height + width - 2) - 8 * step;
+			int rotation = r % totalRoute;
+
+			List<Integer> overwritten = new ArrayList<Integer>();
+
+			int wInit = step;
+			int hInit = step;
+
+			for (int countBackwards = rotation; countBackwards > 0; countBackwards--) {
+				int movement = totalRoute - countBackwards;
+				int[] toMemorize = calculateLoc(hInit, wInit, step, movement, height, width);
+				overwritten.add(matrix.get(toMemorize[1]).get(toMemorize[0]));
+			}
+
+			// Best way is to find the correct location for the given rotation value
+			// elements should move as value of rotation
+
+			for (int forward = 0; forward < rotation; forward++) {
+
+				int[] loc = calculateLoc(hInit, wInit, step, forward, height, width);
+				int w = loc[0];
+				int h = loc[1];
+				int jump = forward;
+
+				while (jump > totalRoute) {
+
+					int[] jLoc = calculateLoc(h, w, step, rotation, height, width);
+					int val = matrix.get(h).get(w);
+					w = jLoc[0];
+					h = jLoc[1];
+					matrix.get(h).set(w, val);
+					jump += rotation;
+
+				}
+			}
+
+			for (int forward = 0; forward < rotation; forward++) {
+				int[] loc = calculateLoc(hInit, wInit, step, forward, height, width);
+				matrix.get(loc[1]).set(loc[0], overwritten.get(forward));
+			}
+
+		}
+
+	}// End of Method
+
+	static int[] calculateLoc(int hIndex, int wIndex, int step, int rotation, int height, int width) {
+
+		int w = wIndex;
+		int h = hIndex;
+
+		int top = step;
+		int bottom = height - 1 - step;
+		int left = step;
+		int right = width - 1 - step;
+
+		int movement = rotation;
+
+		while (movement > 0) {
+			int moves = 0;
+			if (w == left && top <= h && bottom > h) {// goes down
+				moves = bottom - h;
+				if (moves <= movement) {
+					h = bottom;
+				} else { // moves > movement;
+					h += movement;
+				}
+			} else if (w == right && top < h && bottom >= h) {// goes up
+				moves = h - top;
+				if (moves <= movement) {
+					h = top;
+				} else { // moves > movement;
+					h -= movement;
+				}
+			} else if (h == top && left < w && right >= w) {// goes left
+				moves = w - left;
+				if (moves <= movement) {
+					w = left;
+				} else { // moves > movement;
+					w -= movement;
+				}
+			} else if (h == bottom && left <= w && right > w) {// goes right
+				moves = right - w;
+				if (moves <= movement) {
+					w = right;
+				} else { // moves > movement;
+					w += movement;
+				}
+			}
+			movement -= moves;
+		}
+
+		int[] loc = new int[2]; // 0 -> w; 1 -> h;
+		loc[0] = w;
+		loc[1] = h;
+
+		return loc;
+
+	}// End of Method
+
+	static int min(int a, int b) {
+		return a < b ? a : b;
 	}// End of Method
 
 	public static void main(String[] args) {
+//		testCase4();
 		testCase1();
-		testCase2();
-		testCase3();
+//		testCase2();
+//		testCase3();
 	}// End of Main
+
+	static void testCase4() {
+		testMatrixRotation(//
+				createInput(//
+						"1 2 3 4", //
+						"5 6 7 8", //
+						"9 10 11 12", //
+						"13 14 15 16"),
+				5, //
+				createExpected(//
+						"3 4 8 12", //
+						"2 11 10 16", //
+						"1 7 6 15", //
+						"5 9 13 14" //
+				));
+
+	}// End of Test Case
 
 	static void testCase1() {
 		testMatrixRotation(//
