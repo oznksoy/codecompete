@@ -1,14 +1,22 @@
 package com.datastructures.hackerrank.arrays.hard;
 
+import com.datastructures.hackerrank.arrays.hint.DifferenceArrayTechnique;
+
 /**
  * <p>
  * This is a pretty tricky question, because in order to solve it, you must know
- * a technique called "Difference Array"
+ * a technique called {@linkplain DifferenceArrayTechnique Difference Array}
  * </p>
  * <p>
  * Basic idea is to collect the differences that subarrays have at the positive
  * and negative ends of the index points, so that there is no need to run over
  * each array element in between starting and ending index of the operation.
+ * </p>
+ * <p>
+ * The trick is creating a sequence of values such that each value is linked to
+ * the next, thus adding a value to the one on the left side implicitly raises
+ * the value of the others. But to balance the array by noting the end of sub
+ * array, an equal negative value is added.
  * </p>
  * 
  * @see <a href=https://www.hackerrank.com/challenges/crush/problem>array
