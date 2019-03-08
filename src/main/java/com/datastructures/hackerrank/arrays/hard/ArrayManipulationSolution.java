@@ -1,5 +1,22 @@
 package com.datastructures.hackerrank.arrays.hard;
 
+/**
+ * <p>
+ * This is a pretty tricky question, because in order to solve it, you must know
+ * a technique called "Difference Array"
+ * </p>
+ * <p>
+ * Basic idea is to collect the differences that subarrays have at the positive
+ * and negative ends of the index points, so that there is no need to run over
+ * each array element in between starting and ending index of the operation.
+ * </p>
+ * 
+ * @see <a href=https://www.hackerrank.com/challenges/crush/problem>array
+ *      manipulation question</a>
+ * 
+ * @author Ozan Aksoy
+ *
+ */
 public class ArrayManipulationSolution {
 
 	// Complete the arrayManipulation function below.
@@ -64,7 +81,7 @@ public class ArrayManipulationSolution {
 		testCase1DiffArray();
 		testCase2DiffArray();
 	}// End of Main
-	
+
 	static void testCase1ArraySum() {
 		testArrayManipulationWithArraySum(//
 				10, //
@@ -75,7 +92,7 @@ public class ArrayManipulationSolution {
 				), 10L //
 		);
 	}// End of Test Case
-	
+
 	static void testCase2ArraySum() {
 		testArrayManipulationWithArraySum(//
 				5, //
@@ -86,7 +103,6 @@ public class ArrayManipulationSolution {
 				), 200L //
 		);
 	}// End of Test Case
-
 
 	static void testCase1DiffArray() {
 		testArrayManipulationWithDiffArray(//
@@ -120,7 +136,7 @@ public class ArrayManipulationSolution {
 		}
 		return queries;
 	}// End of Method
-	
+
 	static void testArrayManipulationWithArraySum(int n, int[][] queries, long expected) {
 		long result = arrayManipulationWithArraySum(n, queries);
 		assert result == expected;
