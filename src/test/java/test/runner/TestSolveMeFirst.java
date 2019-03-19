@@ -12,7 +12,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.algorithms.hackerrank.warmup.SolveMeFirstSolution;
+import com.hackerrank.algorithms.warmup.SolveMeFirstSolution;
 
 import test.support.SystemInputOperator;
 import test.support.TestEnvironmentConstants;

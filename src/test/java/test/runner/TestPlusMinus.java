@@ -9,7 +9,7 @@ import java.io.InputStream;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import com.algorithms.hackerrank.warmup.PlusMinusSolution;
+import com.hackerrank.algorithms.warmup.PlusMinusSolution;
 
 import test.support.SystemInputOperator;
 import test.support.TestEnvironmentConstants;
