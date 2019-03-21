@@ -10,7 +10,7 @@ package com.hackerrank.datastructures.linkedlist.easy;
  */
 public class PrinttheElementsofaLinkedListSolution {
 
-    static class SinglyLinkedListNode {
+    private static class SinglyLinkedListNode {
         public int data;
         public SinglyLinkedListNode next;
 
@@ -20,7 +20,7 @@ public class PrinttheElementsofaLinkedListSolution {
         }
     }
 
-    static class SinglyLinkedList {
+    private static class SinglyLinkedList {
         public SinglyLinkedListNode head;
         public SinglyLinkedListNode tail;
 
