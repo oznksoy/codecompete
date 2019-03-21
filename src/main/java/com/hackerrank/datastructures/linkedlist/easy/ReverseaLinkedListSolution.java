@@ -1,7 +1,6 @@
 package com.hackerrank.datastructures.linkedlist.easy;
 
 public class ReverseaLinkedListSolution {
-
 	private static class SinglyLinkedListNode {
 		public int data;
 		public SinglyLinkedListNode next;
@@ -35,11 +34,11 @@ public class ReverseaLinkedListSolution {
 	}
 
 	static SinglyLinkedListNode reverse(SinglyLinkedListNode head) {
-		
+
 		SinglyLinkedList reverselist = new SinglyLinkedList();
 		reverse(head, reverselist);
 		return reverselist.head;
-		
+
 	}// End of Method
 
 	static void reverse(SinglyLinkedListNode head, SinglyLinkedList reversed) {
