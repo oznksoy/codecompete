@@ -34,14 +34,34 @@ public class GetNodeValueSolution {
 		}
 	}// End of Inner Class
 
-	// Both lists are in ascending order
 	static int getNode(SinglyLinkedListNode head, int positionFromTail) {
 
-		return 0;
-	}
+		if (head == null) {
+			return 0;
+		}
+
+		SinglyLinkedListNode current = head.next;
+
+		int index = 0;
+		SinglyLinkedListNode target = head;
+		while (current != null) {
+			if (index == positionFromTail) {
+				target = target.next;
+			}
+			if (index < positionFromTail) {
+				index++;
+			}
+			current = current.next;
+		}
+
+		return target.data;
+
+	}// End of Method
 
 	public static void main(String[] args) {
 		testCase1();
+		testCase2();
+		testCase3();
 	}// End of Main
 
 	static void testGetNode(SinglyLinkedListNode head, int positionFromTail, int expected) {
@@ -50,9 +70,20 @@ public class GetNodeValueSolution {
 	}// End of Method
 
 	static void testCase1() {
-		SinglyLinkedList list = createFilledLinkedList(new int[] { 5, 7, 9 });
-		testGetNode(list.head, 0, 0);
+		SinglyLinkedList list = createFilledLinkedList(new int[] { 4, 3, 2, 1 });
+		testGetNode(list.head, 2, 3);
 	}// End of Test Case
+
+	static void testCase2() {
+		SinglyLinkedList list = createFilledLinkedList(new int[] { 5, 6, 7, 8, 4, 3, 2, 1 });
+		testGetNode(list.head, 2, 3);
+	}// End of Test Case
+	
+	static void testCase3() {
+		SinglyLinkedList list = createFilledLinkedList(new int[] { 5, 6, 7, 8, 4, 3, 2, 1 });
+		testGetNode(list.head, 4, 8);
+	}// End of Test Case
+
 
 	static SinglyLinkedList createFilledLinkedList(int[] values) {
 		SinglyLinkedList linkedList = new SinglyLinkedList();
