@@ -36,42 +36,53 @@ public class FindMergePointofTwoListsSolution {
 
 	/**
 	 * <p>
-	 * A linked list is said to contain a cycle if any node is visited more than
-	 * once while traversing the list.
+	 * Given pointers to the head nodes of linked lists that merge together at some
+	 * point, find the Node where the two lists merge. It is guaranteed that the two
+	 * head Nodes will be different, and neither will be NULL.
 	 * </p>
 	 * <p>
-	 * Complete the function provided for you in your editor. It has one parameter:
-	 * a pointer to a Node object named head that points to the head of a linked
-	 * list. Your function must return a boolean denoting whether or not there is a
-	 * cycle in the list. If there is a cycle, return true; otherwise, return false.
+	 * Complete the int findMergeNode(SinglyLinkedListNode* head1,
+	 * SinglyLinkedListNode* head2) method so that it finds and returns the data
+	 * value of the Node where the two lists merge.
 	 * </p>
-	 * <p>
-	 * Note: If the list is empty, head will be null.
-	 * </p>
+	 * <li>the lists will merge</li>
+	 * <li>head1 and head2 != null</li>
+	 * <li>head1 != head2</li>
 	 * 
 	 * @param head
 	 * @param expected
 	 */
-	static boolean hasCycle(SinglyLinkedListNode head) {
-		if (head == null || head.next == null) {
-			return false;
-		}
-		SinglyLinkedListNode tail = head.next;
-		int indexTo = 1;
-		while (tail != null) {
-			SinglyLinkedListNode current = head;
-			int index = indexTo;
-			while (current != null && index > 0) {
-				if (current.equals(tail)) {
-					return true;
-				}
-				index--;
-				current = current.next;
+	static int findMergeNode(SinglyLinkedListNode head1, SinglyLinkedListNode head2) {
+		SinglyLinkedListNode iter1 = head1;
+		SinglyLinkedListNode iter2 = head2;
+		int result = 0;
+		while (iter1 != null && iter2 != null) {
+
+			SinglyLinkedListNode cur1 = iter1;
+			while (cur1 != null && !cur1.equals(iter2)) {
+				cur1 = cur1.next;
 			}
-			indexTo++;
-			tail = tail.next;
+			
+			SinglyLinkedListNode cur2 = iter2;
+			while (cur1 != null && cur2 != null && !cur2.equals(cur1)) {
+				cur2 = cur2.next;
+			}
+
+			if (cur1 != null && cur2 != null && cur1.equals(cur2)) {
+				result = cur1.data;
+			}
+
+			while (cur1 != null && cur2 != null && cur1.equals(cur2)) {
+				cur1 = cur1.next;
+				cur2 = cur2.next;
+				if (cur1 == null && cur2 == null) {
+					return result;
+				}
+			}
+			iter1 = iter1.next;
+			iter2 = iter2.next;
 		}
-		return false;
+		return result;
 	}// End of Method
 
 	public static void main(String[] args) {
@@ -80,28 +91,36 @@ public class FindMergePointofTwoListsSolution {
 		testCase3();
 	}// End of Main
 
-	static void testHasCycle(SinglyLinkedListNode head, boolean expected) {
-		boolean result = hasCycle(head);
+	static void testFindMergeNode(SinglyLinkedListNode head1, SinglyLinkedListNode head2, int expected) {
+		int result = findMergeNode(head1, head2);
 		assert result == expected;
 	}// End of Method
 
 	static void testCase1() {
-		SinglyLinkedList list = createFilledLinkedList(new int[] { 1, 4, 5, 8, 9 });
-		SinglyLinkedListNode node = list.head.next.next;
-		list.tail.next = node;
-		testHasCycle(list.head, true);
+		SinglyLinkedList list1 = createFilledLinkedList(new int[] { 1, 2, 4 });
+		SinglyLinkedList list2 = createFilledLinkedList(new int[] { 1, 3, 5 });
+		SinglyLinkedList listTail = createFilledLinkedList(new int[] { 6, 9 });
+		list1.tail.next = listTail.head;
+		list2.tail.next = listTail.head;
+		testFindMergeNode(list1.head, list2.head, 6);
 	}// End of Test Case
 
 	static void testCase2() {
-		SinglyLinkedList list = createFilledLinkedList(new int[] { 5, 6, 8, 9, 10, 11 });
-		testHasCycle(list.head, false);
+		SinglyLinkedList list1 = createFilledLinkedList(new int[] { 1 });
+		SinglyLinkedList list2 = createFilledLinkedList(new int[] { 1 });
+		SinglyLinkedList listTail = createFilledLinkedList(new int[] { 2, 5, 8, 9 });
+		list1.tail.next = listTail.head;
+		list2.tail.next = listTail.head;
+		testFindMergeNode(list1.head, list2.head, 2);
 	}// End of Test Case
 
 	static void testCase3() {
-		SinglyLinkedList list = createFilledLinkedList(new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 });
-		SinglyLinkedListNode node = list.head;
-		list.tail.next = node;
-		testHasCycle(list.head, true);
+		SinglyLinkedList list1 = createFilledLinkedList(new int[] { 1, 2, 15, 14 });
+		SinglyLinkedList list2 = createFilledLinkedList(new int[] { 1, 3 });
+		SinglyLinkedList listTail = createFilledLinkedList(new int[] { 4, 8, 11 });
+		list1.tail.next = listTail.head;
+		list2.tail.next = listTail.head;
+		testFindMergeNode(list1.head, list2.head, 4);
 	}// End of Test Case
 
 	static SinglyLinkedList createFilledLinkedList(int[] values) {
