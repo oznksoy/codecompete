@@ -1,5 +1,8 @@
 package com.hackerrank.datastructures.linkedlist.easy;
 
+import java.io.File;
+import java.util.Scanner;
+
 public class FindMergePointofTwoListsSolution {
 
 	private static class SinglyLinkedListNode {
@@ -53,42 +56,51 @@ public class FindMergePointofTwoListsSolution {
 	 * @param expected
 	 */
 	static int findMergeNode(SinglyLinkedListNode head1, SinglyLinkedListNode head2) {
-		SinglyLinkedListNode iter1 = head1;
-		SinglyLinkedListNode iter2 = head2;
+
+		SinglyLinkedListNode cur1 = head1;
+		SinglyLinkedListNode cur2 = head2;
+
 		int result = 0;
-		while (iter1 != null && iter2 != null) {
 
-			SinglyLinkedListNode cur1 = iter1;
-			while (cur1 != null && !cur1.equals(iter2)) {
-				cur1 = cur1.next;
-			}
-			
-			SinglyLinkedListNode cur2 = iter2;
-			while (cur1 != null && cur2 != null && !cur2.equals(cur1)) {
-				cur2 = cur2.next;
+		while (cur1 != null && cur2 != null) {
+
+			SinglyLinkedListNode iter1 = cur1;
+			SinglyLinkedListNode iter2 = cur2;
+
+			while (iter2 != null && !cur1.equals(iter2)) {
+				iter2 = iter2.next;
 			}
 
-			if (cur1 != null && cur2 != null && cur1.equals(cur2)) {
-				result = cur1.data;
+			while (iter1 != null && iter2 != null && !iter1.equals(iter2)) {
+				iter1 = iter1.next;
 			}
 
-			while (cur1 != null && cur2 != null && cur1.equals(cur2)) {
-				cur1 = cur1.next;
-				cur2 = cur2.next;
-				if (cur1 == null && cur2 == null) {
+			if (iter1 != null && iter2 != null && iter1.equals(iter2)) {
+				result = iter1.data;
+			}
+
+			while (iter1 != null && iter2 != null && iter1.equals(iter2)) {
+				iter1 = iter1.next;
+				iter2 = iter2.next;
+				if (iter1 == null && iter2 == null) {
 					return result;
 				}
 			}
-			iter1 = iter1.next;
-			iter2 = iter2.next;
+			cur1 = cur1.next;
 		}
+
 		return result;
+
 	}// End of Method
 
 	public static void main(String[] args) {
+
 		testCase1();
 		testCase2();
 		testCase3();
+
+		testInput02();
+
 	}// End of Main
 
 	static void testFindMergeNode(SinglyLinkedListNode head1, SinglyLinkedListNode head2, int expected) {
@@ -130,5 +142,84 @@ public class FindMergePointofTwoListsSolution {
 		}
 		return linkedList;
 	}// End of Method
+
+	static void testInput02() {
+
+		String dir = "src/main/resources/datastructures/findmergepointoftwolists/";
+		File inputFile = new File(dir + "input02.txt");
+		File outputFile = new File(dir + "output02.txt");
+
+		try {
+
+			Scanner inputScanner = new Scanner(inputFile);
+
+			int tests = inputScanner.nextInt();
+
+			inputScanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+			Scanner outputScanner = new Scanner(outputFile);
+
+			outputScanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+			for (int testsItr = 0; testsItr < tests; testsItr++) {
+				int index = inputScanner.nextInt();
+				inputScanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+				SinglyLinkedList llist1 = new SinglyLinkedList();
+
+				int llist1Count = inputScanner.nextInt();
+				inputScanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+				for (int i = 0; i < llist1Count; i++) {
+					int llist1Item = inputScanner.nextInt();
+					inputScanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+					llist1.insertNode(llist1Item);
+				}
+
+				SinglyLinkedList llist2 = new SinglyLinkedList();
+
+				int llist2Count = inputScanner.nextInt();
+				inputScanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+				for (int i = 0; i < llist2Count; i++) {
+					int llist2Item = inputScanner.nextInt();
+					inputScanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+
+					llist2.insertNode(llist2Item);
+				}
+
+				SinglyLinkedListNode ptr1 = llist1.head;
+				SinglyLinkedListNode ptr2 = llist2.head;
+
+				for (int i = 0; i < llist1Count; i++) {
+					if (i < index) {
+						ptr1 = ptr1.next;
+					}
+				}
+
+				for (int i = 0; i < llist2Count; i++) {
+					if (i != llist2Count - 1) {
+						ptr2 = ptr2.next;
+					}
+				}
+
+				ptr2.next = ptr1;
+
+				String output = outputScanner.nextLine();
+
+				int expected = Integer.valueOf(output);
+
+				testFindMergeNode(llist1.head, llist2.head, expected);
+
+			}
+
+			inputScanner.close();
+			outputScanner.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}// End of Test from file source
 
 }// End of Class
