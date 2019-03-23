@@ -34,6 +34,22 @@ public class DeleteDuplicateValueNodesFromaSortedLinkedList {
 		}
 	}// End of Inner Class
 
+	/**
+	 * <p>
+	 * You're given the pointer to the head node of a sorted linked list, where the
+	 * data in the nodes is in ascending order. Delete as few nodes as possible so
+	 * that the list does not contain any value more than once. The given head
+	 * pointer may be null indicating that the list is empty.
+	 * </p>
+	 * <p>
+	 * Delete as few nodes as possible to ensure that no two nodes have the same
+	 * data. Adjust the next pointers to ensure that the remaining nodes form a
+	 * single sorted linked list.
+	 * </p>
+	 * 
+	 * @param head
+	 * @param expected
+	 */
 	static SinglyLinkedListNode removeDuplicates(SinglyLinkedListNode head) {
 		SinglyLinkedListNode current = head;
 		while (current != null && current.next != null) {
@@ -53,22 +69,6 @@ public class DeleteDuplicateValueNodesFromaSortedLinkedList {
 		testCase3();
 	}// End of Main
 
-	/**
-	 * <p>
-	 * You're given the pointer to the head node of a sorted linked list, where the
-	 * data in the nodes is in ascending order. Delete as few nodes as possible so
-	 * that the list does not contain any value more than once. The given head
-	 * pointer may be null indicating that the list is empty.
-	 * </p>
-	 * <p>
-	 * Delete as few nodes as possible to ensure that no two nodes have the same
-	 * data. Adjust the next pointers to ensure that the remaining nodes form a
-	 * single sorted linked list.
-	 * </p>
-	 * 
-	 * @param head
-	 * @param expected
-	 */
 	static void testRemoveDuplicates(SinglyLinkedListNode head, int[] expected) {
 		SinglyLinkedListNode cleanedListHeader = removeDuplicates(head);
 		SinglyLinkedListNode current = cleanedListHeader;
