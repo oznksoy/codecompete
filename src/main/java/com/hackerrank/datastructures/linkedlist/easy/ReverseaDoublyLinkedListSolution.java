@@ -60,8 +60,17 @@ public class ReverseaDoublyLinkedListSolution {
 		while (tail != null && tail.next != null) {
 			tail = tail.next;
 		}
-		
-		return head;
+
+		DoublyLinkedListNode toReverse = tail;
+		while (toReverse != null) {
+			DoublyLinkedListNode prev = toReverse.prev;
+			DoublyLinkedListNode next = toReverse.next;
+			toReverse.next = prev;
+			toReverse.prev = next;
+			toReverse = prev;
+		}
+
+		return tail;
 
 	}// End of Method
 
