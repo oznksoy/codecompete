@@ -1,7 +1,5 @@
 package com.hackerrank.datastructures.linkedlist.easy;
 
-import com.hackerrank.datastructures.linkedlist.easy.ReverseaDoublyLinkedListSolution.DoublyLinkedListNode;
-
 public class ReverseaDoublyLinkedListSolution {
 
 	static class DoublyLinkedListNode {
