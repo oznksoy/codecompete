@@ -1,4 +1,4 @@
-package com.hackerrank.algorithms;
+package com.hackerrank.test.support;
 
 import java.io.*;
 import java.math.*;

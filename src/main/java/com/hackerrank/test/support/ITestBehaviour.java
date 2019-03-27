@@ -1,6 +1,6 @@
 package com.hackerrank.test.support;
 
-public interface ITestBehavior {
+public interface ITestBehaviour {
 	
 	void run();
 

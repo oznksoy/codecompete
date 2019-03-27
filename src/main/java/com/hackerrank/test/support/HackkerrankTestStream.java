@@ -3,9 +3,9 @@ package com.hackerrank.test.support;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-public class HackkerrankTestSupport {
+public class HackkerrankTestStream {
 
-	public static String manipulateSystemInput(ITestBehavior behaviour) {
+	public static String manipulateSystemInput(ITestBehaviour behaviour) {
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 		PrintStream printStream = new PrintStream(byteArrayOutputStream);
 		PrintStream systemStream = System.out;
