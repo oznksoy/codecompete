@@ -7,7 +7,7 @@ import java.util.Scanner;
 import com.hackerrank.test.support.HackkerrankTestStream;
 import com.hackerrank.test.support.ITestBehaviour;
 
-public class TreePreorderTraversal {
+public class TreePostorderTraversal {
 
 	static class Node {
 		Node left;
@@ -33,7 +33,7 @@ public class TreePreorderTraversal {
 		@Override
 		public void run() {
 			Node root = Node.class.cast(input[0]);
-			preOrder(root);
+			postOrder(root);
 		}
 
 	}
@@ -45,11 +45,49 @@ public class TreePreorderTraversal {
 	 * 
 	 */
 
-	public static void preOrder(Node root) {
-		System.out.println("1 2 5 3 4 6");
+	/**
+	 * <p>
+	 * Preorder is left->right->root (first, entered values area set, later the
+	 * root)
+	 * </p>
+	 * <p>
+	 * Note that postorder is a DFS method.
+	 * </p>
+	 * 
+	 * @param root
+	 */
+	public static void postOrder(Node root) {
+		System.out.print(postOrderNode(root));
 	}
 
-	public static Node insert(Node root, int data) {
+	static String postOrderNode(Node node) {
+		if (node == null) {
+			return "";
+		}
+		String str = "";
+		String left = postOrderNode(node.left);
+		if (!left.trim().isEmpty()) {
+			str = left;
+		}
+		String right = postOrderNode(node.right);
+		if (!right.trim().isEmpty()) {
+			if (!str.isEmpty()) {
+				str = str + " " + right;
+			} else {
+				str = right;
+			}
+		}
+
+		if (!str.isEmpty()) {
+			str = str + " " + String.valueOf(node.data);
+		} else {
+			str = String.valueOf(node.data);
+		}
+
+		return str;
+	}// End of Method
+
+	static Node insert(Node root, int data) {
 		if (root == null) {
 			return new Node(data);
 		} else {
@@ -71,7 +109,7 @@ public class TreePreorderTraversal {
 
 	static void testCase1() {
 		int[] values = new int[] { 1, 2, 5, 3, 6, 4 };
-		String expected = "1 2 5 3 4 6";
+		String expected = "4 3 6 5 2 1";
 		testPreOrder(values, expected);
 	}// End of Test
 
