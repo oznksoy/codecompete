@@ -56,7 +56,59 @@ public class TreeTopView {
 
 	}// End of Private Class
 
+	private static int leftEdge;
+	private static int rightEdge;
+
 	public static void topView(Node root) {
+
+		if (root != null) {
+			leftEdge = 0;
+			rightEdge = 0;
+			StringBuilder builder = new StringBuilder().append(String.valueOf(root.data));
+			topView(root, 0, 0, builder);
+			System.out.print(builder.toString());
+		}
+	}// End of Method
+
+	static void topView(Node node, int distLeft, int distRight, StringBuilder strBuilder) {
+
+		// current distance and level is input distance and level.
+		if (node == null) {
+			return;
+		}
+
+		// iterate to the left
+		Node left = node.left;
+		int currentDistleft = distLeft;
+		while (left != null) {
+			currentDistleft++;
+			if (leftEdge < currentDistleft) {
+				strBuilder.insert(0, String.valueOf(left.data) + " ");
+			}
+			left = left.left;
+		}
+
+		// iterate to the right
+		Node right = node.right;
+		int currentDistRight = distRight;
+		while (right != null) {
+			currentDistRight++;
+			if (rightEdge < currentDistRight) {
+				strBuilder.append(" " + String.valueOf(right.data));
+			}
+			right = right.right;
+		}
+
+		if (currentDistleft > leftEdge) {
+			leftEdge = currentDistleft;
+		}
+
+		if (currentDistRight > rightEdge) {
+			rightEdge = currentDistRight;
+		}
+
+		topView(node.left, distLeft + 1, distRight - 1, strBuilder);
+		topView(node.right, distLeft - 1, distRight + 1, strBuilder);
 
 	}// End of Method
 
@@ -110,7 +162,8 @@ public class TreeTopView {
 			i++;
 		}
 		String output = HackkerrankTestStream.manipulateSystemInput(new TestBehaviour(root)).trim();
+		System.out.println(output);
 		assert expected.equals(output);
-	}// End of Test Util Method
+	}// End of Test Utility Method
 
 }// End of Class
