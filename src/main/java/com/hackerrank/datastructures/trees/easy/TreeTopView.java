@@ -77,8 +77,8 @@ public class TreeTopView {
 	}// End of Method
 
 	public static void main(String[] args) {
-//		testCase1();
-//		testCase2();
+		testCase1();
+		testCase2();
 		testCase3();
 	}// End of Main
 
