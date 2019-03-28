@@ -1,9 +1,13 @@
-package com.hackerrank.datastructures.trees;
+package com.hackerrank.datastructures.trees.easy;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.util.Scanner;
 
 import com.hackerrank.test.support.HackkerrankTestStream;
 import com.hackerrank.test.support.ITestBehaviour;
 
-public class TreeInorderTraversal {
+public class TreePreorderTraversal {
 
 	static class Node {
 		Node left;
@@ -29,7 +33,7 @@ public class TreeInorderTraversal {
 		@Override
 		public void run() {
 			Node root = Node.class.cast(input[0]);
-			inOrder(root);
+			preOrder(root);
 		}
 
 	}
@@ -43,39 +47,31 @@ public class TreeInorderTraversal {
 
 	/**
 	 * <p>
-	 * Inorder is left->root->right (as in reading order)
+	 * Preorder is root->left->right ( obviously, before any ordered setup, there
+	 * should be root).
 	 * </p>
 	 * <p>
-	 * Note that inorder is a DFS method.
+	 * Note that preoder is a DFS method.
 	 * </p>
 	 * 
 	 * @param root
 	 */
-	public static void inOrder(Node root) {
-		System.out.print(inOrderNode(root));
-	}
+	public static void preOrder(Node root) {
+		System.out.print(preOrderNode(root));
+	}// End of Method
 
-	static String inOrderNode(Node node) {
+	static String preOrderNode(Node node) {
 		if (node == null) {
 			return "";
 		}
-		String str = "";
-		String left = inOrderNode(node.left);
+		String str = String.valueOf(node.data);
+		String left = preOrderNode(node.left);
 		if (!left.trim().isEmpty()) {
-			str = left;
+			str = str + " " + left;
 		}
-		if (!str.isEmpty()) {
-			str = str + " " + String.valueOf(node.data);
-		} else {
-			str = String.valueOf(node.data);
-		}
-		String right = inOrderNode(node.right);
+		String right = preOrderNode(node.right);
 		if (!right.trim().isEmpty()) {
-			if (!str.isEmpty()) {
-				str = str + " " + right;
-			} else {
-				str = right;
-			}
+			str = str + " " + right;
 		}
 		return str;
 	}// End of Method
@@ -102,7 +98,7 @@ public class TreeInorderTraversal {
 
 	static void testCase1() {
 		int[] values = new int[] { 1, 2, 5, 3, 6, 4 };
-		String expected = "1 2 3 4 5 6";
+		String expected = "1 2 5 3 4 6";
 		testPreOrder(values, expected);
 	}// End of Test
 

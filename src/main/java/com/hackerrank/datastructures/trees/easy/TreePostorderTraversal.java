@@ -1,13 +1,9 @@
-package com.hackerrank.datastructures.trees;
-
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import java.util.Scanner;
+package com.hackerrank.datastructures.trees.easy;
 
 import com.hackerrank.test.support.HackkerrankTestStream;
 import com.hackerrank.test.support.ITestBehaviour;
 
-public class TreePreorderTraversal {
+public class TreePostorderTraversal {
 
 	static class Node {
 		Node left;
@@ -33,7 +29,7 @@ public class TreePreorderTraversal {
 		@Override
 		public void run() {
 			Node root = Node.class.cast(input[0]);
-			preOrder(root);
+			postOrder(root);
 		}
 
 	}
@@ -47,32 +43,43 @@ public class TreePreorderTraversal {
 
 	/**
 	 * <p>
-	 * Preorder is root->left->right ( obviously, before any ordered setup, there
-	 * should be root).
+	 * Preorder is left->right->root (first, entered values area set, later the
+	 * root)
 	 * </p>
 	 * <p>
-	 * Note that preoder is a DFS method.
+	 * Note that postorder is a DFS method.
 	 * </p>
 	 * 
 	 * @param root
 	 */
-	public static void preOrder(Node root) {
-		System.out.print(preOrderNode(root));
-	}// End of Method
+	public static void postOrder(Node root) {
+		System.out.print(postOrderNode(root));
+	}
 
-	static String preOrderNode(Node node) {
+	static String postOrderNode(Node node) {
 		if (node == null) {
 			return "";
 		}
-		String str = String.valueOf(node.data);
-		String left = preOrderNode(node.left);
+		String str = "";
+		String left = postOrderNode(node.left);
 		if (!left.trim().isEmpty()) {
-			str = str + " " + left;
+			str = left;
 		}
-		String right = preOrderNode(node.right);
+		String right = postOrderNode(node.right);
 		if (!right.trim().isEmpty()) {
-			str = str + " " + right;
+			if (!str.isEmpty()) {
+				str = str + " " + right;
+			} else {
+				str = right;
+			}
 		}
+
+		if (!str.isEmpty()) {
+			str = str + " " + String.valueOf(node.data);
+		} else {
+			str = String.valueOf(node.data);
+		}
+
 		return str;
 	}// End of Method
 
@@ -98,11 +105,11 @@ public class TreePreorderTraversal {
 
 	static void testCase1() {
 		int[] values = new int[] { 1, 2, 5, 3, 6, 4 };
-		String expected = "1 2 5 3 4 6";
-		testPreOrder(values, expected);
+		String expected = "4 3 6 5 2 1";
+		testPostOrder(values, expected);
 	}// End of Test
 
-	static void testPreOrder(int[] values, String expected) {
+	static void testPostOrder(int[] values, String expected) {
 		int t = values.length;
 		Node root = null;
 		int i = 0;
