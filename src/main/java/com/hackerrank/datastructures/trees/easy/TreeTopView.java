@@ -77,7 +77,9 @@ public class TreeTopView {
 	}// End of Method
 
 	public static void main(String[] args) {
-		testCase1();
+//		testCase1();
+//		testCase2();
+		testCase3();
 	}// End of Main
 
 	static void testCase1() {
@@ -89,6 +91,12 @@ public class TreeTopView {
 	static void testCase2() {
 		int[] values = new int[] { 4, 6, 3, 5, 10, 7, 8, 9, 1, 2 };
 		String expected = "1 3 4 6 10 9";
+		test(values, expected);
+	}// End of Test
+
+	static void testCase3() {
+		int[] values = new int[] { 8, 6, 15, 4, 7, 30, 1, 24, 45, 23, 26, 22, 27, 21, 28, 20, 29, 17, 16, 18, 19 };
+		String expected = "16 17 1 4 6 8 15 30 45 28 29";
 		test(values, expected);
 	}// End of Test
 
