@@ -1,15 +1,11 @@
 package com.hackerrank.datastructures.trees.easy;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import java.util.Scanner;
-
 import com.hackerrank.test.support.HackkerrankTestStream;
 import com.hackerrank.test.support.ITestBehaviour;
 
 public class TreePreorderTraversal {
 
-	static class Node {
+	private static class Node {
 		Node left;
 		Node right;
 		int data;
@@ -99,10 +95,10 @@ public class TreePreorderTraversal {
 	static void testCase1() {
 		int[] values = new int[] { 1, 2, 5, 3, 6, 4 };
 		String expected = "1 2 5 3 4 6";
-		testPreOrder(values, expected);
+		test(values, expected);
 	}// End of Test
 
-	static void testPreOrder(int[] values, String expected) {
+	static void test(int[] values, String expected) {
 		int t = values.length;
 		Node root = null;
 		int i = 0;

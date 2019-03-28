@@ -72,10 +72,10 @@ public class TreeHeightofaBinaryTree {
 	static void testCase1() {
 		int[] values = new int[] { 3, 5, 2, 1, 4, 6, 7 };
 		int expected = 3;
-		testHeight(values, expected);
+		test(values, expected);
 	}// End of Test
 
-	static void testHeight(int[] values, int expected) {
+	static void test(int[] values, int expected) {
 		int t = values.length;
 		Node root = null;
 		int i = 0;

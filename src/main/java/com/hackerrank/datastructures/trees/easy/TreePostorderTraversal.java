@@ -106,10 +106,10 @@ public class TreePostorderTraversal {
 	static void testCase1() {
 		int[] values = new int[] { 1, 2, 5, 3, 6, 4 };
 		String expected = "4 3 6 5 2 1";
-		testPostOrder(values, expected);
+		test(values, expected);
 	}// End of Test
 
-	static void testPostOrder(int[] values, String expected) {
+	static void test(int[] values, String expected) {
 		int t = values.length;
 		Node root = null;
 		int i = 0;

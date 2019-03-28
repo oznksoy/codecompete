@@ -103,10 +103,10 @@ public class TreeInorderTraversal {
 	static void testCase1() {
 		int[] values = new int[] { 1, 2, 5, 3, 6, 4 };
 		String expected = "1 2 3 4 5 6";
-		testInOrder(values, expected);
+		test(values, expected);
 	}// End of Test
 
-	static void testInOrder(int[] values, String expected) {
+	static void test(int[] values, String expected) {
 		int t = values.length;
 		Node root = null;
 		int i = 0;
