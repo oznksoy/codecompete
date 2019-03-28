@@ -3,6 +3,28 @@ package com.hackerrank.datastructures.trees.easy;
 import com.hackerrank.test.support.HackkerrankTestStream;
 import com.hackerrank.test.support.ITestBehaviour;
 
+/**
+ * <p>
+ * Top View of a tree is the "visible" nodes of a tree from the top side from
+ * left to right, as vertically any edges of the topological order of the tree
+ * is visible. This includes nodes of the subtrees that extends from underneath
+ * of the tree structure in horizontal manner.
+ * </p>
+ * <p>
+ * --top-view--<br>
+ * V: Visible<br>
+ * H: Hidden<br>
+ * vvvvvvvvvvvv<br>
+ * -----V------<br>
+ * ----V-V-----<br>
+ * ---V-H-V----<br>
+ * ----H-H-----<br>
+ * ---H---H----<br>
+ * -V------V--<br>
+ * </p>
+ * 
+ * @author Ozan Aksoy
+ */
 public class TreeTopView {
 
 	private static class Node {
@@ -60,7 +82,13 @@ public class TreeTopView {
 
 	static void testCase1() {
 		int[] values = new int[] { 1, 2, 5, 3, 6, 4 };
-		String expected = "1 2 5 3 4 6";
+		String expected = "1 2 5 6";
+		test(values, expected);
+	}// End of Test
+
+	static void testCase2() {
+		int[] values = new int[] { 4, 6, 3, 5, 10, 7, 8, 9, 1, 2 };
+		String expected = "1 3 4 6 10 9";
 		test(values, expected);
 	}// End of Test
 
