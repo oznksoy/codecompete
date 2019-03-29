@@ -50,6 +50,9 @@ public class TreeHuffmanDecoding {
 	private static class Decoding {
 
 		/**
+		 * There is one line of input containing the plain string, <i>s</i>. Background
+		 * code creates the Huffman tree then passes the head node and the encoded
+		 * string to the function. Output the decoded string on a single line.
 		 * 
 		 * @param s
 		 * @param root
