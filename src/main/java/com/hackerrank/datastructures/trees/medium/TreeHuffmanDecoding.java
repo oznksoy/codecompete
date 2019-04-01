@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.PriorityQueue;
 
+import com.hackerrank.test.support.HackkerrankTestStream;
+import com.hackerrank.test.support.ITestBehaviour;
+
 public class TreeHuffmanDecoding {
 
 	private static Map<Character, String> mapA = new HashMap<Character, String>();
@@ -42,6 +45,24 @@ public class TreeHuffmanDecoding {
 
 	}// End of Background Private Class
 
+	private static class TestBehaviour implements ITestBehaviour {
+
+		Object[] input;
+
+		public TestBehaviour(Object... input) {
+			this.input = input;
+		}
+
+		@Override
+		public void run() {
+			String s = String.class.cast(input[0]);
+			Node tree = Node.class.cast(input[1]);
+			Decoding d = new Decoding();
+			d.decode(s.toString(), tree);
+		}
+
+	}// End of Private Class
+
 	/**
 	 * Fill the <code>decode</code> method
 	 * 
@@ -59,7 +80,7 @@ public class TreeHuffmanDecoding {
 		 * @param root
 		 */
 		void decode(String s, Node root) {
-
+			System.out.println(s);
 		}// End of Method
 
 	}// End of Background Inner Class
@@ -133,9 +154,9 @@ public class TreeHuffmanDecoding {
 			s.append(mapA.get(c));
 		}
 
-		// System.out.println(s);
-		Decoding d = new Decoding();
-		d.decode(s.toString(), tree);
+		String output = HackkerrankTestStream.manipulateSystemInput(new TestBehaviour(s.toString(), tree)).trim();
+		System.out.println(output);
+		assert expected.equals(output);
 
 	} // End of Test
 
