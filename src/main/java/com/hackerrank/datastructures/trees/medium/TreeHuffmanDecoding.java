@@ -9,8 +9,6 @@ import com.hackerrank.test.support.ITestBehaviour;
 
 public class TreeHuffmanDecoding {
 
-	private static Map<Character, String> mapA = new HashMap<Character, String>();
-
 	private static abstract class Node implements Comparable<Node> {
 		public int frequency; // the frequency of this tree
 		public char data;
@@ -45,24 +43,6 @@ public class TreeHuffmanDecoding {
 
 	}// End of Background Private Class
 
-	private static class TestBehaviour implements ITestBehaviour {
-
-		Object[] input;
-
-		public TestBehaviour(Object... input) {
-			this.input = input;
-		}
-
-		@Override
-		public void run() {
-			String s = String.class.cast(input[0]);
-			Node tree = Node.class.cast(input[1]);
-			Decoding d = new Decoding();
-			d.decode(s.toString(), tree);
-		}
-
-	}// End of Private Class
-
 	/**
 	 * Fill the <code>decode</code> method
 	 * 
@@ -85,107 +65,131 @@ public class TreeHuffmanDecoding {
 
 	}// End of Background Inner Class
 
-	// input is an array of frequencies, indexed by character code
-	public static Node buildTree(int[] charFreqs) {
+	private static class TestBehaviour implements ITestBehaviour {
 
-		PriorityQueue<Node> trees = new PriorityQueue<Node>();
-		// initially, we have a forest of leaves
-		// one for each non-empty character
-		for (int i = 0; i < charFreqs.length; i++)
-			if (charFreqs[i] > 0)
-				trees.offer(new HuffmanLeaf(charFreqs[i], (char) i));
+		Object[] input;
 
-		assert trees.size() > 0;
-
-		// loop until there is only one tree left
-		while (trees.size() > 1) {
-			// two trees with least frequency
-			Node a = trees.poll();
-			Node b = trees.poll();
-
-			// put into new node and re-insert into queue
-			trees.offer(new HuffmanNode(a, b));
+		public TestBehaviour(Object... input) {
+			this.input = input;
 		}
 
-		return trees.poll();
-	}
-
-	public static void main(String[] args) {
-		testCase1();
-		testCase2();
-		testCase3();
-	}// End of Main
-
-	private static void testCase1() {
-		String input = "ABACA";
-		testDecode(input, input);
-	}// End of Test Case
-
-	private static void testCase2() {
-		String input = "Rumpelstiltskin";
-		testDecode(input, input);
-	}// End of Test Case
-
-	private static void testCase3() {
-		String input = "howmuchwoodwouldawoodchuckchuckifawoodchuckcouldchuckwood?";
-		testDecode(input, input);
-	}// End of Test Case
-
-	private static void testDecode(String input, String expected) {
-
-		String test = input;
-		// we will assume that all our characters will have
-		// code less than 256, for simplicity
-		int[] charFreqs = new int[256];
-
-		// read each character and record the frequencies
-		for (char c : test.toCharArray())
-			charFreqs[c]++;
-
-		// build tree
-		Node tree = buildTree(charFreqs);
-
-		// print out results
-		printCodes(tree, new StringBuffer());
-		StringBuffer s = new StringBuffer();
-
-		for (int i = 0; i < test.length(); i++) {
-			char c = test.charAt(i);
-			s.append(mapA.get(c));
+		@Override
+		public void run() {
+			String s = String.class.cast(input[0]);
+			Node tree = Node.class.cast(input[1]);
+			Decoding d = new Decoding();
+			d.decode(s.toString(), tree);
 		}
 
-		String output = HackkerrankTestStream.manipulateSystemInput(new TestBehaviour(s.toString(), tree)).trim();
-		System.out.println(output);
-		assert expected.equals(output);
+	}// End of Private Class
+	
+	static class Solution {
 
-	} // End of Test
+		public static Map<Character, String> mapA = new HashMap<Character, String>();
 
-	public static void printCodes(Node tree, StringBuffer prefix) {
+		// input is an array of frequencies, indexed by character code
+		public static Node buildTree(int[] charFreqs) {
 
-		assert tree != null;
+			PriorityQueue<Node> trees = new PriorityQueue<Node>();
+			// initially, we have a forest of leaves
+			// one for each non-empty character
+			for (int i = 0; i < charFreqs.length; i++)
+				if (charFreqs[i] > 0)
+					trees.offer(new HuffmanLeaf(charFreqs[i], (char) i));
 
-		if (tree instanceof HuffmanLeaf) {
-			HuffmanLeaf leaf = (HuffmanLeaf) tree;
+			assert trees.size() > 0;
 
-			// print out character, frequency, and code for this leaf (which is just the
-			// prefix)
-			// System.out.println(leaf.data + "\t" + leaf.frequency + "\t" + prefix);
-			mapA.put(leaf.data, prefix.toString());
+			// loop until there is only one tree left
+			while (trees.size() > 1) {
+				// two trees with least frequency
+				Node a = trees.poll();
+				Node b = trees.poll();
 
-		} else if (tree instanceof HuffmanNode) {
-			HuffmanNode node = (HuffmanNode) tree;
+				// put into new node and re-insert into queue
+				trees.offer(new HuffmanNode(a, b));
+			}
 
-			// traverse left
-			prefix.append('0');
-			printCodes(node.left, prefix);
-			prefix.deleteCharAt(prefix.length() - 1);
-
-			// traverse right
-			prefix.append('1');
-			printCodes(node.right, prefix);
-			prefix.deleteCharAt(prefix.length() - 1);
+			return trees.poll();
 		}
 
-	}// End of Background Method
+		public static void main(String[] args) {
+			testCase1();
+			testCase2();
+			testCase3();
+		}// End of Main
+
+		private static void testCase1() {
+			String input = "ABACA";
+			testDecode(input, input);
+		}// End of Test Case
+
+		private static void testCase2() {
+			String input = "Rumpelstiltskin";
+			testDecode(input, input);
+		}// End of Test Case
+
+		private static void testCase3() {
+			String input = "howmuchwoodwouldawoodchuckchuckifawoodchuckcouldchuckwood?";
+			testDecode(input, input);
+		}// End of Test Case
+
+		private static void testDecode(String input, String expected) {
+
+			String test = input;
+			// we will assume that all our characters will have
+			// code less than 256, for simplicity
+			int[] charFreqs = new int[256];
+
+			// read each character and record the frequencies
+			for (char c : test.toCharArray())
+				charFreqs[c]++;
+
+			// build tree
+			Node tree = buildTree(charFreqs);
+
+			// print out results
+			printCodes(tree, new StringBuffer());
+			StringBuffer s = new StringBuffer();
+
+			for (int i = 0; i < test.length(); i++) {
+				char c = test.charAt(i);
+				s.append(mapA.get(c));
+			}
+
+			String output = HackkerrankTestStream.manipulateSystemInput(new TestBehaviour(s.toString(), tree)).trim();
+			System.out.println(output);
+			assert expected.equals(output);
+
+		} // End of Test
+
+		public static void printCodes(Node tree, StringBuffer prefix) {
+
+			assert tree != null;
+
+			if (tree instanceof HuffmanLeaf) {
+				HuffmanLeaf leaf = (HuffmanLeaf) tree;
+
+				// print out character, frequency, and code for this leaf (which is just the
+				// prefix)
+				// System.out.println(leaf.data + "\t" + leaf.frequency + "\t" + prefix);
+				mapA.put(leaf.data, prefix.toString());
+
+			} else if (tree instanceof HuffmanNode) {
+				HuffmanNode node = (HuffmanNode) tree;
+
+				// traverse left
+				prefix.append('0');
+				printCodes(node.left, prefix);
+				prefix.deleteCharAt(prefix.length() - 1);
+
+				// traverse right
+				prefix.append('1');
+				printCodes(node.right, prefix);
+				prefix.deleteCharAt(prefix.length() - 1);
+			}
+
+		}// End of Background Method
+
+	}// End of Background Class
 
 }// End of Class
