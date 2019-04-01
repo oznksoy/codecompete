@@ -7,9 +7,31 @@ import java.util.PriorityQueue;
 import com.hackerrank.test.support.HackkerrankTestStream;
 import com.hackerrank.test.support.ITestBehaviour;
 
+/**
+ * <p>
+ * Huffman tree is an encoding method for a set of characters, which is usually
+ * used in compression and documentation. Trick to build Huffman trees is to
+ * count the occurrence of each unique element; creating leaf nodes of the tree
+ * depending on the least frequent to most frequent and ensuring that the most
+ * frequent elements are at the upper levels of the tree. Making most frequent
+ * elements easier to decode would speed up the algorithm. Lastly, each leaf
+ * would be linked to a binder node which represents a leap point. If the
+ * huffman tree is right leaning, right nodes would be coded as 1, and left
+ * nodes would be coded as 0.
+ * </p>
+ * <p>
+ * In order to decode the tree, iterate though the huffman tree and encoded bits
+ * in parallel; once an element is found, continue to the root of the tree and
+ * repeat the process.
+ * </p>
+ * 
+ * @author Ozan Aksoy
+ *
+ */
 public class TreeHuffmanDecoding {
 
 	private static abstract class Node implements Comparable<Node> {
+
 		public int frequency; // the frequency of this tree
 		public char data;
 		public Node left, right;
@@ -22,6 +44,7 @@ public class TreeHuffmanDecoding {
 		public int compareTo(Node tree) {
 			return frequency - tree.frequency;
 		}
+
 	}// End of Background Private Class
 
 	private static class HuffmanLeaf extends Node {
@@ -60,7 +83,32 @@ public class TreeHuffmanDecoding {
 		 * @param root
 		 */
 		void decode(String s, Node root) {
-			System.out.println(s);
+			StringBuilder pool = new StringBuilder();
+			pool.append(s);
+			traverse(pool, root);
+		}// End of Method
+
+		void traverse(StringBuilder pool, Node root) {
+
+			if (pool.length() <= 0) {
+				return;
+			}
+			Node node = root;
+			// Iterate until the leaf node
+			while (node.right != null || node.left != null) {
+				char c = pool.charAt(0);
+				pool.deleteCharAt(0);
+				if (c == '1') {
+					node = node.right;
+				} else if (c == '0') {
+					node = node.left;
+				}
+			}
+			// Print decoded value
+			System.out.print(node.data);
+			// Continue to traverse
+			traverse(pool, root);
+
 		}// End of Method
 
 	}// End of Background Inner Class
@@ -82,7 +130,7 @@ public class TreeHuffmanDecoding {
 		}
 
 	}// End of Private Class
-	
+
 	static class Solution {
 
 		public static Map<Character, String> mapA = new HashMap<Character, String>();
