@@ -3,9 +3,10 @@ package com.hackerrank.datastructures.trees.medium;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.PriorityQueue;
-import java.util.Scanner;
 
 public class TreeHuffmanDecoding {
+
+	private static Map<Character, String> mapA = new HashMap<Character, String>();
 
 	private static abstract class Node implements Comparable<Node> {
 		public int frequency; // the frequency of this tree
@@ -20,7 +21,7 @@ public class TreeHuffmanDecoding {
 		public int compareTo(Node tree) {
 			return frequency - tree.frequency;
 		}
-	}
+	}// End of Background Private Class
 
 	private static class HuffmanLeaf extends Node {
 
@@ -29,7 +30,7 @@ public class TreeHuffmanDecoding {
 			data = val;
 		}
 
-	}
+	}// End of Background Private Class
 
 	private static class HuffmanNode extends Node {
 
@@ -39,7 +40,7 @@ public class TreeHuffmanDecoding {
 			right = r;
 		}
 
-	}
+	}// End of Background Private Class
 
 	/**
 	 * Fill the <code>decode</code> method
@@ -59,9 +60,9 @@ public class TreeHuffmanDecoding {
 		 */
 		void decode(String s, Node root) {
 
-		}
+		}// End of Method
 
-	}// End of Inner Class
+	}// End of Background Inner Class
 
 	// input is an array of frequencies, indexed by character code
 	public static Node buildTree(int[] charFreqs) {
@@ -88,7 +89,55 @@ public class TreeHuffmanDecoding {
 		return trees.poll();
 	}
 
-	public static Map<Character, String> mapA = new HashMap<Character, String>();
+	public static void main(String[] args) {
+		testCase1();
+		testCase2();
+		testCase3();
+	}// End of Main
+
+	private static void testCase1() {
+		String input = "ABACA";
+		testDecode(input, input);
+	}// End of Test Case
+
+	private static void testCase2() {
+		String input = "Rumpelstiltskin";
+		testDecode(input, input);
+	}// End of Test Case
+
+	private static void testCase3() {
+		String input = "howmuchwoodwouldawoodchuckchuckifawoodchuckcouldchuckwood?";
+		testDecode(input, input);
+	}// End of Test Case
+
+	private static void testDecode(String input, String expected) {
+
+		String test = input;
+		// we will assume that all our characters will have
+		// code less than 256, for simplicity
+		int[] charFreqs = new int[256];
+
+		// read each character and record the frequencies
+		for (char c : test.toCharArray())
+			charFreqs[c]++;
+
+		// build tree
+		Node tree = buildTree(charFreqs);
+
+		// print out results
+		printCodes(tree, new StringBuffer());
+		StringBuffer s = new StringBuffer();
+
+		for (int i = 0; i < test.length(); i++) {
+			char c = test.charAt(i);
+			s.append(mapA.get(c));
+		}
+
+		// System.out.println(s);
+		Decoding d = new Decoding();
+		d.decode(s.toString(), tree);
+
+	} // End of Test
 
 	public static void printCodes(Node tree, StringBuffer prefix) {
 
@@ -115,37 +164,7 @@ public class TreeHuffmanDecoding {
 			printCodes(node.right, prefix);
 			prefix.deleteCharAt(prefix.length() - 1);
 		}
-	}
 
-	public static void main(String[] args) {
-		Scanner input = new Scanner(System.in);
-
-		String test = input.next();
-
-		// we will assume that all our characters will have
-		// code less than 256, for simplicity
-		int[] charFreqs = new int[256];
-
-		// read each character and record the frequencies
-		for (char c : test.toCharArray())
-			charFreqs[c]++;
-
-		// build tree
-		Node tree = buildTree(charFreqs);
-
-		// print out results
-		printCodes(tree, new StringBuffer());
-		StringBuffer s = new StringBuffer();
-
-		for (int i = 0; i < test.length(); i++) {
-			char c = test.charAt(i);
-			s.append(mapA.get(c));
-		}
-
-		// System.out.println(s);
-		Decoding d = new Decoding();
-		d.decode(s.toString(), tree);
-
-	}
+	}// End of Background Method
 
 }// End of Class
