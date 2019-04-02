@@ -151,12 +151,24 @@ public class TreeLevelOrder {
 
 	public static void main(String[] args) {
 		testCase1();
+		testCase2();
+		testCase3();
 	}// End of Main
 
 	static void testCase1() {
 		int[] values = new int[] { 1, 2, 5, 3, 6, 4 };
 		String expected = "1 2 5 3 6 4";
 		test(values, expected);
+	}// End of Test
+	
+	static void testCase2() {
+		int[] values = new int[] { 7, 6, 12, 5, 8, 10, 13, 3, 4, 9, 11, 15, 1, 2 };
+		test(values, "7 6 12 5 8 13 3 10 15 1 4 9 11 2");
+	}// End of Test
+	
+	static void testCase3() {
+		int[] values = new int[] { 7, 6, 12, 5, 8, 10, 13 };
+		test(values, "7 6 12 5 8 13 10");
 	}// End of Test
 
 	static void test(int[] values, String expected) {

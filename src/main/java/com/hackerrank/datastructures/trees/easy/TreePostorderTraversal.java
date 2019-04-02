@@ -101,12 +101,18 @@ public class TreePostorderTraversal {
 
 	public static void main(String[] args) {
 		testCase1();
+		testCase2();
 	}// End of Main
 
 	static void testCase1() {
 		int[] values = new int[] { 1, 2, 5, 3, 6, 4 };
 		String expected = "4 3 6 5 2 1";
 		test(values, expected);
+	}// End of Test
+	
+	static void testCase2() {
+		int[] values = new int[] { 7, 6, 12, 5, 8, 10, 13, 3, 4, 9, 11, 15, 1, 2 };
+		test(values, "2 1 4 3 5 6 9 11 10 8 15 13 12 7");
 	}// End of Test
 
 	static void test(int[] values, String expected) {
@@ -119,6 +125,7 @@ public class TreePostorderTraversal {
 			i++;
 		}
 		String output = HackkerrankTestStream.manipulateSystemInput(new TestBehaviour(root)).trim();
+		System.out.println(output);
 		assert expected.equals(output);
 	}
 

@@ -98,12 +98,18 @@ public class TreeInorderTraversal {
 
 	public static void main(String[] args) {
 		testCase1();
+		testCase2();
 	}// End of Main
 
 	static void testCase1() {
 		int[] values = new int[] { 1, 2, 5, 3, 6, 4 };
 		String expected = "1 2 3 4 5 6";
 		test(values, expected);
+	}// End of Test
+	
+	static void testCase2() {
+		int[] values = new int[] { 7, 6, 12, 5, 8, 10, 13, 3, 4, 9, 11, 15, 1, 2 };
+		test(values, "1 2 3 4 5 6 7 8 9 10 11 12 13 15");
 	}// End of Test
 
 	static void test(int[] values, String expected) {
@@ -116,6 +122,7 @@ public class TreeInorderTraversal {
 			i++;
 		}
 		String output = HackkerrankTestStream.manipulateSystemInput(new TestBehaviour(root)).trim();
+		System.out.println(output);
 		assert expected.equals(output);
 	}
 
