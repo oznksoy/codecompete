@@ -43,12 +43,26 @@ public class BinarySearchTreeLowestCommonAncestor {
 	 * @return lowest common ancestor node of v1 and v2
 	 */
 	public static Node lca(Node root, int v1, int v2) {
+		if (root == null) {
+			return root;
+		}
 
-		// Tree can be recorded to a stack until both v1 and v2 is found.
-		Stack<Node> stack = new Stack<Node>();
+		if (root.data == v1 || root.data == v2) {
+			return root;
+		}
 
-		return null;
-	}
+		Node left = lca(root.left, v1, v2);
+		Node right = lca(root.right, v1, v2);
+
+		if (left != null && right != null) {
+			return root;
+		} else if (left != null) {
+			return left;
+		} else {
+			return right;// might be null;
+		}
+
+	}// End of Method
 
 	public static Node insert(Node root, int data) {
 		if (root == null) {
@@ -70,6 +84,9 @@ public class BinarySearchTreeLowestCommonAncestor {
 		testCase1();
 		testCase2();
 		testCase3();
+		testCase4();
+		testCase5();
+		testCase6();
 	}// End of Main
 
 	static void testCase1() {
@@ -92,8 +109,8 @@ public class BinarySearchTreeLowestCommonAncestor {
 
 	static void testCase4() {
 		int[] values = new int[] { 7, 6, 12, 5, 8, 10, 13, 3, 4, 9, 11, 15, 1, 2 };
-		int expected = 6;
-		test(values, 8, 1, expected);
+		int expected = 3;
+		test(values, 4, 1, expected);
 	}// End of Test
 
 	static void testCase5() {
