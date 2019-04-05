@@ -1,10 +1,5 @@
 package com.hackerrank.datastructures.trees.easy;
 
-import java.util.Stack;
-
-import com.hackerrank.test.support.HackkerrankTestStream;
-import com.hackerrank.test.support.ITestBehaviour;
-
 /**
  * <p>
  * You are given pointer to the root of the binary search tree and two values v1
