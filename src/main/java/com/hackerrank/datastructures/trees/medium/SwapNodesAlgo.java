@@ -78,12 +78,15 @@ public class SwapNodesAlgo {
 		return result;
 
 	}// End of Method
-
+	
 	private static int heightOf(Node root) {
+		
 		return heightOf(root, 0);
+		
 	}// End of Method
 
 	private static int heightOf(Node root, int h) {
+		
 		if (root == null) {
 			return h;
 		}
@@ -91,6 +94,7 @@ public class SwapNodesAlgo {
 		int hLeft = heightOf(root.left, h);
 		int hRight = heightOf(root.right, h);
 		return hLeft < hRight ? hRight : hLeft;
+		
 	}// End of Method
 
 	private static int writeNodesToResult(int[][] result, int row, int column, Node root) {
@@ -107,6 +111,7 @@ public class SwapNodesAlgo {
 	}// End of Method
 
 	private static void swap(Node root, int query) {
+		
 		if (root == null) {
 			return;
 		}
@@ -119,9 +124,11 @@ public class SwapNodesAlgo {
 			root.left = root.right;
 			root.right = left;
 		}
+		
 	}// End of Method
 
 	private static Node generateBinaryTree(int[][] indexes) {
+		
 		Node root = new Node(1);
 		int rowStart = 0;
 		int rowEnd = 0;
@@ -129,9 +136,11 @@ public class SwapNodesAlgo {
 		queue.add(root);
 		generateBinaryTree(rowStart, rowEnd, indexes, queue);
 		return root;
+		
 	}// End of Method
 
 	private static void generateBinaryTree(int rowStart, int rowEnd, int[][] indexes, Queue<Node> queue) {
+		
 		if (rowStart >= indexes.length) {
 			return;
 		}
@@ -155,6 +164,7 @@ public class SwapNodesAlgo {
 		int newRowStart = rowEnd + 1;
 		int newRowEnd = rowEnd + rowCount;
 		generateBinaryTree(newRowStart, newRowEnd, indexes, queue);
+		
 	}// End of Method
 
 	public static void main(String[] args) {
