@@ -1,5 +1,8 @@
 package com.hackerrank.datastructures.trees.medium;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 /**
  * <p>
  * Swapping: Swapping subtrees of a node means that if initially node has left
@@ -29,6 +32,18 @@ package com.hackerrank.datastructures.trees.medium;
  */
 public class SwapNodesAlgo {
 
+	private static class Node {
+		int data;
+		Node left;
+		Node right;
+
+		Node(int data) {
+			this.data = data;
+			this.left = null;
+			this.right = null;
+		}
+	}// End of Inner Background Class
+
 	/**
 	 * Write your code here.
 	 * 
@@ -38,15 +53,63 @@ public class SwapNodesAlgo {
 	 */
 	static int[][] swapNodes(int[][] indexes, int[] queries) {
 
+		if (indexes != null) {
+			generateBinaryTree(indexes);
+		}
+
 		return null;
+	}// End of Method
+
+	private static Node generateBinaryTree(int[][] indexes) {
+		Node root = new Node(1);
+		int rowStart = 0;
+		int rowEnd = 0;
+		Queue<Node> queue = new LinkedList<Node>();
+		queue.add(root);
+		generateBinaryTree(rowStart, rowEnd, indexes, queue);
+		return root;
+	}// End of Method
+
+	private static void generateBinaryTree(int rowStart, int rowEnd, int[][] indexes, Queue<Node> queue) {
+
+		if (rowStart >= indexes.length) {
+			return;
+		}
+		int rowCount = 0;
+		for (int row = rowStart; row <= rowEnd; row++) {
+			Node node = queue.poll();
+			Node left = null, right = null;
+			if (indexes[row][0] != -1) {
+				left = new Node(indexes[row][0]);
+				queue.add(left);
+				rowCount++;
+			}
+			if (indexes[row][1] != -1) {
+				right = new Node(indexes[row][1]);
+				queue.add(right);
+				rowCount++;
+			}
+			node.left = left;
+			node.right = right;
+		}
+		int newRowStart = rowEnd + 1;
+		int newRowEnd = rowEnd + rowCount;
+		generateBinaryTree(newRowStart, newRowEnd, indexes, queue);
 
 	}// End of Method
+
+	static int powOfTwo(int pow) {
+		if (pow == 0) {
+			return 1;
+		}
+		return 2 << pow - 1;
+	}
 
 	public static void main(String[] args) {
 
 		testCase1();
-		testCase2();
-		testCase3();
+//		testCase2();
+//		testCase3();
 
 	}// End of Main
 
