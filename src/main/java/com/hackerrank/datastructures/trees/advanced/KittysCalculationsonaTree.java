@@ -15,32 +15,14 @@ import com.hackerrank.test.support.ITestBehaviour;
 public class KittysCalculationsonaTree {
 
 	private static int[] calculateSolution(int[][] treeMatrix, List<Queue<Integer>> queries) {
-		testInputStream(treeMatrix);
-		testInputStream(queries);
+
+		
+		
+		
 		return null;
-	}
-
-	private static void testInputStream(int[][] treeMatrix) {
-		for (int r = 0; r < treeMatrix.length; r++) {
-			for (int c = 0; c < treeMatrix[0].length; c++) {
-				System.out.print(treeMatrix[r][c]);
-				System.out.print(" ");
-			}
-			System.out.print("\n");
-		}
+		
 	}// End of Method
 
-	private static void testInputStream(List<Queue<Integer>> queries) {
-		for (Queue<Integer> query : queries) {
-			Object[] arr = query.toArray();
-			for (Object obj : arr) {
-				Integer val = Integer.class.cast(obj);
-				System.out.print(val);
-				System.out.print(" ");
-			}
-			System.out.print("\n");
-		}
-	}// End of Method
 
 	private static void runCalculationSolution() {
 
@@ -118,8 +100,10 @@ public class KittysCalculationsonaTree {
 	}// End of Main
 
 	private static void testCase1() {
+		
 		String ls = System.lineSeparator();
-		String data = "7 3" + ls //
+		
+		String input = "7 3" + ls //
 				+ "1 2" + ls //
 				+ "1 3" + ls //
 				+ "1 4" + ls //
@@ -132,8 +116,19 @@ public class KittysCalculationsonaTree {
 				+ "5" + ls //
 				+ "3" + ls //
 				+ "2 4 5"; //
-		String output = HackkerrankTestStream.manipulateSystemInput(new TestBehaviour(data));
-		System.out.println(output);
-	}
+		
+		String expected = "16" + ls//
+				+ "0" + ls//
+				+ "106";
+
+		testRun(input, expected);
+		
+	}// End of Test Case
+
+	private static void testRun(String input, String expected) {
+		String output = HackkerrankTestStream.manipulateSystemInput(new TestBehaviour(input));
+		System.out.println(output.trim());
+		assert expected.trim().equals(output.trim());
+	}// End of Test Runner
 
 }// End of Class
