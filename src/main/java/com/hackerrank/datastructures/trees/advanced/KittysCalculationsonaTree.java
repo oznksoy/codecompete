@@ -14,15 +14,30 @@ import com.hackerrank.test.support.ITestBehaviour;
 
 public class KittysCalculationsonaTree {
 
+	private static class Node {
+
+		private int data;
+		private List<Node> nodes;
+
+		private Node(int data) {
+			this.data = data;
+			this.nodes = null;
+		}
+
+	}// End of Background Inner Class
+
 	private static int[] calculateSolution(int[][] treeMatrix, List<Queue<Integer>> queries) {
 
-		
+		Node root = generateTree(treeMatrix);
+		return null;
+
+	}// End of Method
+
+	private static Node generateTree(int[][] treeMatrix) {
 		
 		
 		return null;
-		
 	}// End of Method
-
 
 	private static void runCalculationSolution() {
 
@@ -32,6 +47,13 @@ public class KittysCalculationsonaTree {
 		String[] fL = scanner.nextLine().split(" ");
 		int n = convertToInt(fL[0]);
 		int q = convertToInt(fL[1]);
+
+		if (n < 2) {
+			for (int i = 0; i < q; i++) {
+				System.out.println("0");
+			}
+			return;
+		}
 
 		int[][] treeMatrix = new int[n - 1][2];
 		for (int i = 0; i < n - 1; i++) {
@@ -61,7 +83,7 @@ public class KittysCalculationsonaTree {
 			System.out.println("Results was null!");
 		}
 
-	}
+	}// End of Method
 
 	private static int convertToInt(String input) {
 		return Integer.valueOf(input).intValue();
@@ -100,9 +122,9 @@ public class KittysCalculationsonaTree {
 	}// End of Main
 
 	private static void testCase1() {
-		
+
 		String ls = System.lineSeparator();
-		
+
 		String input = "7 3" + ls //
 				+ "1 2" + ls //
 				+ "1 3" + ls //
@@ -116,13 +138,13 @@ public class KittysCalculationsonaTree {
 				+ "5" + ls //
 				+ "3" + ls //
 				+ "2 4 5"; //
-		
+
 		String expected = "16" + ls//
 				+ "0" + ls//
 				+ "106";
 
 		testRun(input, expected);
-		
+
 	}// End of Test Case
 
 	private static void testRun(String input, String expected) {
