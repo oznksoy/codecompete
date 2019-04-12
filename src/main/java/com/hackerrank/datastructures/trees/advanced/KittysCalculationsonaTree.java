@@ -34,8 +34,52 @@ public class KittysCalculationsonaTree {
 	}// End of Method
 
 	private static Node generateTree(int[][] treeMatrix) {
-		
-		
+
+		Node root = null;
+		for (int row = 0; row < treeMatrix.length; row++) {
+			int from = treeMatrix[row][0];
+			int to = treeMatrix[row][1];
+			root = insert(root, from, to);
+		}
+
+		return root;
+
+	}// End of Method
+
+	private static Node insert(Node root, int from, int to) {
+		if (root == null) {
+			root = new Node(from);
+		}
+		Node node = traverse(root, from);
+		if (node != null && node.nodes != null) {
+			for (Node subnode : node.nodes) {
+				if (subnode.data == to) {
+					return root;
+				}
+			}
+			node.nodes.add(new Node(to));
+		} else if (node != null) {
+			node.nodes = new LinkedList<KittysCalculationsonaTree.Node>();
+			node.nodes.add(new Node(to));
+		}
+		return root;
+	}// End of Method
+
+	private static Node traverse(Node node, int value) {
+		if (node == null) {
+			return null;
+		}
+		if (node.data == value) {
+			return node;
+		}
+		if (node.nodes != null) {
+			for (Node subNode : node.nodes) {
+				Node found = traverse(subNode, value);
+				if (found != null) {
+					return found;
+				}
+			}
+		}
 		return null;
 	}// End of Method
 
