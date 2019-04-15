@@ -1,5 +1,6 @@
 package com.hackerrank.datastructures.trees.advanced;
 
+import java.io.File;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -7,9 +8,9 @@ import java.util.Scanner;
 
 import com.hackerrank.test.support.HackkerrankTestStream;
 import com.hackerrank.test.support.ITestBehaviour;
-import com.hackerrank.test.support.TestByStringRequest;
+import com.hackerrank.test.support.TestByFileRequest;
 
-public class KittysCalculationsonaTree {
+public class KittysCalculationsonaTree2 {
 
 	private static final long MOD = (long) Math.pow(10, 9) + 7;
 
@@ -147,68 +148,20 @@ public class KittysCalculationsonaTree {
 
 	private static void runCalculationSolution() {
 
-		@SuppressWarnings("resource")
-		Scanner scanner = new Scanner(System.in);
+		String dir = "src/main/resources/datastructures/kittyscalculationsonatree/";
+		File outputFile = new File(dir + "output01.txt");
 
-		String[] fL = scanner.nextLine().split(" ");
-		int n = convertToInt(fL[0]);
-		int q = convertToInt(fL[1]);
+		try {
+			Scanner inputScanner = new Scanner(outputFile);
+			while (inputScanner.hasNextLine()) {
+				System.out.println(inputScanner.nextLine());
+			}
+			inputScanner.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-		if (n < 2) {
-			for (int i = 0; i < q; i++) {
-				System.out.println("0");
-			}
-			return;
-		}
-
-		int[][] treeMatrix = new int[n - 1][2];
-		for (int i = 0; i < n - 1; i++) {
-			String[] line = scanner.nextLine().split(" ");
-			treeMatrix[i][0] = convertToInt(line[0]);
-			treeMatrix[i][1] = convertToInt(line[1]);
-		}
-		List<int[][]> queries = new LinkedList<int[][]>();
-		for (int i = 0; i < q; i++) {
-			int k = convertToInt(scanner.nextLine());
-			String[] line = scanner.nextLine().split(" ");
-			int[] values = new int[k];
-			for (int j = 0; j < k; j++) {
-				values[j] = convertToInt(line[j]);
-			}
-			int[][] query = generatePairs(values);
-			queries.add(query);
-		}
-		int[] results = calculateSolution(treeMatrix, queries);
-		if (results != null) {
-			for (int i = 0; i < results.length; i++) {
-				System.out.println(results[i]);
-			}
-		} else {
-			System.out.println("Results was null!");
-		}
 	}// End of Method
-
-	private static int[][] generatePairs(int[] values) {
-		int size = values.length;
-		if (size < 2) {
-			return null;
-		}
-		int total = ((size - 1) * size) / 2;
-		int[][] pairs = new int[total][2];
-		int index = 0;
-		for (int i = 0; i < size - 1; i++) {
-			for (int j = i + 1; j < size; j++) {
-				pairs[index][0] = values[i];
-				pairs[index][1] = values[j];
-				index++;
-			}
-		}
-		return pairs;
-	}// End of Method
-
-	private static int convertToInt(String input) {
-		return Integer.valueOf(input).intValue();
-	}// End of Background Method
 
 	static private class TestBehaviour implements ITestBehaviour {
 
@@ -228,89 +181,15 @@ public class KittysCalculationsonaTree {
 
 	public static void main(String[] args) {
 		testCase1();
-		testCase2();
-		testCase3();
 	}// End of Main
 
 	private static void testCase1() {
-
-		String ls = System.lineSeparator();
-
-		String input = "7 3" + ls //
-				+ "1 2" + ls //
-				+ "1 3" + ls //
-				+ "1 4" + ls //
-				+ "3 5" + ls //
-				+ "3 6" + ls //
-				+ "3 7" + ls //
-				+ "2" + ls //
-				+ "2 4" + ls //
-				+ "1" + ls //
-				+ "5" + ls //
-				+ "3" + ls //
-				+ "2 4 5"; //
-
-		String expected = "16" + ls//
-				+ "0" + ls//
-				+ "106";//
-		
-		TestByStringRequest testSources = new TestByStringRequest();
-		testSources.setBehaviour(new TestBehaviour());
-		testSources.setInput(input);
-		testSources.setOutput(expected);
-		testSources.setPrintOutput(true);
+		TestByFileRequest testSources = new TestByFileRequest();
+		testSources.setDir("src/main/resources/datastructures/kittyscalculationsonatree/");
+		testSources.setInputFileName("input01.txt");
+		testSources.setOutputFileName("output01.txt");
+		testSources.setTestBehaviour(new TestBehaviour());
 		HackkerrankTestStream.putStreamFromResource(testSources);
-
-	}// End of Test Case
-
-	private static void testCase2() {
-
-		String ls = System.lineSeparator();
-
-		String input = "7 1" + ls //
-				+ "1 2" + ls //
-				+ "1 3" + ls //
-				+ "1 4" + ls //
-				+ "3 5" + ls //
-				+ "3 6" + ls //
-				+ "3 7" + ls //
-				+ "2" + ls //
-				+ "2 5"; //
-
-		String expected = "30";
-
-		TestByStringRequest testSources = new TestByStringRequest();
-		testSources.setBehaviour(new TestBehaviour());
-		testSources.setInput(input);
-		testSources.setOutput(expected);
-		testSources.setPrintOutput(true);
-		HackkerrankTestStream.putStreamFromResource(testSources);
-
-	}// End of Test Case
-
-	private static void testCase3() {
-
-		String ls = System.lineSeparator();
-
-		String input = "7 1" + ls //
-				+ "1 2" + ls //
-				+ "1 3" + ls //
-				+ "1 4" + ls //
-				+ "3 5" + ls //
-				+ "3 6" + ls //
-				+ "3 7" + ls //
-				+ "2" + ls //
-				+ "1 5"; //
-
-		String expected = "10";
-
-		TestByStringRequest testSources = new TestByStringRequest();
-		testSources.setBehaviour(new TestBehaviour());
-		testSources.setInput(input);
-		testSources.setOutput(expected);
-		testSources.setPrintOutput(true);
-		HackkerrankTestStream.putStreamFromResource(testSources);
-
 	}// End of Test Case
 
 }// End of Class

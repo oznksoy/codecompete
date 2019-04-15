@@ -8,6 +8,7 @@ import java.util.*;
 import java.util.concurrent.*;
 import java.util.regex.*;
 
+@Deprecated
 class HackerrankStandardFileReader {
 
 	static int func() {
