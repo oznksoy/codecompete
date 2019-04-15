@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 import com.hackerrank.test.support.HackkerrankTestStream;
 import com.hackerrank.test.support.ITestBehaviour;
+import com.hackerrank.test.support.TestByFileRequest;
 import com.hackerrank.test.support.TestByStringRequest;
 
 public class KittysCalculationsonaTree {
@@ -230,6 +231,8 @@ public class KittysCalculationsonaTree {
 		testCase1();
 		testCase2();
 		testCase3();
+		testCase4();
+		testCase5();
 	}// End of Main
 
 	private static void testCase1() {
@@ -312,5 +315,24 @@ public class KittysCalculationsonaTree {
 		HackkerrankTestStream.putStreamFromResource(testSources);
 
 	}// End of Test Case
+	
+	private static void testCase4() {
+		TestByFileRequest testSources = new TestByFileRequest();
+		testSources.setDir("src/main/resources/datastructures/kittyscalculationsonatree/");
+		testSources.setInputFileName("input01.txt");
+		testSources.setOutputFileName("output01.txt");
+		testSources.setTestBehaviour(new TestBehaviour());
+		HackkerrankTestStream.putStreamFromResource(testSources);
+	}// End of Test Case
+	
+	private static void testCase5() {
+		TestByFileRequest testSources = new TestByFileRequest();
+		testSources.setDir("src/main/resources/datastructures/kittyscalculationsonatree/");
+		testSources.setInputFileName("input04.txt");
+		testSources.setOutputFileName("output04.txt");
+		testSources.setTestBehaviour(new TestBehaviour());
+		HackkerrankTestStream.putStreamFromResource(testSources);
+	}// End of Test Case
+
 
 }// End of Class
