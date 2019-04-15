@@ -37,13 +37,13 @@ public class HackkerrankTestStream {
 
 	}// End of Test Utility Method
 
-	public static void putStreamFromResource(TestByStringRequest testSources) {
+	public static void putStreamFromResource(TestByStringRequest testRequest) {
 
 		putStreamFromResource(//
-				testSources.getBehaviour(), //
-				testSources.getInput(), //
-				testSources.getOutput(), //
-				testSources.isPrintOutput()//
+				testRequest.getBehaviour(), //
+				testRequest.getInput(), //
+				testRequest.getOutput(), //
+				testRequest.isPrintOutput()//
 		);//
 
 	}// End of Test Utility Method
@@ -64,12 +64,12 @@ public class HackkerrankTestStream {
 
 	}// End of Test Utility Method
 
-	public static void putStreamFromResource(TestByFileRequest testSources) {
+	public static void putStreamFromResource(TestByFileRequest testRequest) {
 		putStreamFromResource( //
-				testSources.getTestBehaviour(), //
-				testSources.getDir(), //
-				testSources.getInputFileName(), //
-				testSources.getOutputFileName() //
+				testRequest.getTestBehaviour(), //
+				testRequest.getDir(), //
+				testRequest.getInputFileName(), //
+				testRequest.getOutputFileName() //
 		); //
 	}// End of Test Utility Method
 
