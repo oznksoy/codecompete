@@ -15,7 +15,7 @@ import com.hackerrank.test.support.ITestBehaviour;
 import com.hackerrank.test.support.TestByFileRequest;
 import com.hackerrank.test.support.TestByStringRequest;
 
-public class KittysCalculationsonaTree {
+public class KittysCalculationsonaTreeSolWithMapsAndSet {
 
 	private static final long MOD = (long) Math.pow(10, 9) + 7;
 
@@ -86,21 +86,16 @@ public class KittysCalculationsonaTree {
 				}
 				int dist = (sLen + tLen) - (2 * step);
 				result += calculateSolutionWithDistance(queryArray[i], queryArray[j], dist);
+				result = result % MOD;
 			}
 		}
-
-		result = result % MOD;
 
 		return (int) result;
 
 	}// End of Method
 
 	private static long calculateSolutionWithDistance(long u, long v, long dist) {
-		u = u % MOD;
-		v = v % MOD;
-		dist = dist % MOD;
-		long result = (u * v * dist) % MOD;
-		return result;
+		return (u * v * dist) % MOD;
 	}// End of Method
 
 	private static Integer findAndRemoveInit(Set<Integer> query) {
@@ -212,11 +207,13 @@ public class KittysCalculationsonaTree {
 	}// End of Private Class
 
 	public static void main(String[] args) {
-		testCase1();
-		testCase2();
-		testCase3();
-		testCase4();
-		testCase5();
+//		testCase1();
+//		testCase2();
+//		testCase3();
+//		testCase01();
+//		testCase04();
+		testCase08();
+//		testCase14();
 	}// End of Main
 
 	private static void testCase1() {
@@ -300,7 +297,7 @@ public class KittysCalculationsonaTree {
 
 	}// End of Test Case
 
-	private static void testCase4() {
+	private static void testCase01() {
 		TestByFileRequest testSources = new TestByFileRequest();
 		testSources.setDir("src/main/resources/datastructures/kittyscalculationsonatree/");
 		testSources.setInputFileName("input01.txt");
@@ -309,11 +306,29 @@ public class KittysCalculationsonaTree {
 		HackkerrankTestStream.putStreamFromResource(testSources);
 	}// End of Test Case
 
-	private static void testCase5() {
+	private static void testCase04() {
 		TestByFileRequest testSources = new TestByFileRequest();
 		testSources.setDir("src/main/resources/datastructures/kittyscalculationsonatree/");
 		testSources.setInputFileName("input04.txt");
 		testSources.setOutputFileName("output04.txt");
+		testSources.setTestBehaviour(new TestBehaviour());
+		HackkerrankTestStream.putStreamFromResource(testSources);
+	}// End of Test Case
+
+	private static void testCase08() {
+		TestByFileRequest testSources = new TestByFileRequest();
+		testSources.setDir("src/main/resources/datastructures/kittyscalculationsonatree/");
+		testSources.setInputFileName("input08.txt");
+		testSources.setOutputFileName("output08.txt");
+		testSources.setTestBehaviour(new TestBehaviour());
+		HackkerrankTestStream.putStreamFromResource(testSources);
+	}// End of Test Case
+
+	private static void testCase14() {
+		TestByFileRequest testSources = new TestByFileRequest();
+		testSources.setDir("src/main/resources/datastructures/kittyscalculationsonatree/");
+		testSources.setInputFileName("input14.txt");
+		testSources.setOutputFileName("output14.txt");
 		testSources.setTestBehaviour(new TestBehaviour());
 		HackkerrankTestStream.putStreamFromResource(testSources);
 	}// End of Test Case

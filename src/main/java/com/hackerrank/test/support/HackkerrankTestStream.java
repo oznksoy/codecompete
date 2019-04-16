@@ -1,5 +1,6 @@
 package com.hackerrank.test.support;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -80,10 +81,10 @@ public class HackkerrankTestStream {
 		File outputFile = new File(dir + outputFileName);
 
 		try {
-			FileInputStream inputs = new FileInputStream(inputFile);
+			BufferedInputStream inputs = new BufferedInputStream(new FileInputStream(inputFile));
 			InputStream orj = System.in;
 			System.setIn(inputs);
-			FileInputStream expectedOutputs = new FileInputStream(outputFile);
+			BufferedInputStream expectedOutputs = new BufferedInputStream(new FileInputStream(outputFile));
 			testRun(testBehaviour, expectedOutputs, dir, outputFileName);
 			System.setIn(orj);
 			inputs.close();
@@ -119,9 +120,9 @@ public class HackkerrankTestStream {
 
 	}// End of Test Runner
 
-	public static void testRun(ITestBehaviour testBehavior, FileInputStream expectedOutput, String dir,
+	public static void testRun(ITestBehaviour testBehavior, BufferedInputStream expectedOutput, String dir,
 			String outputFileName) {
-
+		long startTime = System.currentTimeMillis();
 		ByteArrayOutputStream actualOutput = HackkerrankTestStream.manipulateSystemStreamInAndOut(testBehavior);
 		if (outputFileName != null && dir != null && !outputFileName.trim().isEmpty() && !dir.trim().isEmpty()) {
 			HackkerrankTestStream.writeOutputToFile(dir, outputFileName, actualOutput);
@@ -130,12 +131,17 @@ public class HackkerrankTestStream {
 		Scanner actual = new Scanner(new ByteArrayInputStream(actualOutput.toByteArray()));
 		try {
 			while (expected.hasNext()) {
-				assert expected.nextLine().equals(actual.nextLine());
+				String expectedLine = expected.nextLine();
+				String actualLine = actual.nextLine();
+				assert expectedLine.equals(actualLine);
 			}
 			assert !expected.hasNext() && !actual.hasNext();
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.out.print("Test Failed! : ");			
 		} finally {
+			long endTime = System.currentTimeMillis();
+			System.out.println("Test Complete! : time : " + (endTime - startTime) + " ms");
 			if (expected != null) {
 				expected.close();
 			}
