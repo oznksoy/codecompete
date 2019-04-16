@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -58,29 +59,51 @@ public class KittysCalculationsonaTree {
 	private static Integer calculateSolution(Set<Integer> query, Map<Integer, Set<Integer>> adjMap) {
 
 		Map<Integer, List<Integer>> routeMap = new HashMap<Integer, List<Integer>>(query.size() - 1);
+		Integer init = findAndRemoveInit(query);
+		findDistance(routeMap, adjMap, init, query);
+		//Distance to init is what map route map shows
+		return null;
+
+	}// End of Method
+
+	private static Integer findAndRemoveInit(Set<Integer> query) {
 		Iterator<Integer> iter = query.iterator();
 		Integer init = iter.next();
-		while (iter.hasNext()) {
-			findDistance(routeMap, adjMap, init, iter.next());
+		query.remove(init);
+		return init;
+	}
+
+//	private static Integer findDistance(Map<Integer, List<Integer>> routeMap, Map<Integer, Set<Integer>> adjMap,
+//			Integer a, Integer b) {
+//
+//		return null;
+//
+//	}// End of Method
+
+	private static Integer findDistance(Map<Integer, List<Integer>> routeMap, Map<Integer, Set<Integer>> adjMap,
+			Integer init, Set<Integer> rest) {
+
+		if (rest.isEmpty()) {
+			return null;
 		}
 
-		return null;
+		Set<Integer> adjacents = adjMap.get(init);
+		for (Iterator<Integer> values = adjacents.iterator(); values.hasNext();) {
+			Integer value = values.next();
+			if (rest.contains(value)) {
+				List<Integer> route = new LinkedList<Integer>();
+				route.add(value);
+				routeMap.put(value, route);
+				rest.remove(value);
+				return value;
+			}
+			Integer receivedValue = findDistance(routeMap, adjMap, value, rest);
+			if (receivedValue != null) {
+				routeMap.get(receivedValue).add(value);
+				return receivedValue;
+			}
+		}
 
-	}// End of Method
-
-	private static Integer findDistance(Map<Integer, List<Integer>> routeMap, Map<Integer, Set<Integer>> adjMap,
-			Integer a, Integer b) {
-
-		return null;
-
-	}// End of Method
-
-	private static Integer findDistance(Map<Integer, List<Integer>> routeMap, Map<Integer, Set<Integer>> adjMap,
-			Integer init, Integer valueAt, Set<Integer> rest) {
-
-		Set adjSet = adjMap.get(valueAt);
-		
-		
 		return null;
 
 	}// End of Method
@@ -157,10 +180,10 @@ public class KittysCalculationsonaTree {
 
 	public static void main(String[] args) {
 		testCase1();
-		testCase2();
-		testCase3();
-		testCase4();
-		testCase5();
+//		testCase2();
+//		testCase3();
+//		testCase4();
+//		testCase5();
 	}// End of Main
 
 	private static void testCase1() {
