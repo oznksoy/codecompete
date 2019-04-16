@@ -15,40 +15,43 @@ import com.hackerrank.test.support.ITestBehaviour;
 import com.hackerrank.test.support.TestByFileRequest;
 import com.hackerrank.test.support.TestByStringRequest;
 
+/**
+ * <p>
+ * The solution would require two approaches This is an "unrooted" tree, meaning
+ * that any node that is selected first can be defined as a root. There are two
+ * approaches to follow if above statement is true. First option is to find the
+ * optimal root. Where the selected root would resemble a balanced tree. But,
+ * this will hardly effect the performance to find optimal distance. Second, we
+ * can select the root as the first query element. This would naturally create a
+ * tree with root being the first element.
+ * </p>
+ * <p>
+ * To find distance, we can run a shortest path discovery and traverse the tree,
+ * and also record all paths found during the initial query pair match. That is;
+ * if Q:{a,b,c,d,e,..} is the query array, then (a,b), (a,c), (a,d) paths might
+ * signal the lowest common ancestor between (b,c) and (b,d) and so on.
+ * </p>
+ * 
+ */
 public class KittysCalculationsonaTree {
 
 	private static final long MOD = (long) Math.pow(10, 9) + 7;
 
-	/**
-	 * <p>
-	 * The solution would require two approaches This is an "unrooted" tree, meaning
-	 * that any node that is selected first can be defined as a root. There are two
-	 * approaches to follow if above statement is true. First option is to find the
-	 * optimal root. Where the selected root would resemble a balanced tree. But,
-	 * this will hardly effect the performance to find optimal distance. Second, we
-	 * can select the root as the first query element. This would naturally create a
-	 * tree with root being the first element.
-	 * </p>
-	 * <p>
-	 * To find distance, we can run a shortest path discovery and traverse the tree,
-	 * and also record all paths found during the initial query pair match. That is;
-	 * if Q:{a,b,c,d,e,..} is the query array, then (a,b), (a,c), (a,d) paths might
-	 * signal the lowest common ancestor between (b,c) and (b,d) and so on.
-	 * </p>
-	 * 
-	 * @param adjMap
-	 * @param queries
-	 * @return
-	 */
+	private static Integer root = 0;
+
 	private static List<Integer> calculate(Map<Integer, Set<Integer>> adjMap, List<Set<Integer>> queries) {
 
+		root = 0;
+
 		List<Integer> results = new ArrayList<Integer>(queries.size());
+
+		Map<Integer, List<Integer>> routeMap = new HashMap<Integer, List<Integer>>(adjMap.size() - 1);
 
 		for (Set<Integer> query : queries) {// iterate through queries
 			if (query.size() < 2) {
 				results.add(0);
 			} else {
-				results.add(calculateSolution(query, adjMap));
+				results.add(calculateSolutionDFS2(routeMap, query, adjMap));
 			}
 		}
 
@@ -56,20 +59,35 @@ public class KittysCalculationsonaTree {
 
 	}// End of Method
 
-	private static Integer calculateSolution(Set<Integer> query, Map<Integer, Set<Integer>> adjMap) {
+	private static Integer calculateSolutionDFS2(Map<Integer, List<Integer>> routeMap, Set<Integer> query,
+			Map<Integer, Set<Integer>> adjMap) {
 
-		Map<Integer, List<Integer>> routeMap = new HashMap<Integer, List<Integer>>(query.size() - 1);
-		Integer init = findAndRemoveInit(query);
+		boolean isRooted = false;
+		if (root == 0) {
+			root = findAndRemoveInit(query);
+			isRooted = true;
+		} else if (query.contains(root)) {
+			query.remove(root);
+			isRooted = true;
+		}
+
 		Integer[] queryArray = new Integer[query.size()];
 		query.toArray(queryArray);
-		while (!query.isEmpty()) {
-			Set<Integer> visited = new HashSet<Integer>();
-			findDistanceDFS(routeMap, adjMap, visited, init, query);
+		query.removeAll(routeMap.keySet());
+
+		for (Iterator<Integer> iter = query.iterator(); iter.hasNext();) {
+			Integer key = iter.next();
+			if (!routeMap.containsKey(key)) {
+				findDistanceDFS2(routeMap, adjMap, new HashSet<Integer>(), root, key);
+			}
 		}
 		// Distance to init is what map route map shows
 		long result = 0;
-		for (Integer target : queryArray) {
-			result += calculateSolutionWithDistance(init, target, routeMap.get(target).size());
+		if (isRooted) {
+			for (Integer target : queryArray) {
+				result += calculateSolutionWithDistance(root, target, routeMap.get(target).size());
+				result = result % MOD;
+			}
 		}
 		for (int i = 0; i < queryArray.length - 1; i++) {
 			for (int j = i + 1; j < queryArray.length; j++) {
@@ -86,49 +104,29 @@ public class KittysCalculationsonaTree {
 				}
 				int dist = (sLen + tLen) - (2 * step);
 				result += calculateSolutionWithDistance(queryArray[i], queryArray[j], dist);
+				result = result % MOD;
 			}
 		}
-
-		result = result % MOD;
 
 		return (int) result;
 
 	}// End of Method
 
-	private static long calculateSolutionWithDistance(long u, long v, long dist) {
-		u = u % MOD;
-		v = v % MOD;
-		dist = dist % MOD;
-		long result = (u * v * dist) % MOD;
-		return result;
-	}// End of Method
+	private static Integer findDistanceDFS2(Map<Integer, List<Integer>> routeMap, Map<Integer, Set<Integer>> adjMap,
+			Set<Integer> visited, Integer init, Integer target) {
 
-	private static Integer findAndRemoveInit(Set<Integer> query) {
-		Iterator<Integer> iter = query.iterator();
-		Integer init = iter.next();
-		query.remove(init);
-		return init;
-	}
-
-	private static Integer findDistanceDFS(Map<Integer, List<Integer>> routeMap, Map<Integer, Set<Integer>> adjMap,
-			Set<Integer> visited, Integer init, Set<Integer> rest) {
-
-		if (rest.isEmpty()) {
-			return null;
-		}
 		Set<Integer> adjacents = adjMap.get(init);
 		visited.add(init);
 		for (Iterator<Integer> values = adjacents.iterator(); values.hasNext();) {
 			Integer value = values.next();
-			if (rest.contains(value)) {
+			if (target.equals(value)) {
 				List<Integer> route = new LinkedList<Integer>();
 				route.add(value);
 				routeMap.put(value, route);
-				rest.remove(value);
 				return value;
 			}
 			if (!visited.contains(value)) {
-				Integer receivedValue = findDistanceDFS(routeMap, adjMap, visited, value, rest);
+				Integer receivedValue = findDistanceDFS2(routeMap, adjMap, visited, value, target);
 				if (receivedValue != null) {
 					routeMap.get(receivedValue).add(value);
 					return receivedValue;
@@ -138,6 +136,18 @@ public class KittysCalculationsonaTree {
 
 		return null;
 
+	}// End of Method
+
+	private static long calculateSolutionWithDistance(long u, long v, long dist) {
+		long result = (u * v * dist) % MOD;
+		return result;
+	}// End of Method
+
+	private static Integer findAndRemoveInit(Set<Integer> query) {
+		Iterator<Integer> iter = query.iterator();
+		Integer init = iter.next();
+		query.remove(init);
+		return init;
 	}// End of Method
 
 	/**
@@ -212,11 +222,11 @@ public class KittysCalculationsonaTree {
 	}// End of Private Class
 
 	public static void main(String[] args) {
-		testCase1();
-		testCase2();
-		testCase3();
-		testCase4();
-		testCase5();
+//		testCase1();
+//		testCase2();
+//		testCase3();
+		testCaseFile01();
+//		testCaseFile04();
 	}// End of Main
 
 	private static void testCase1() {
@@ -300,7 +310,7 @@ public class KittysCalculationsonaTree {
 
 	}// End of Test Case
 
-	private static void testCase4() {
+	private static void testCaseFile01() {
 		TestByFileRequest testSources = new TestByFileRequest();
 		testSources.setDir("src/main/resources/datastructures/kittyscalculationsonatree/");
 		testSources.setInputFileName("input01.txt");
@@ -309,7 +319,7 @@ public class KittysCalculationsonaTree {
 		HackkerrankTestStream.putStreamFromResource(testSources);
 	}// End of Test Case
 
-	private static void testCase5() {
+	private static void testCaseFile04() {
 		TestByFileRequest testSources = new TestByFileRequest();
 		testSources.setDir("src/main/resources/datastructures/kittyscalculationsonatree/");
 		testSources.setInputFileName("input04.txt");
