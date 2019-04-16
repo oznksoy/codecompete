@@ -3,6 +3,7 @@ package com.hackerrank.datastructures.trees.advanced;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -17,8 +18,69 @@ public class KittysCalculationsonaTree {
 
 	private static final long MOD = (long) Math.pow(10, 9) + 7;
 
+	/**
+	 * <p>
+	 * The solution would require two approaches This is an "unrooted" tree, meaning
+	 * that any node that is selected first can be defined as a root. There are two
+	 * approaches to follow if above statement is true. First option is to find the
+	 * optimal root. Where the selected root would resemble a balanced tree. But,
+	 * this will hardly effect the performance to find optimal distance. Second, we
+	 * can select the root as the first query element. This would naturally create a
+	 * tree with root being the first element.
+	 * </p>
+	 * <p>
+	 * To find distance, we can run a shortest path discovery and traverse the tree,
+	 * and also record all paths found during the initial query pair match. That is;
+	 * if Q:{a,b,c,d,e,..} is the query array, then (a,b), (a,c), (a,d) paths might
+	 * signal the lowest common ancestor between (b,c) and (b,d) and so on.
+	 * </p>
+	 * 
+	 * @param adjMap
+	 * @param queries
+	 * @return
+	 */
 	private static List<Integer> calculate(Map<Integer, Set<Integer>> adjMap, List<Set<Integer>> queries) {
 
+		List<Integer> results = new ArrayList<Integer>(queries.size());
+
+		for (Set<Integer> query : queries) {// iterate through queries
+			if (query.size() < 2) {
+				results.add(0);
+			} else {
+				results.add(calculateSolution(query, adjMap));
+			}
+		}
+
+		return results;
+
+	}// End of Method
+
+	private static Integer calculateSolution(Set<Integer> query, Map<Integer, Set<Integer>> adjMap) {
+
+		Map<Integer, List<Integer>> routeMap = new HashMap<Integer, List<Integer>>(query.size() - 1);
+		Iterator<Integer> iter = query.iterator();
+		Integer init = iter.next();
+		while (iter.hasNext()) {
+			findDistance(routeMap, adjMap, init, iter.next());
+		}
+
+		return null;
+
+	}// End of Method
+
+	private static Integer findDistance(Map<Integer, List<Integer>> routeMap, Map<Integer, Set<Integer>> adjMap,
+			Integer a, Integer b) {
+
+		return null;
+
+	}// End of Method
+
+	private static Integer findDistance(Map<Integer, List<Integer>> routeMap, Map<Integer, Set<Integer>> adjMap,
+			Integer init, Integer valueAt, Set<Integer> rest) {
+
+		Set adjSet = adjMap.get(valueAt);
+		
+		
 		return null;
 
 	}// End of Method
