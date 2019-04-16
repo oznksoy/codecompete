@@ -207,13 +207,13 @@ public class KittysCalculationsonaTreeSolWithMapsAndSet {
 	}// End of Private Class
 
 	public static void main(String[] args) {
-//		testCase1();
-//		testCase2();
-//		testCase3();
-//		testCase01();
-//		testCase04();
+		testCase1();
+		testCase2();
+		testCase3();
+		testCase01();
+		testCase04();
 		testCase08();
-//		testCase14();
+		testCase14();
 	}// End of Main
 
 	private static void testCase1() {
