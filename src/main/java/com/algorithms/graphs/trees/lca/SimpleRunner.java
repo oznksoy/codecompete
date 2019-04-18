@@ -1,6 +1,6 @@
 package com.algorithms.graphs.trees.lca;
 
-class SimpleTestRunner {
+class SimpleRunner {
 
 	public static void main(String[] args) {
 		testCase01();
