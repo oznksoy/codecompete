@@ -1,7 +1,6 @@
 package com.hackerrank.datastructures.trees.advanced;
 
 import java.util.ArrayList;
-import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -116,7 +115,6 @@ public class KittysCalculationsonaTree {
 			visited.add(route);
 		}
 		routes.remove(root);
-//		fillRouteMap(routeMap, adjMap, visited, routes, adjQueue);
 
 		while (visited.size() != adjMap.size()) {
 
@@ -147,37 +145,6 @@ public class KittysCalculationsonaTree {
 		return routeMap;
 
 	}// End of Method
-
-//	private static void fillRouteMap(Map<Integer, List<Integer>> routeMap, Map<Integer, Set<Integer>> adjMap,
-//			Set<Integer> visited, Queue<Integer> routes, Queue<Set<Integer>> adjQueue) {
-//
-//		if (visited.size() == adjMap.size()) {
-//			return;
-//		}
-//
-//		Queue<Integer> nextRoutes = new LinkedList<Integer>();
-//		Queue<Set<Integer>> nextAdjQueue = new LinkedList<Set<Integer>>();
-//
-//		while (adjQueue.peek() != null && routes.peek() != null) {
-//			Set<Integer> adjSet = adjQueue.poll();
-//			Integer previousRoute = routes.poll();
-//			for (Integer route : adjSet) {
-//				if (!visited.contains(route)) {
-//					List<Integer> trail = routeMap.get(previousRoute);
-//					List<Integer> currentRoute = new ArrayList<Integer>();
-//					currentRoute.addAll(trail);
-//					currentRoute.add(route);
-//					routeMap.put(route, currentRoute);
-//					nextRoutes.add(route);
-//					nextAdjQueue.add(adjMap.get(route));
-//					visited.add(route);
-//				}
-//			}
-//		}
-//
-//		fillRouteMap(routeMap, adjMap, visited, nextRoutes, nextAdjQueue);
-//
-//	}// End of Method
 
 	private static long calculateSolutionWithDistance(long u, long v, long dist) {
 		long result = (u * v * dist) % MOD;

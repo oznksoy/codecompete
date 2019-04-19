@@ -1,4 +1,4 @@
-package com.algorithms.graphs.trees.lca;
+package com.algorithms.graphs.trees;
 
 class SimpleRunner {
 
