@@ -123,17 +123,17 @@ public class AlmostSortedSolution {
 	}// End of Method
 
 	public static void main(String[] args) {
-//		testAlmostSorted(new int[] { 4, 2 });// "yes","swap 1 2"
-//		testAlmostSorted(new int[] { 5, 4, 3, 6, 7 });// "yes","reverse 1 3"
-//		testAlmostSorted(new int[] { 3, 1, 2 });// "no"
-//		testAlmostSorted(new int[] { 1, 2, 3 });// "yes"
-//		testAlmostSorted(new int[] { 1, 2, 3, 4, 5, 6 });// "yes"
-//		testAlmostSorted(new int[] { 1, 5, 4, 3, 2, 6 });// "yes","reverse 2 5"
-//		testAlmostSorted(new int[] { 1, 2, 4, 3, 5, 6, 7, 8 });// "yes","swap 3 4"
-//		testAlmostSorted(new int[] { 1, 2, 3, 6, 5, 4, 7, 8 });// "yes","reverse 4 6"
-//		testAlmostSorted(new int[] { 1, 8, 3, 4, 5, 6, 7, 2 });// "yes","swap 2 8"
-//		testAlmostSorted(new int[] { 1, 2, 3, 6, 5, 4, 7, 8, 9, 12, 11, 10 });// "no"
-//		testAlmostSorted(new int[] { 1, 2, 3, 10, 5, 6, 7, 8, 9, 4, 11, 12 });// "yes","swap 4 10"
+		testAlmostSorted(new int[] { 4, 2 });// "yes","swap 1 2"
+		testAlmostSorted(new int[] { 5, 4, 3, 6, 7 });// "yes","reverse 1 3"
+		testAlmostSorted(new int[] { 3, 1, 2 });// "no"
+		testAlmostSorted(new int[] { 1, 2, 3 });// "yes"
+		testAlmostSorted(new int[] { 1, 2, 3, 4, 5, 6 });// "yes"
+		testAlmostSorted(new int[] { 1, 5, 4, 3, 2, 6 });// "yes","reverse 2 5"
+		testAlmostSorted(new int[] { 1, 2, 4, 3, 5, 6, 7, 8 });// "yes","swap 3 4"
+		testAlmostSorted(new int[] { 1, 2, 3, 6, 5, 4, 7, 8 });// "yes","reverse 4 6"
+		testAlmostSorted(new int[] { 1, 8, 3, 4, 5, 6, 7, 2 });// "yes","swap 2 8"
+		testAlmostSorted(new int[] { 1, 2, 3, 6, 5, 4, 7, 8, 9, 12, 11, 10 });// "no"
+		testAlmostSorted(new int[] { 1, 2, 3, 10, 5, 6, 7, 8, 9, 4, 11, 12 });// "yes","swap 4 10"
 
 	}// End of Main
 
