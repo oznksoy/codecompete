@@ -132,7 +132,7 @@ public class SquareRootDecompositionSolution {
 			int bIdx = b;
 			if (aIdx > bIdx) {
 				bIdx = aIdx + bIdx;
-				aIdx = bIdx;
+				aIdx = bIdx - aIdx;
 				bIdx -= aIdx;
 			}
 

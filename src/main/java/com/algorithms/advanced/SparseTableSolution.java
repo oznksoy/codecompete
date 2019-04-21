@@ -1,5 +1,8 @@
 package com.algorithms.advanced;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * <p>
  * Sparse table is a solution for very fast queries on preferably immutable
@@ -23,8 +26,9 @@ package com.algorithms.advanced;
  * taking the result of a query on 2^1, 2^2 and 2^3 number of elements
  * consecutively. But, there is a trick. Each repetition of query result is used
  * to fill the latter query, thus generation of results are also speeded up.
- * Image that a frame of length 2 range i is traversing the original array at +1
- * rate. Each step will aggregate to
+ * Imagine that a frame of length 2 range i is traversing the original array at
+ * +1 rate. Each step will aggregate to the corresponding frame at the
+ * consecutive index.
  * </p>
  * <p>
  * For example, for a query that is the sum of range; let the array be :
@@ -35,33 +39,40 @@ package com.algorithms.advanced;
  * <li>R0 : { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }</li>
  * <li>R1 : { 3, 5, 7, 9, 11, 13, 15, 17, 19 }</li>
  * <li>R2 : { 10, 14, 18, 22, 26, 30, 34 }</li>
- * <li>R3 : { 32, 40, 48, 56 }</li>
+ * <li>R3 : { 36, 44, 52 }</li>
  * </p>
  * <p>
  * How do we find the values?
  * </p>
  * <ul>
- * <li>Iteration 0 : 2^0 = 1 : previous iteration step length = 0 since
- * range/power is 0. Thus;
+ * <li>Iteration 0 : 2^0 = 1 : since range/power is 2^0 = 1. Thus;
  * <ul>
  * <li>table[0][0] = arr[0];</li>
  * <li>table[0][1] = arr[1];</li>
  * <li>table[0][2] = arr[2];...</li>
  * </ul>
  * </li>
- * <li>Iteration 1 : 2^1 = 2 : previous iteration step length = 1 since
- * range/power is 1. Thus;
+ * <li>Iteration 1 : 2^1 = 2 : previous iteration step length = 1 since previous
+ * range is 2^0. Thus;
  * <ul>
  * <li>table[1][0] = table[0][0] + table[0][1];</li>
- * <li>table[1][1] = table[0][1]+table[0][2];</li>
- * <li>table[1][2] = table[0][1]+table[0][2];...</li>
+ * <li>table[1][1] = table[0][1] + table[0][2];</li>
+ * <li>table[1][2] = table[0][1] + table[0][2];...</li>
  * </ul>
  * <li>Iteration 2 : 2^2 = 4 : previous iteration step length = 2 since
- * range/power is 1. Thus;
+ * range/power is 2^1. Thus;
  * <ul>
- * <li>table[2][0] = table[1][0] + table[0][2];</li>
- * <li>table[2][1] = table[1][1]+table[1][3];</li>
- * <li>table[1][2] = arr[2];...</li>
+ * <li>table[2][0] = table[1][0] + table[1][2];</li>
+ * <li>table[2][1] = table[1][1] + table[1][3];</li>
+ * <li>table[2][2] = table[1][2] + table[1][4];...</li>
+ * </ul>
+ * </li> *
+ * <li>Iteration 2 : 2^3 = 8 : previous iteration step length = 4 since
+ * range/power is 2^2. Thus;
+ * <ul>
+ * <li>table[3][0] = table[2][0] + table[2][4];</li>
+ * <li>table[3][1] = table[2][1] + table[2][5];</li>
+ * <li>table[3][2] = table[2][2] + table[2][6];</li>
  * </ul>
  * </li>
  * </ul>
@@ -91,69 +102,108 @@ package com.algorithms.advanced;
  */
 public class SparseTableSolution {
 
-	// lookup[i][j] is going to store minimum
-	// value in arr[i..j]. Ideally lookup table
-	// size should not be fixed and should be
-	// determined using n Log n. It is kept
-	// constant to keep code simple.
-	static int[][] lookup;
+	public static void main(String[] args) {
 
-	// Fills lookup array lookup[][] in bottom up manner.
-	static void buildSparseTable(int arr[], int n) {
+		SparseTableSolution solution = new SparseTableSolution();
+		solution.test();
 
-		lookup = new int[n][n];
+	}// End of Main
 
-		// Initialize M for the intervals with length 1
-		for (int i = 0; i < n; i++)
-			lookup[i][0] = arr[i];
+	private class SparseTable {
 
-		// Compute values from smaller to bigger intervals
-		for (int j = 1; (1 << j) <= n; j++) {
+		List<Integer> sparseTable[];
 
-			// Compute minimum value for all intervals with
-			// size 2^j
-			for (int i = 0; (i + (1 << j) - 1) < n; i++) {
+		public SparseTable(int[] array) {
+			this.build(array);
+		}
 
-				// For arr[2][10], we compare arr[lookup[0][7]]
-				// and arr[lookup[3][10]]
-				if (lookup[i][j - 1] < lookup[i + (1 << (j - 1))][j - 1])
-					lookup[i][j] = lookup[i][j - 1];
-				else
-					lookup[i][j] = lookup[i + (1 << (j - 1))][j - 1];
+		private void build(int[] array) {
+
+			int n = array.length;
+			sparseTable = new ArrayList[n];
+
+			sparseTable[0] = new ArrayList<Integer>(n);
+
+			for (int val : array) {
+				sparseTable[0].add(val);
+			}
+
+			for (int i = 1; Math.pow(2, i) <= n; i++) { // counts power of 2 below n
+				// int step = 1 << i;
+				sparseTable[i] = new ArrayList<Integer>();
+				for (int j = 0; j + (1 << i) - 1 < n; j++) { // 1<<i = Math.pow(2,i);
+					int sum = sparseTable[i - 1].get(j) + sparseTable[i - 1].get(j + (1 << (i - 1)));
+					sparseTable[i].add(sum);
+				}
+			}
+
+		}// End of Method
+
+		public int query(int from, int to) {
+
+			if (from == to) {
+				return sparseTable[0].get(to);
+			} else if (to < from) { // swap indexes if to is smaller than from
+				to += from;
+				from = to - from;
+				to -= from;
+			}
+
+			int sum = 0;
+			int diff = to - from + 1; // inclusive difference
+			int level = Integer.numberOfTrailingZeros(Integer.highestOneBit(diff));
+
+			if (diff - (1 << level) == 0) {
+				sum = sparseTable[level].get(from);
+			} else {
+				int belowFrom = to + 1 - diff + (1 << level);
+				sum = sparseTable[level].get(from) + query(belowFrom, to);
+			}
+
+			return sum;
+		}
+
+	}// End of Inner Class
+
+	public void test() {
+		for (int n = 10; n <= 100; n++) {
+			int[] array = generateCheckSumArray(n, 1);
+			completeControl(array);
+		}
+	}
+
+	public void completeControl(int array[]) {
+		for (int from = 0; from < array.length - 1; from++) {
+			for (int to = from + 1; to < array.length; to++) {
+				int expected = calculateSumAsNaive(array, from, to);
+				SparseTable sparseTable = new SparseTable(array);
+				int actual = sparseTable.query(from, to);
+				if (expected != actual) {
+					System.err.println("Fail!");
+					System.err.println("Expected : " + expected);
+					System.err.println("Actual : " + actual);
+				}
+
 			}
 		}
 	}
 
-	// Returns minimum of arr[L..R]
-	static int query(int L, int R) {
+	public int[] generateCheckSumArray(int n, int spread) {
+		int[] array = new int[n];
+		for (int i = 0; i < array.length; i++) {
+			array[i] = i + spread;
+		}
+		return array;
+	}// End of Method
 
-		// Find highest power of 2 that is smaller
-		// than or equal to count of elements in given
-		// range. For [2, 10], j = 3
-		int j = (int) Math.log(R - L + 1);
+	public int calculateSumAsNaive(int[] array, int from, int to) {
 
-		// Compute minimum of last 2^j elements with first
-		// 2^j elements in range.
-		// For [2, 10], we compare arr[lookup[0][3]] and
-		// arr[lookup[3][3]],
-		if (lookup[L][j] <= lookup[R - (1 << j) + 1][j])
-			return lookup[L][j];
+		int sum = 0;
+		for (int i = from; i <= to && i < array.length; i++) {
+			sum += array[i];
+		}
+		return sum;
 
-		else
-			return lookup[R - (1 << j) + 1][j];
-	}
-
-	// Driver program
-	public static void main(String[] args) {
-		int a[] = { 7, 2, 3, 0, 5, 10, 3, 12, 18 };
-		int n = a.length;
-
-		buildSparseTable(a, n);
-
-		System.out.println(query(0, 4));
-		System.out.println(query(4, 7));
-		System.out.println(query(7, 8));
-
-	}
+	}// End of Method
 
 }// End of Class
