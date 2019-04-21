@@ -120,7 +120,8 @@ public class SparseTableSolution {
 		private void build(int[] array) {
 
 			int n = array.length;
-			sparseTable = new ArrayList[n];
+			
+			sparseTable = new ArrayList[Integer.numberOfTrailingZeros(Integer.highestOneBit(n)) + 1];
 
 			sparseTable[0] = new ArrayList<Integer>(n);
 
