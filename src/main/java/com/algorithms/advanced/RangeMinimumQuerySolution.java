@@ -1,5 +1,7 @@
 package com.algorithms.advanced;
 
+import java.util.Random;
+
 public class RangeMinimumQuerySolution {
 
 	public static void main(String[] args) {
@@ -8,21 +10,74 @@ public class RangeMinimumQuerySolution {
 	}// End of Class
 
 	public void test() {
-		int[] array = generateTestCase();
-		SqrtDecomposition decomposition = new SqrtDecomposition(array);
-		int[] block = decomposition.getBlock();
-		for (int i : block) {
-			System.out.println(i);
+		completeTestRun(2, 100);
+	}// End of Method
+
+	private void completeTestRun(int nMin, int nMax) {
+		for (int n = nMin; n <= nMax; n++) {
+			int[] array = generateTestCase(n);
+			SqrtDecomposition decomposition = new SqrtDecomposition(array);
+			testSqrtDecomposition(n, decomposition);
 		}
-		return;
+	}// End of Method
+
+	private void testSqrtDecomposition(int n, SqrtDecomposition decomposition) {
+		for (int a = 0; a < n - 1; a++) {
+			for (int b = a + 1; b < n; b++) {
+				int expected = 0;
+				int actual = 0;
+				try {
+					expected = decomposition.runNaiveQuery(a, b);
+					actual = decomposition.queryRMQ(a, b);
+					if (expected != actual) {
+						System.err.println("Fail!");
+						System.err.println("Expected : " + expected);
+						System.err.println("Actual : " + actual);
+						System.err.println("a : " + a + " b : " + b + " len : " + decomposition.array.length);
+					}
+				} catch (Exception e) {
+					System.err.println("Exception!");
+					System.err.println("Expected : " + expected);
+					System.err.println("a : " + a + " b : " + b + " len : " + decomposition.array.length);
+				}
+			}
+		}
+	}// End of Method
+
+	private void runSimpleTest(int a, int b, SqrtDecomposition decomposition) {
+		int expected = 0;
+		int actual = 0;
+		try {
+			expected = decomposition.runNaiveQuery(a, b);
+			actual = decomposition.queryRMQ(a, b);
+			if (expected != actual) {
+				System.err.println("Fail!");
+				System.err.println("Expected : " + expected);
+				System.err.println("Actual : " + actual);
+			}
+		} catch (Exception e) {
+
+			System.err.println("Exception!");
+			System.err.println("Expected : " + expected);
+			System.err.println("a : " + a + " b : " + b);
+
+			e.printStackTrace();
+		}
 	}
 
-	private int[] generateTestCase() {
+	private int[] generateTestCase(int n) {
 
-		int[] array = new int[] //
-		{ 12, 17, 2, 7, 5, 9, 13, 14, 10, 8, 1, 4, 3 };
+		Random random = new Random();
 
-		return array;
+		int i = 0;
+		int[] randomValuesArray = new int[n];
+
+		while (i < n) {
+			randomValuesArray[i] = random.nextInt(101);
+			i++;
+		}
+
+		return randomValuesArray;
 
 	}// End of Test Method
 
@@ -31,10 +86,6 @@ public class RangeMinimumQuerySolution {
 		private int[] array;
 		private int blockSize;
 		private int[] block;
-
-		private int[] getBlock() {
-			return block;
-		}
 
 		public SqrtDecomposition(int[] array) {
 			this.array = array;
@@ -61,11 +112,54 @@ public class RangeMinimumQuerySolution {
 			if (a > b) {
 				int t = a;
 				a = b;
-				b = a;
+				b = t;
+			}
+			if (a == b) {
+				return array[a];
+			}
+			if (b - a + 1 <= blockSize) {
+				return runNaiveQuery(a, b);
 			}
 
-			return 0;
+			int idx = a;
+			int min = array[a];
+
+			while (idx % blockSize != 0) {
+				if (min > array[idx]) {
+					min = array[idx];
+				}
+				idx++;
+			}
+
+			while (idx + blockSize <= b) {
+				if (min > block[idx / blockSize]) {
+					min = block[idx / blockSize];
+				}
+				idx += blockSize;
+			}
+
+			while (idx <= b) {
+				if (min > array[idx]) {
+					min = array[idx];
+				}
+				idx++;
+			}
+
+			return min;
+
 		}
+
+		public int runNaiveQuery(int a, int b) {
+
+			int min = array[a];
+			for (int i = a + 1; i <= b; i++) {
+				if (min > array[i]) {
+					min = array[i];
+				}
+			}
+			return min;
+
+		}// End of Method
 
 	}// End of Method
 

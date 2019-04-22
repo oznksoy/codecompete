@@ -137,7 +137,7 @@ public class SquareRootDecompositionSolution {
 			}
 
 			int sum = 0;
-			while (aIdx < b && a % blockLength != 0 && aIdx != 0) {
+			while (aIdx < b && aIdx % blockLength != 0 && aIdx != 0) {
 				sum += array[aIdx];
 				aIdx++;
 			}
