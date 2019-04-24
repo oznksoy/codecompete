@@ -37,116 +37,140 @@ public class KittysCalculationsonaTree {
 
 	private static final long MOD = (long) Math.pow(10, 9) + 7;
 
-	private static List<Integer> calculate(Map<Integer, Set<Integer>> adjMap, List<List<Integer>> queries) {
+	private static void calculate(List<Integer> adjList[], List<Integer> queries[]) {
 
-		List<Integer> results = new ArrayList<Integer>(queries.size());
-		Integer root = (adjMap.size() / 2); // there are adjMap.size()+1 vertices.
-		Map<Integer, List<Integer>> routeMap = generateRouteMap(root, adjMap);
+		// precomputation
+		ArrayList<Integer> eulerTour = new ArrayList<Integer>((2 * adjList.length) - 1);
+		int[][] eulerMap = new int[adjList.length][3];
+		int[] eulerIndexes = new int[adjList.length];
+		walkEulerTour(adjList, eulerTour, eulerMap, eulerIndexes);
+		SparseTable sparseTable = new SparseTable(eulerTour);
 
-		for (List<Integer> query : queries) {// iterate through queries
+		for (int i = 0; i < queries.length; i++) {
+			List<Integer> query = queries[i];
 			if (query.size() < 2) {
-				results.add(0);
+				System.out.println("0");
 			} else {
-				results.add(calculateViaRouteMap(root, routeMap, query));
+				System.out.println(calculateViaSparseTable(query, sparseTable, eulerMap, eulerIndexes));
 			}
 		}
 
-		return results;
-
 	}// End of Method
 
-	private static Integer calculateViaRouteMap(Integer root, Map<Integer, List<Integer>> routeMap,
-			List<Integer> query) {
+	private static int calculateViaSparseTable(List<Integer> query, SparseTable sparseTable, int[][] eulerMap,
+			int[] eulerIndexes) {
 
-		// Distance to init is what map route map shows
 		long result = 0;
 		for (int i = 0; i < query.size() - 1; i++) {
 			for (int j = i + 1; j < query.size(); j++) {
 				Integer u = query.get(i);
 				Integer v = query.get(j);
-				if (u.equals(root) || v.equals(root)) {
-					Integer target = u.equals(root) ? v : u;
-					result += calculateSolutionWithDistance(root, target, routeMap.get(target).size());
-					result = result % MOD;
-				} else {
-					List<Integer> sourceList = routeMap.get(query.get(i));
-					List<Integer> targetList = routeMap.get(query.get(j));
-					Integer step = 0;
-					Integer sLen = sourceList.size();
-					Integer tLen = targetList.size();
-
-					for (step = 0; step < sLen & step < tLen; step++) {
-						if (sourceList.get(step) != (targetList).get(step)) {
-							break;
-						}
-					}
-					int dist = (sLen + tLen) - (2 * step);
-					result += calculateSolutionWithDistance(u, v, dist);
-					result = result % MOD;
-				}
+				int lcaOnEulerTour = sparseTable.query(eulerMap[u - 1][2], eulerMap[v - 1][2]);
+				int lca = eulerIndexes[lcaOnEulerTour];
+				int dist = (eulerMap[u - 1][1] - eulerMap[lca - 1][1]) + (eulerMap[v - 1][1] - eulerMap[lca - 1][1]);
+				long val = calculateDistanceSolution(u, v, dist);
+				result = (result + val) % MOD;
 			}
 		}
 
-		return (int) result;
+		return Long.valueOf(result).intValue();
+		
+	}// End of Method
+
+	private static void walkEulerTour(List<Integer>[] adjList, ArrayList<Integer> eulerTour, int[][] eulerMap,
+			int[] eulerIndexes) {
+		walkEulerTour(1, -1, -1, eulerTour, eulerMap, adjList, -1, eulerIndexes);
+	}// End of Method
+
+	private static int walkEulerTour(int node, int parent, int previousIndex, ArrayList<Integer> eulerTour,
+			int[][] eulerMap, List<Integer> adjList[], int prevHeight, int[] eulerIndexes) {
+
+		int currentIndex = previousIndex + 1;
+		int currentHeigth = prevHeight + 1;
+		eulerTour.add(currentIndex);
+		eulerIndexes[currentIndex] = node;
+		eulerMap[node - 1][0] = currentIndex;
+		eulerMap[node - 1][1] = currentHeigth;
+		eulerMap[node - 1][2] = eulerTour.size() - 1;// first seen at this index on tour
+
+		int maxVal = currentIndex;
+		List<Integer> adjacents = adjList[node - 1];
+		for (Integer adj : adjacents) {
+			if (adj != parent && adj != node) {
+				int val = walkEulerTour(adj, node, maxVal, eulerTour, eulerMap, adjList, currentHeigth, eulerIndexes);
+				eulerTour.add(currentIndex);
+				if (maxVal < val) {
+					maxVal = val;
+				}
+			}
+		}
+		return maxVal;
 
 	}// End of Method
 
-	private static Map<Integer, List<Integer>> generateRouteMap(Integer root, Map<Integer, Set<Integer>> adjMap) {
+	private static class SparseTable {
 
-		Map<Integer, List<Integer>> routeMap = new HashMap<Integer, List<Integer>>(adjMap.size() - 1);
-		// Find all destinations and distances and map them to the route map
-		Set<Integer> keySet = adjMap.keySet();
+		List<Integer> table[];
 
-		for (Integer key : keySet) {
-			if (!key.equals(root))
-				routeMap.put(key, new ArrayList<Integer>());
+		public SparseTable(ArrayList<Integer> eulerTour) {
+			this.consume(eulerTour);
 		}
 
-		Set<Integer> visited = new HashSet<Integer>(adjMap.size());
-		visited.add(root);
-		Queue<Integer> routes = new LinkedList<Integer>();
-		Queue<Set<Integer>> adjQueue = new LinkedList<Set<Integer>>();
-		Set<Integer> initAdjSet = adjMap.get(root);
+		private void consume(ArrayList<Integer> arraylist) {
 
-		for (Integer route : initAdjSet) {
-			routeMap.get(route).add(route);
-			routes.add(route);
-			adjQueue.add(adjMap.get(route));
-			visited.add(route);
-		}
-		routes.remove(root);
+			int n = arraylist.size();
+			int logn = Integer.numberOfTrailingZeros(Integer.highestOneBit(n));
+			table = new ArrayList[logn + 1];
 
-		while (visited.size() != adjMap.size()) {
+			table[0] = new ArrayList<Integer>();
+			for (Integer val : arraylist) {
+				table[0].add(val);
+			}
 
-			Queue<Integer> nextRoutes = new LinkedList<Integer>();
-			Queue<Set<Integer>> nextAdjQueue = new LinkedList<Set<Integer>>();
-
-			while (adjQueue.peek() != null && routes.peek() != null) {
-				Set<Integer> adjSet = adjQueue.poll();
-				Integer previousRoute = routes.poll();
-				for (Integer route : adjSet) {
-					if (!visited.contains(route)) {
-						List<Integer> trail = routeMap.get(previousRoute);
-						List<Integer> currentRoute = new ArrayList<Integer>();
-						currentRoute.addAll(trail);
-						currentRoute.add(route);
-						routeMap.put(route, currentRoute);
-						nextRoutes.add(route);
-						nextAdjQueue.add(adjMap.get(route));
-						visited.add(route);
+			for (int p = 1; p <= logn; p++) {
+				table[p] = new ArrayList<Integer>();
+				for (int i = 0; i + (1 << p) - 1 < n; i++) {
+					int v1 = table[p - 1].get(i);
+					int v2 = table[p - 1].get(i + (1 << (p - 1)));
+					if (v1 < v2) {
+						table[p].add(v1);
+					} else {
+						table[p].add(v2);
 					}
 				}
 			}
-			routes = nextRoutes;
-			adjQueue = nextAdjQueue;
-			
-		}
 
-		return routeMap;
+		}// End of Method
 
-	}// End of Method
+		public int query(int a, int b) {
 
-	private static long calculateSolutionWithDistance(long u, long v, long dist) {
+			if (a > b) {
+				int t = a;
+				a = b;
+				b = t;
+			}
+			int numOfEls = b - a + 1;
+			int logn = log2(numOfEls);
+			int diff = numOfEls - (1 << logn);
+
+			int v1 = table[logn].get(a);
+			int v2 = table[logn].get(a + diff);
+
+			if (v1 < v2) {
+				return v1;
+			} else {
+				return v2;
+			}
+
+		}// End of Method
+
+		private int log2(int value) {
+			return Integer.numberOfTrailingZeros(Integer.highestOneBit(value));
+		}// End of Method
+
+	}// End of Inner Class
+
+	private static long calculateDistanceSolution(long u, long v, long dist) {
 		long result = (u * v * dist) % MOD;
 		return result;
 	}// End of Method
@@ -158,45 +182,15 @@ public class KittysCalculationsonaTree {
 
 		Scanner inputScanner = new Scanner(System.in);
 
-		Map<Integer, Set<Integer>> adjMap;
-		List<List<Integer>> queries;
-
 		try {
 
 			int n = inputScanner.nextInt();
 			int q = inputScanner.nextInt();
-						
-			adjMap = new HashMap<Integer, Set<Integer>>(n);
-			for (int edge = 1; edge < n; edge++) {
-				Integer from = inputScanner.nextInt();
-				Integer to = inputScanner.nextInt();
-				if (!adjMap.containsKey(from)) {
-					Set<Integer> set = new HashSet<Integer>();
-					adjMap.put(from, set);
-				}
-				if (!adjMap.containsKey(to)) {
-					Set<Integer> set = new HashSet<Integer>();
-					adjMap.put(to, set);
-				}
-				adjMap.get(from).add(to);
-				adjMap.get(to).add(from);
-			}
 
-			queries = new ArrayList<List<Integer>>(q);
-			for (int qc = 0; qc < q; qc++) {
-				int numOfElements = inputScanner.nextInt();
-				ArrayList<Integer> set = new ArrayList<Integer>(numOfElements);
-				for (int ec = 0; ec < numOfElements; ec++) {
-					int queryElement = inputScanner.nextInt();
-					set.add(queryElement);
-				}
-				queries.add(set);
-			}
+			List<Integer> adjList[] = fillAdjList(n, inputScanner);
+			List<Integer> queries[] = fillQueries(q, inputScanner);
 
-			List<Integer> results = calculate(adjMap, queries);
-			for (Integer value : results) {
-				System.out.println(value);
-			}
+			calculate(adjList, queries);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -204,6 +198,46 @@ public class KittysCalculationsonaTree {
 		} finally {
 			inputScanner.close();
 		}
+
+	}// End of Method
+
+	private static List<Integer>[] fillAdjList(int n, Scanner inputScanner) {
+
+		List<Integer> adjList[] = new LinkedList[n];
+		for (int i = 0; i < n; i++) {
+			adjList[i] = new LinkedList<Integer>();
+		}
+		for (int edge = 1; edge < n; edge++) {
+			Integer from = inputScanner.nextInt();
+			Integer to = inputScanner.nextInt();
+			int v1 = from - 1;
+			int v2 = to - 1;
+
+			if (!adjList[v1].contains(to)) {
+				adjList[v1].add(to);
+			}
+			if (!adjList[v2].contains(from)) {
+				adjList[v2].add(from);
+			}
+
+		}
+		return adjList;
+
+	}// End of Method
+
+	private static List<Integer>[] fillQueries(int q, Scanner inputScanner) {
+
+		List<Integer> queries[] = new ArrayList[q];
+		for (int qc = 0; qc < q; qc++) {
+			int numOfElements = inputScanner.nextInt();
+			ArrayList<Integer> query = new ArrayList<Integer>(numOfElements);
+			for (int ec = 0; ec < numOfElements; ec++) {
+				int queryElement = inputScanner.nextInt();
+				query.add(queryElement);
+			}
+			queries[qc] = query;
+		}
+		return queries;
 
 	}// End of Method
 
@@ -227,9 +261,9 @@ public class KittysCalculationsonaTree {
 //		testCase1();
 //		testCase2();
 //		testCase3();
-//		testCaseFile01();
+		testCaseFile01();
 //		testCaseFile04();
-		testCaseFile08();
+//		testCaseFile08();
 //		testCaseFile14();
 	}// End of Main
 
